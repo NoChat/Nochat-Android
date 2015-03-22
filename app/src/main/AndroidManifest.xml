@@ -55,6 +55,12 @@
         <activity
             android:name=".MemberShipActivity">
         </activity>
+        <activity
+            android:name=".CertifyActivity">
+        </activity>
+        <activity
+            android:name=".ReCertifyActivity">
+        </activity>
     </application>
 </manifest>
 
