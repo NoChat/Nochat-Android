@@ -6,22 +6,32 @@
     android:orientation="vertical"
     android:layout_weight="1">
 
-    <ListView
-        android:id="@+id/listView1"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:divider="#cccccc"
-        android:dividerHeight="2dp" >
-    </ListView>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:background="@drawable/nav_bar"/>
 
-
-    <Button
-        android:id="@+id/inviteBtn"
-        android:layout_marginTop="5dp"
+    <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="초대하기" />
+        android:layout_height="fill_parent">
+        <ListView
+            android:id="@+id/listView1"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:divider="#cccccc"
+            android:dividerHeight="2dp" >
+        </ListView>
 
+
+        <Button
+            android:id="@+id/inviteBtn"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="bottom|right"
+            android:layout_width="80sp"
+            android:layout_height="80sp"
+            android:background="@drawable/btn_invite"/>
+
+    </FrameLayout>
 </LinearLayout>

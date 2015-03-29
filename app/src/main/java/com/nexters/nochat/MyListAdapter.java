@@ -49,8 +49,6 @@ public class MyListAdapter extends BaseAdapter {
         holder.container = (RelativeLayout)convertView.findViewById(R.id.container);
         holder.userName = (TextView)convertView.findViewById(R.id.user_name);
         holder.userName.setText(userDataList.get(position).fr_name);
-        holder.userNickName = (TextView)convertView.findViewById(R.id.user_nick);
-        holder.userNickName.setText(userDataList.get(position).fr_nick);
         //    convertView.setTag(holder);
         return convertView;
     }

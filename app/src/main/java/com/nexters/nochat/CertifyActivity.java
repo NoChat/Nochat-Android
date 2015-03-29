@@ -28,9 +28,9 @@ public class CertifyActivity extends ActionBarActivity {
     private Button backMembership; //뒤로가기
     private EditText inputPhoneNumber; //폰번호 입력
     private Button certifyBtn; // 인증번호 전송
-    private String phoneNumberValue; //폰번호 값
+    String phoneNumberValue; //폰번호 값
     String apiToken; //폰에 저장된 토큰값
-    RequestParams paramData; //인증번호 요청 관련 param data
+    private RequestParams paramData; //인증번호 요청 관련 param data
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +90,12 @@ public class CertifyActivity extends ActionBarActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) { //reqBuilder.setHeader(String name, String value);
                 Log.i(CTAG, "json response Success");
                 System.out.println("인증요청관련 response : " + response.toString());
+
+                SharedPreferences preferencesphoneNumberValue = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //자기 폰번호값 폰에 저장
+                SharedPreferences.Editor editor = preferencesphoneNumberValue.edit();
+                editor.putString("phoneNumberValue",phoneNumberValue);
+                editor.commit();
+
                 startReCertifyActivity();
             }
 

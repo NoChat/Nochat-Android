@@ -92,7 +92,7 @@ public class AddressBookListActivity extends Activity {
     /**
      * 연락처를 가져오는 메소드.(자신핸드폰 주소록)
      *
-     * @return
+     * @return contactlist
      */
     private ArrayList<AddressBook> getContactList() {
         //핸드폰 정보가져오기.

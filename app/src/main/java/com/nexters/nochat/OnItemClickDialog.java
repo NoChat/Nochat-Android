@@ -59,7 +59,7 @@ public class OnItemClickDialog implements AdapterView.OnItemClickListener, View.
         img2.setOnClickListener(this);
         ImageView img3 = (ImageView)layout.findViewById(R.id.img3);
         img3.setOnClickListener(this);
-        Button cancel = (Button)layout.findViewById(R.id.bt_right);
+        ImageView cancel = (ImageView)layout.findViewById(R.id.bt_right);
         cancel.setOnClickListener(this);
 
 

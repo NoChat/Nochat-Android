@@ -35,7 +35,7 @@ public class MemberShipActivity extends ActionBarActivity {
     private String deviceToken;
     private String locale = "ko_KR"; //일단 한국어만
     private String os = "Android";
-    RequestParams paramData; //회원가입 요청 관련 param data
+    private RequestParams paramData; //회원가입 요청 관련 param data
     String apiToken; //토큰값
 
     /*  findViewById 세팅  */

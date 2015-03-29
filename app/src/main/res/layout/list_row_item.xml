@@ -17,13 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:layout_gravity="center_horizontal"
-            android:text="User Name"/>
-        <TextView
-            android:id="@+id/user_nick"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:layout_gravity="center_horizontal"
-            android:text="User Nick Name"/>
+            android:text="                                         우지민"/>
+
     </LinearLayout>
     <LinearLayout
         android:id="@+id/layout_back"
