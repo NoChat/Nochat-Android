@@ -24,13 +24,16 @@ import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,6 +52,8 @@ public class ReCertifyActivity extends ActionBarActivity {
     String phoneNumberValue; //본인 폰번호값(SharedPreferences에 저장된값)
     private RequestParams paramData; //인증번호 재확인 요청 관련 param data
     private RequestParams AddressBookparamData; // 주소록 정보 보내기 관련 param data
+    private HashMap<String,String> hashPhoneMap; //주소록(name,phoneNumber)
+    private HashMap<String,String> serverMap; // 서버에서 얻어온 번호에 해당하는 HashMap
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +67,6 @@ public class ReCertifyActivity extends ActionBarActivity {
         apiToken = preferencesApiToken.getString("apiToken", " ");
         SharedPreferences preferencesPhoneNumberValue = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 토큰값 가져오기
         phoneNumberValue = preferencesPhoneNumberValue.getString("phoneNumberValue", " ");
-        System.out.println("&&&&&&&&&&&&&&&&&7저장된폰번호" + phoneNumberValue);
 
         backCertifyBtn.setOnClickListener(backCertifyBtnListener);
         startNochatBtn.setOnClickListener(startNochatBtnListener);
@@ -154,6 +158,7 @@ public class ReCertifyActivity extends ActionBarActivity {
     /* 주소록정보 가져오기*/
     private void getAddressBook(Context context) {
         ArrayList<String> phoneList = new ArrayList<String>();
+        hashPhoneMap = new HashMap<String,String>();
         String phone;
         String name;
         Cursor cursor = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
@@ -162,8 +167,11 @@ public class ReCertifyActivity extends ActionBarActivity {
                 Log.i(TAG, "contactCursor");
                 do {
                     int phone_idx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                    int name_idx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
                     phone = cursor.getString(phone_idx).replaceAll("-", "");
+                    name = cursor.getString(name_idx);
                     phoneList.add(phone);
+                    hashPhoneMap.put(phone,name); //서버에 등록된 친구리스트와 내 주소록을 비교하기 위해
                 } while (cursor.moveToNext());
 
             } else {
@@ -220,6 +228,40 @@ public class ReCertifyActivity extends ActionBarActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) { //reqBuilder.setHeader(String name, String value);
                 Log.i(CTAG, "json response Success");
                 System.out.println("인증요청관련 response : " + response.toString());
+                try{
+                    JSONArray phoneJsonArray = null;
+                    JSONObject phoneJsonObject = null;
+                    String serverFriend = null;
+                    phoneJsonArray = response.getJSONArray("data");
+                    ArrayList<Map<String,String>> sst = new ArrayList<Map<String,String>>();
+
+                    // for문을 돌면서 phoneNumber 값들을 가져온다
+                    for(int i = 0; i<phoneJsonArray.length(); i ++) {
+                        phoneJsonObject = (JSONObject) phoneJsonArray.get(i);
+                        serverFriend = (String)phoneJsonObject.get("phoneNumber");
+                        System.out.println("ServerFriendsList : "+serverFriend);
+                        //서버에서 얻은 친구리스트에 해당하는 hashMap 객체 생성
+                        serverMap = new HashMap<String,String>();
+                        // Map에서 저장된 Key들을 가져올 Set을 만든다.
+                        Set<String> set = hashPhoneMap.keySet();
+                        // 서버에 저장되어 있는 key값에 해당하는 친구리스트를 주소록에서 찾는다.
+                        if(set.contains(serverFriend)){
+                            //hashPhoneMap의 serverFriend 대한 value 호출
+                            String hashValue = hashPhoneMap.get(serverFriend);
+                            //다시 haspMap객체에 담는다
+                            serverMap.put(serverFriend,hashValue);
+                            sst.add(serverMap);
+                        }else{
+                            Log.i("set.contains(serverFriend)","if에 대한 처리 실패");
+                        }
+
+                    }
+                    System.out.println("서버에서 얻어온 친구리스트에 해당하는 이름 호출:"+ sst.toString());
+
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
 
                 startFriendsListActivity();
             }
