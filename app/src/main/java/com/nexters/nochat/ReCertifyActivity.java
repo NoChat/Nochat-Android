@@ -1,13 +1,12 @@
 package com.nexters.nochat;
 
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.Uri;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -30,7 +29,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -55,12 +53,14 @@ public class ReCertifyActivity extends ActionBarActivity {
     private HashMap<String,String> hashPhoneMap; //주소록(name,phoneNumber)
     private HashMap<String,String> serverMap; // 서버에서 얻어온 번호에 해당하는 HashMap
 
+    DataManager dataManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recertify);
 
-        backCertifyBtn = (Button) findViewById(R.id.backCertifyBtn);
+         backCertifyBtn = (Button) findViewById(R.id.backCertifyBtn);
         inputCertify = (EditText) findViewById(R.id.inputCertify);
         startNochatBtn = (Button) findViewById(R.id.startNochatBtn);
         SharedPreferences preferencesApiToken = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 토큰값 가져오기
@@ -70,6 +70,17 @@ public class ReCertifyActivity extends ActionBarActivity {
 
         backCertifyBtn.setOnClickListener(backCertifyBtnListener);
         startNochatBtn.setOnClickListener(startNochatBtnListener);
+
+        dataManager = new DataManager(this);
+
+        /*boolean flag = false;
+        if(dataManager.equals(true)){
+            Log.i("dataManeger =>","기존DB데이터가 존재");
+            dataManager.deleteUsrFriends(serverMap.get(1));
+        }else {
+            Log.i("dataManeger =>","기존DB데이터가 없음");
+            dataManager = new DataManager(this);
+        }*/
     }
 
     View.OnClickListener backCertifyBtnListener = new View.OnClickListener() {
@@ -233,8 +244,10 @@ public class ReCertifyActivity extends ActionBarActivity {
                     JSONObject phoneJsonObject = null;
                     String serverFriend = null;
                     phoneJsonArray = response.getJSONArray("data");
-                    ArrayList<Map<String,String>> sst = new ArrayList<Map<String,String>>();
+                    ArrayList<Map<String,String>> sfL = new ArrayList<Map<String,String>>();
 
+                    //기존에 DB내용 Clean ------->>                                                  //_id는 계속 추가됨(해결해야함)
+                    dataManager.deleteAll();
                     // for문을 돌면서 phoneNumber 값들을 가져온다
                     for(int i = 0; i<phoneJsonArray.length(); i ++) {
                         phoneJsonObject = (JSONObject) phoneJsonArray.get(i);
@@ -250,13 +263,25 @@ public class ReCertifyActivity extends ActionBarActivity {
                             String hashValue = hashPhoneMap.get(serverFriend);
                             //다시 haspMap객체에 담는다
                             serverMap.put(serverFriend,hashValue);
-                            sst.add(serverMap);
+                            sfL.add(serverMap);                                                     //임시용.
+
+                            //DB 저장
+                            dataManager.insertUsrFriends(serverFriend,hashValue);
                         }else{
-                            Log.i("set.contains(serverFriend)","if에 대한 처리 실패");
+                            Log.i("set.contains(serverFriend)","if에 대한 set처리 실패");
                         }
 
                     }
-                    System.out.println("서버에서 얻어온 친구리스트에 해당하는 이름 호출:"+ sst.toString());
+                    System.out.println("서버에서 얻어온 친구리스트에 해당하는 이름 호출:"+ sfL.toString());
+
+                    /*디비조회 되는지 테스트용*/
+                    /*ArrayList<UsrFriendsVO> usr_NameList = new ArrayList<UsrFriendsVO>();
+                    usr_NameList = dataManager.getUsrNameInfo();
+                    if (usr_NameList.size() != 0) {
+                        for (int i = 0; i < usr_NameList.size(); i++) {
+                            System.out.println("친구리스트()에 해당하는 이름 호출:"+ usr_NameList.get(i).getUsr_Name());
+                        }
+                    }*/
 
 
                 }catch (JSONException e){

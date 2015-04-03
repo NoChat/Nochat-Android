@@ -6,14 +6,14 @@ import android.widget.AdapterView;
         import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
-        import android.widget.Button;
-        import android.widget.ImageView;
+import android.widget.ImageView;
         import android.widget.LinearLayout;
         import android.os.Handler;
 
 //Item 클릭시 Dialog 띄우기
 public class OnItemClickDialog implements AdapterView.OnItemClickListener, View.OnClickListener {
 
+    private static final String TAG = "OnItemClickDialog";
     private Handler mHandler;
     AlertDialog.Builder builder;
     AlertDialog alertDialog;
@@ -27,10 +27,7 @@ public class OnItemClickDialog implements AdapterView.OnItemClickListener, View.
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        MyListAdapter adapter = (MyListAdapter)parent.getAdapter();
-        MyListAdapter.FriendData fr = adapter.getDataList().get(position);
-        //Toast.makeText(parent.getContext(), "user " + fr.fr_name, Toast.LENGTH_SHORT).show();
-
+        FriendsListAdapter adapter = (FriendsListAdapter)parent.getAdapter();
         Context mContext = parent.getContext();
 
         layout_front = (LinearLayout)view.findViewById(R.id.layout_front);
@@ -48,7 +45,7 @@ public class OnItemClickDialog implements AdapterView.OnItemClickListener, View.
 
 
         //클릭시 레이아웃 변경
-        //View cglayout= li.inflate(R.layout.list_row_item, null);
+        //View cglayout= li.inflate(R.layout.friendslist_row_item, null);
         //Dialog->listitem result
         img0 = (ImageView)layout_back.findViewById(R.id.img0);
 
@@ -67,9 +64,11 @@ public class OnItemClickDialog implements AdapterView.OnItemClickListener, View.
 
     @Override
     public void onClick(View v) {
+        Log.i(TAG, "In OnItem");
 
         switch (v.getId()) {
             case R.id.img1 :
+                Log.i(TAG, "case R.id.img1");
 
                 mHandler = new Handler();
                 //이름 보이는 화면 ->안보이게
