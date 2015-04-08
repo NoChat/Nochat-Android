@@ -31,12 +31,9 @@ public class FriendsListActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friendslist);
         dm = new DataManager(this);
-
-        /*디비조회 되는지 테스트용*/
-        usr_NameList = new ArrayList<UsrFriendsVO>();
-        System.out.println("dataManger에 접근 전");
+        usr_NameList = new ArrayList<UsrFriendsVO>(); //유저이름 가져오도록 생성
         usr_NameList = dm.getUsrNameInfo();
-        System.out.println("dataManger에 접근 후"+dm.getUsrNameInfo());
+
         usr_FNL = new ArrayList<String>();
 
         if (usr_NameList.size() != 0) {

@@ -90,7 +90,7 @@ public class MemberShipActivity extends ActionBarActivity {
     private void jsonDateSetting(String loginId, String password){
         deviceToken = GetDevicesUUID(this.getBaseContext()); //UUID값
         try{
-            Log.i(CTAG,"서버로 보낼 json data 세팅중");
+            Log.i(CTAG,"서버로 보낼 param data 세팅중");
             paramData = new RequestParams();
             paramData.put("loginId",loginId); //한글x,공백x,중복 아이디 체크 ->alert띄우기
             paramData.put("password",password);
@@ -123,10 +123,9 @@ public class MemberShipActivity extends ActionBarActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                SharedPreferences preferencesApiToken = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //apiToken값 폰에 저장
-                SharedPreferences.Editor editor = preferencesApiToken.edit();
-                editor.putString("apiToken",apiToken);
-                editor.commit();
+
+                //apiToken을 폰에 저장 ===> CertifyActivity에서 쓰임
+                sharedPreferencesSetting(apiToken);
 
                 startCertifyActivity();
             }
@@ -140,6 +139,19 @@ public class MemberShipActivity extends ActionBarActivity {
 
             }
         });
+    }
+
+    /* 폰에 저장해놓고 지속적으로 써야할 데이터 처리 */
+    private void sharedPreferencesSetting(String paramValue){
+        SharedPreferences preferencesphoneNumberValue = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //자기 폰번호값 폰에 저장
+        SharedPreferences.Editor editor = preferencesphoneNumberValue.edit();
+        if(paramValue.equals(apiToken)){
+            editor.putString("apiToken",apiToken);
+            editor.commit();
+        }else{
+            System.out.println("sharedPreferences =====>에러");
+        }
+
     }
 
     /*CertifyActivity으로 이동*/

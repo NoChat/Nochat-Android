@@ -11,31 +11,31 @@
             android:layout_height="fill_parent"
             android:background="@android:color/darker_gray">-->
     <ImageView
-        android:id="@+id/img1"
-        android:layout_toRightOf="@+id/bt_right"
+        android:id="@+id/bt1_lol"
+        android:layout_toRightOf="@+id/bt_cancel"
         android:layout_width="50sp"
         android:layout_height="50sp"
         android:src="@drawable/appicon"/>
     <ImageView
-        android:id="@+id/img2"
-        android:layout_toLeftOf="@+id/bt_right"
+        android:id="@+id/bt2_alcohol"
+        android:layout_toLeftOf="@+id/bt_cancel"
         android:layout_width="50sp"
         android:layout_height="50sp"
         android:src="@drawable/appicon"/>
     <ImageView
-        android:id="@+id/img3"
-        android:layout_above="@+id/bt_right"
+        android:id="@+id/bt3_rice"
+        android:layout_above="@+id/bt_cancel"
         android:layout_width="50sp"
         android:layout_height="50sp"
         android:src="@drawable/appicon"/>
     <ImageView
-        android:id="@+id/img4"
-        android:layout_below="@+id/bt_right"
+        android:id="@+id/bt4_coffee"
+        android:layout_below="@+id/bt_cancel"
         android:layout_width="50sp"
         android:layout_height="50sp"
         android:src="@drawable/appicon"/>
     <ImageView
-        android:id="@+id/bt_right"
+        android:id="@+id/bt_cancel"
         android:layout_centerInParent="true"
         android:layout_width="50sp"
         android:layout_height="50sp"

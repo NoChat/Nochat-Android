@@ -29,7 +29,7 @@ public class CertifyActivity extends ActionBarActivity {
     private EditText inputPhoneNumber; //폰번호 입력
     private Button certifyBtn; // 인증번호 전송
     String phoneNumberValue; //폰번호 값
-    String apiToken; //폰에 저장된 토큰값
+    String apiToken; //폰에 저장된(SharedPreferences) 토큰값
     private RequestParams paramData; //인증번호 요청 관련 param data
 
     @Override
@@ -68,7 +68,7 @@ public class CertifyActivity extends ActionBarActivity {
     /* 서버로 보낼 json data 세팅*/
     private void jsonDateSetting(String phoneNumberValue){
         try{
-            Log.i(CTAG,"서버로 보낼 json data 세팅중");
+            Log.i(CTAG,"서버로 보낼 param data 세팅중");
             paramData = new RequestParams();
             paramData.put("phoneNumber",phoneNumberValue); //한글x,공백x,중복 아이디 체크 ->alert띄우기
             paramData.put("apiToken",apiToken);
@@ -91,10 +91,8 @@ public class CertifyActivity extends ActionBarActivity {
                 Log.i(CTAG, "json response Success");
                 System.out.println("인증요청관련 response : " + response.toString());
 
-                SharedPreferences preferencesphoneNumberValue = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //자기 폰번호값 폰에 저장
-                SharedPreferences.Editor editor = preferencesphoneNumberValue.edit();
-                editor.putString("phoneNumberValue",phoneNumberValue);
-                editor.commit();
+                //phoneNumberValue을 폰에 저장 ===> ReCertifyActivity에서 쓰임
+                sharedPreferencesSetting(phoneNumberValue);
 
                 startReCertifyActivity();
             }
@@ -108,6 +106,19 @@ public class CertifyActivity extends ActionBarActivity {
 
             }
         });
+    }
+
+    /* 폰에 저장해놓고 지속적으로 써야할 데이터 처리 */
+    private void sharedPreferencesSetting(String paramValue){
+        SharedPreferences preferencesphoneNumberValue = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //자기 폰번호값 폰에 저장
+        SharedPreferences.Editor editor = preferencesphoneNumberValue.edit();
+        if(paramValue.equals(phoneNumberValue)){
+            editor.putString("phoneNumberValue",phoneNumberValue);
+            editor.commit();
+        }else{
+            System.out.println("sharedPreferences =====>에러");
+        }
+
     }
 
     /*ReCertifyActivity으로 이동*/

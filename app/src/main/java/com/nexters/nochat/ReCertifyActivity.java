@@ -65,7 +65,7 @@ public class ReCertifyActivity extends ActionBarActivity {
         startNochatBtn = (Button) findViewById(R.id.startNochatBtn);
         SharedPreferences preferencesApiToken = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 토큰값 가져오기
         apiToken = preferencesApiToken.getString("apiToken", " ");
-        SharedPreferences preferencesPhoneNumberValue = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 토큰값 가져오기
+        SharedPreferences preferencesPhoneNumberValue = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 본인 폰번호 가져오기
         phoneNumberValue = preferencesPhoneNumberValue.getString("phoneNumberValue", " ");
 
         backCertifyBtn.setOnClickListener(backCertifyBtnListener);
@@ -73,14 +73,6 @@ public class ReCertifyActivity extends ActionBarActivity {
 
         dataManager = new DataManager(this);
 
-        /*boolean flag = false;
-        if(dataManager.equals(true)){
-            Log.i("dataManeger =>","기존DB데이터가 존재");
-            dataManager.deleteUsrFriends(serverMap.get(1));
-        }else {
-            Log.i("dataManeger =>","기존DB데이터가 없음");
-            dataManager = new DataManager(this);
-        }*/
     }
 
     View.OnClickListener backCertifyBtnListener = new View.OnClickListener() {
@@ -106,7 +98,7 @@ public class ReCertifyActivity extends ActionBarActivity {
     /* 재인증 관련 서버로 보낼 json data 세팅*/
     private void jsonDateSetting(String phoneNumberValue, String certifyValue, String apiToken) {
         try {
-            Log.i(CTAG, "서버로 보낼 json data 세팅중");
+            Log.i(CTAG, "서버로 보낼 param data 세팅중");
             paramData = new RequestParams();
             paramData.put("phoneNumber", phoneNumberValue); //한글x,공백x,중복 아이디 체크 ->alert띄우기
             paramData.put("phoneNumberToken", certifyValue);
@@ -132,7 +124,7 @@ public class ReCertifyActivity extends ActionBarActivity {
                 try {
                     String certifyMSG = null;
                     certifyMSG = response.getString("msg");
-                    System.out.println("!!!!!!!!!!!!!!!!!" + certifyMSG);
+
                     if (certifyMSG.equals("전화번호 인증에 실패했습니다!")) {
                         AlertDialog.Builder alert = new AlertDialog.Builder(ReCertifyActivity.this);
                         alert.setPositiveButton("닫기", new DialogInterface.OnClickListener() {
@@ -146,7 +138,6 @@ public class ReCertifyActivity extends ActionBarActivity {
 
                     } else { //전화번호 인증이 성공했을시, 친구목록 가져오고, FriendsListActivity로 이동.
                         getAddressBook(getApplicationContext());
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -164,7 +155,6 @@ public class ReCertifyActivity extends ActionBarActivity {
             }
         });
     }
-
 
     /* 주소록정보 가져오기*/
     private void getAddressBook(Context context) {
@@ -218,7 +208,7 @@ public class ReCertifyActivity extends ActionBarActivity {
         ListToStringValues = ListToStringConvert(ppPhoneList); // ppPhoneList -> String
         System.out.println(">>>>>>>>>>>>>>>"+ListToStringValues);
         try{
-            Log.i(CTAG,"서버로 보낼 주소록 json data 세팅중");
+            Log.i(CTAG,"서버로 보낼 주소록 param data 세팅중");
             AddressBookparamData = new RequestParams();
             AddressBookparamData.put("phoneNumbers",ListToStringValues); //한글x,공백x,중복 아이디 체크 ->alert띄우기
             AddressBookparamData.put("apiToken",apiToken);
@@ -242,47 +232,50 @@ public class ReCertifyActivity extends ActionBarActivity {
                 try{
                     JSONArray phoneJsonArray = null;
                     JSONObject phoneJsonObject = null;
-                    String serverFriend = null;
+                    String serverFriend = null; //서버에 등록되어있는 친구번호
+
+                    JSONObject userIdJsonObject = null;
+                    String serverUserId = null; //서버에 등록되어있는 친구ID
+
                     phoneJsonArray = response.getJSONArray("data");
                     ArrayList<Map<String,String>> sfL = new ArrayList<Map<String,String>>();
 
                     //기존에 DB내용 Clean ------->>                                                  //_id는 계속 추가됨(해결해야함)
                     dataManager.deleteAll();
+
                     // for문을 돌면서 phoneNumber 값들을 가져온다
                     for(int i = 0; i<phoneJsonArray.length(); i ++) {
                         phoneJsonObject = (JSONObject) phoneJsonArray.get(i);
                         serverFriend = (String)phoneJsonObject.get("phoneNumber");
-                        System.out.println("ServerFriendsList : "+serverFriend);
+
+                        userIdJsonObject = (JSONObject) phoneJsonArray.get(i);
+                        serverUserId = (String)userIdJsonObject.get("loginId");
+
+                        System.out.println("ServerFriendsList : "+serverFriend+" UserId:"+serverUserId);
                         //서버에서 얻은 친구리스트에 해당하는 hashMap 객체 생성
                         serverMap = new HashMap<String,String>();
                         // Map에서 저장된 Key들을 가져올 Set을 만든다.
                         Set<String> set = hashPhoneMap.keySet();
                         // 서버에 저장되어 있는 key값에 해당하는 친구리스트를 주소록에서 찾는다.
                         if(set.contains(serverFriend)){
+
                             //hashPhoneMap의 serverFriend 대한 value 호출
                             String hashValue = hashPhoneMap.get(serverFriend);
-                            //다시 haspMap객체에 담는다
-                            serverMap.put(serverFriend,hashValue);
+
+                            /*(임시용)UserId를 쓰기위해 serverMap에 담는다
+                                확인후 디비에 추가해야함 */
+                            serverMap.put(serverFriend,serverUserId);
                             sfL.add(serverMap);                                                     //임시용.
 
                             //DB 저장
                             dataManager.insertUsrFriends(serverFriend,hashValue);
+                            //dataManager.insertUsrId(serverFriend,serverUserId);
                         }else{
                             Log.i("set.contains(serverFriend)","if에 대한 set처리 실패");
                         }
 
                     }
-                    System.out.println("서버에서 얻어온 친구리스트에 해당하는 이름 호출:"+ sfL.toString());
-
-                    /*디비조회 되는지 테스트용*/
-                    /*ArrayList<UsrFriendsVO> usr_NameList = new ArrayList<UsrFriendsVO>();
-                    usr_NameList = dataManager.getUsrNameInfo();
-                    if (usr_NameList.size() != 0) {
-                        for (int i = 0; i < usr_NameList.size(); i++) {
-                            System.out.println("친구리스트()에 해당하는 이름 호출:"+ usr_NameList.get(i).getUsr_Name());
-                        }
-                    }*/
-
+                    System.out.println("서버에서 얻어온 친구리스트에 해당하는 이름 호출:"+ sfL.toString()); //(형식) 01087389278=rangken
 
                 }catch (JSONException e){
                     e.printStackTrace();

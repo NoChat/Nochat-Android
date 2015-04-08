@@ -19,6 +19,7 @@ public class DataManager {
 
     DBHelper helper;
     UsrFriendsVO usrFriendsVO;
+    UsrIdVO usrIdVO;
 
     public DataManager(Context context)
     {
@@ -43,8 +44,8 @@ public class DataManager {
     {
         Log.i(TAG, "in Update Usr_Friends");
         SQLiteDatabase db = helper.getWritableDatabase();
-        String sql = "UPDATE usrFriends SET id = '" + id + "', usr_Name = '"
-                + usr_PN + "', usr_PhoneNumber = '" + usr_N + "';";
+        String sql = "UPDATE usrFriends SET id = '" + id + "', usr_PhoneNumber = '"
+                + usr_PN + "', usr_Name = '" + usr_N + "';";
         Log.i("DataManager", sql);
         db.execSQL(sql);
         helper.close();
@@ -64,17 +65,12 @@ public class DataManager {
     {
         Log.i(TAG, "in delete Usr_Friends");
         SQLiteDatabase db = helper.getWritableDatabase();
+
         String sql = "delete from usrFriends";
         db.execSQL(sql);
         //db.delete("usrFriends",null,null);
         helper.close();
     }
-/*    public void alterTable(){
-        Log.i(TAG, "alter table usrFriends auto_increment = 1");
-        SQLiteDatabase db = helper.getWritableDatabase();
-        String sql = "alter table usrFriends auto_increment = '" + 1 + "';";
-        db.execSQL(sql);
-    }*/
 
     //화면에 뿌릴 name값만 조회
     public ArrayList<UsrFriendsVO> getUsrNameInfo()
@@ -102,4 +98,57 @@ public class DataManager {
         return usr_NameList;
 
     }
+
+    /*----------------------------------------------------------------------------------*/
+    // usrId(@phoneNumber,@userId) 해당
+
+    // 저장
+    public void insertUsrId(String usrPn, String usrId)
+    {
+        Log.i(TAG, "in insert usrId");
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String sql = "insert into usrId values(null, '" + usrPn + "', '"
+                + usrId + "');";
+        db.execSQL(sql);
+        helper.close();
+    }
+
+    //업데이트
+    public void updateUsrId(int id, String usrPn, String usrId)
+    {
+        Log.i(TAG, "in Update usrId");
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String sql = "UPDATE usrId SET id = '" + id + "', id_phoneNumber = '"
+                + usrPn + "', id_user = '" + usrId + "';";
+        Log.i("DataManager", sql);
+        db.execSQL(sql);
+        helper.close();
+    }
+    //화면에 뿌릴 UserId 조회
+    public ArrayList<UsrIdVO> getUsrIdInfo()
+    {
+        Log.i(TAG, "in getUsrIdInfo");
+        ArrayList<UsrIdVO> usr_List = new ArrayList<UsrIdVO>(); //친구의 name 값만 담을 수 있는 List 생성.
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String sql = "select * from usrId";
+
+        Cursor cursor = db.rawQuery(sql, null);
+        while (cursor.moveToNext()) {
+            Log.i(TAG, "in while");
+            int uId = cursor.getInt(0);
+            String userPhoneNumber = cursor.getString(1);
+            String userId = cursor.getString(2);
+
+            Log.i(TAG, "output ===>" + uId + " " + userId +" "+ userPhoneNumber);
+            usrIdVO = new UsrIdVO(userId);
+            usr_List.add(usrIdVO);
+
+        }
+        helper.close();
+        cursor.close();
+
+        return usr_List;
+
+    }
+
 }
