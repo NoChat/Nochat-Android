@@ -103,23 +103,23 @@ public class DataManager {
     // usrId(@phoneNumber,@userId) 해당
 
     // 저장
-    public void insertUsrId(String usrPn, String usrId)
+    public void insertUsrId(String usrPn, String usrID)
     {
-        Log.i(TAG, "in insert usrId");
+        Log.i(TAG, "in insert phoneId");
         SQLiteDatabase db = helper.getWritableDatabase();
-        String sql = "insert into usrId values(null, '" + usrPn + "', '"
-                + usrId + "');";
+        String sql = "insert into phoneId values(null, '" + usrPn + "', '"
+                + usrID + "');";
         db.execSQL(sql);
         helper.close();
     }
 
     //업데이트
-    public void updateUsrId(int id, String usrPn, String usrId)
+    public void updateUsrId(int id, String usrPn, String usrID)
     {
-        Log.i(TAG, "in Update usrId");
+        Log.i(TAG, "in Update phoneId");
         SQLiteDatabase db = helper.getWritableDatabase();
-        String sql = "UPDATE usrId SET id = '" + id + "', id_phoneNumber = '"
-                + usrPn + "', id_user = '" + usrId + "';";
+        String sql = "UPDATE phoneId SET id = '" + id + "', phoneNumberI = '"
+                + usrPn + "', userI = '" + usrID + "';";
         Log.i("DataManager", sql);
         db.execSQL(sql);
         helper.close();
@@ -130,7 +130,7 @@ public class DataManager {
         Log.i(TAG, "in getUsrIdInfo");
         ArrayList<UsrIdVO> usr_List = new ArrayList<UsrIdVO>(); //친구의 name 값만 담을 수 있는 List 생성.
         SQLiteDatabase db = helper.getReadableDatabase();
-        String sql = "select * from usrId";
+        String sql = "select * from phoneId";
 
         Cursor cursor = db.rawQuery(sql, null);
         while (cursor.moveToNext()) {

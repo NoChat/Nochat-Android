@@ -29,6 +29,8 @@ public class MainActivity extends ActionBarActivity {
             Log.i(TAG, "member joining method");
             Intent intent = new Intent(MainActivity.this, MemberShipActivity.class);
             startActivity(intent);
+            /*Intent intent = new Intent(MainActivity.this, FriendsListActivity.class);
+            startActivity(intent);*/
         }
     };
 

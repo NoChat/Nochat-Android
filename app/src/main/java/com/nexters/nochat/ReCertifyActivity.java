@@ -54,6 +54,7 @@ public class ReCertifyActivity extends ActionBarActivity {
     private HashMap<String,String> serverMap; // 서버에서 얻어온 번호에 해당하는 HashMap
 
     DataManager dataManager;
+    DataManager2 dataManager2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class ReCertifyActivity extends ActionBarActivity {
         startNochatBtn.setOnClickListener(startNochatBtnListener);
 
         dataManager = new DataManager(this);
+        dataManager2 = new DataManager2(this);
 
     }
 
@@ -242,6 +244,7 @@ public class ReCertifyActivity extends ActionBarActivity {
 
                     //기존에 DB내용 Clean ------->>                                                  //_id는 계속 추가됨(해결해야함)
                     dataManager.deleteAll();
+                    dataManager2.deleteAll2();
 
                     // for문을 돌면서 phoneNumber 값들을 가져온다
                     for(int i = 0; i<phoneJsonArray.length(); i ++) {
@@ -269,7 +272,8 @@ public class ReCertifyActivity extends ActionBarActivity {
 
                             //DB 저장
                             dataManager.insertUsrFriends(serverFriend,hashValue);
-                            //dataManager.insertUsrId(serverFriend,serverUserId);
+                            dataManager2.insertUsrId(serverFriend, serverUserId);
+
                         }else{
                             Log.i("set.contains(serverFriend)","if에 대한 set처리 실패");
                         }

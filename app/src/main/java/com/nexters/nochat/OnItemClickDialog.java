@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
         import android.widget.LinearLayout;
         import android.os.Handler;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -25,6 +26,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+    /*
+        * Dialog를 클래스화 해서 했지만, User_id값을 FriendsListAdapter에서 뽑아오는 문제에 걸려
+        * 우선 FriendsListActivity에서 쓰기로함. 차후에 수정해야할 부분
+    */
 //Item 클릭시 Dialog 띄우기
 public class OnItemClickDialog implements AdapterView.OnItemClickListener, View.OnClickListener {
 
@@ -53,7 +58,6 @@ public class OnItemClickDialog implements AdapterView.OnItemClickListener, View.
     //이미지 변경
     ImageView img0;
 
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //FriendsListAdapter adapter = (FriendsListAdapter)parent.getAdapter();
@@ -70,7 +74,6 @@ public class OnItemClickDialog implements AdapterView.OnItemClickListener, View.
         alertDialog = builder.create();
         alertDialog.show();
         //alertDialog.setContentView(layout);
-
 
         //클릭시 레이아웃 변경
         img0 = (ImageView)layout_dialog.findViewById(R.id.img0); //지금은 하나. =>ex) lol 클릭시 "lol보냄!" 이미지 보여주는 곳. 차후에 종류별로 만들어야한다

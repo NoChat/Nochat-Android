@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Objects;
 
 //리스트를 위한 어댑터
 public class FriendsListAdapter extends BaseAdapter {
@@ -19,12 +21,31 @@ public class FriendsListAdapter extends BaseAdapter {
     private Context mContext;
     LayoutInflater mImflater;
 
-    ArrayList<String> mUsr_FNL;
+    ArrayList<String> mUsr_FNL;     //폰번호에 해당하는 =>유저이름
+    ArrayList<String> mUsr_FNL2;    //폰번호에 해당하는 =>유저id
 
-    public FriendsListAdapter(Context context, ArrayList<String> usr_FNL) {
+
+    public FriendsListAdapter(Context context, ArrayList<String> mUsr_FNL2) {
+        Log.i(TAG, "FriendsListAdapter1 생성");
+        this.mContext = context;
+        this.mUsr_FNL2 = mUsr_FNL2;
+        this.mImflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    /*  List화면에 (유저이름)만 보여줄때  */
+    /*public FriendsListAdapter(Context context, ArrayList<String> usr_FNL) {
         Log.i(TAG, "FriendsListAdapter 생성");
         this.mContext = context;
         this.mUsr_FNL = usr_FNL;
+        this.mImflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }*/
+
+    /*  List화면에 (유저이름+유저id) 같이 보여줄때   */
+    public FriendsListAdapter(Context context, ArrayList<String> usr_FNL, ArrayList<String> usr_FNL2) {
+        Log.i(TAG, "FriendsListAdapter2 생성");
+        this.mContext = context;
+        this.mUsr_FNL = usr_FNL;
+        this.mUsr_FNL2 = usr_FNL2;
         this.mImflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -36,6 +57,9 @@ public class FriendsListAdapter extends BaseAdapter {
     @Override
     public Object getItem(int arg0) {
         return mUsr_FNL.get(arg0);
+    }
+    public Object getItem2(int arg0) {
+        return mUsr_FNL2.get(arg0);
     }
 
     @Override
@@ -54,7 +78,9 @@ public class FriendsListAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.friendslist_row_item, null);
             holder.container = (RelativeLayout) convertView.findViewById(R.id.container);
             holder.user_name = (TextView) convertView.findViewById(R.id.user_name);
+            holder.user_id = (TextView) convertView.findViewById(R.id.user_id);
             holder.user_name.setText(mUsr_FNL.get(position));
+            holder.user_id.setText(mUsr_FNL2.get(position));
             convertView.setTag(holder);
         }
 
@@ -72,6 +98,7 @@ public class FriendsListAdapter extends BaseAdapter {
     {
         public RelativeLayout container;
         public TextView user_name;
+        public TextView user_id;
     }
 
 }
