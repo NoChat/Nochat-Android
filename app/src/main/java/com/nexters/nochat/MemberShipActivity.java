@@ -1,16 +1,26 @@
 package com.nexters.nochat;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -20,45 +30,84 @@ import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
-public class MemberShipActivity extends ActionBarActivity {
+public class MemberShipActivity extends Activity {
 
     private static final String TAG = "MemberShipActivity";
     private static final String CTAG = "AsyncHttpClient";
     private static final String URL = "http://todaytrend.cafe24.com:9000/users/signup";
+
     private Button backMain; //메인화면으로 이동
+    private TextView membershipTitle; //타이틀 문구
     private EditText memberShipId; //ID입력
     private EditText memberShipPassword; //password입력
+    private TextView certifyCheck; //중복된 아이디가 있는지 검사
     private Button memberShipBtn; //노챗시작하기
+
     private String loginId;
     private String password;
     private String deviceToken;
     private String locale = "ko_KR"; //일단 한국어만
     private String os = "Android";
+
+    private Typeface typeface = null; //font
+    private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
+
     private RequestParams paramData; //회원가입 요청 관련 param data
     String apiToken; //토큰값
-
-    /*  findViewById 세팅  */
-/*    private void findViewByIdInit(){
-        backMain = (Button)findViewById(R.id.backMain);
-        memberShipId = (EditText)findViewById(R.id.memberShipId);
-        memberShipPassword = (EditText)findViewById(R.id.memberShipPassword);
-        memberShipBtn = (Button)findViewById(R.id.memberShipBtn);
-    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setFont(); //폰트적용
         setContentView(R.layout.activity_membership);
         //findViewByIdInit();
         backMain = (Button)findViewById(R.id.backMain);
+        membershipTitle = (TextView)findViewById(R.id.membershipTitle);
         memberShipId = (EditText)findViewById(R.id.memberShipId);
         memberShipPassword = (EditText)findViewById(R.id.memberShipPassword);
+        certifyCheck = (TextView)findViewById(R.id.certifyCheck);
         memberShipBtn = (Button)findViewById(R.id.memberShipBtn);
+
+        memberShipBtn.setTypeface(typeface); //버튼안 text에서도 font 적용
+        membershipTitle.setTypeface(typeface);
+        memberShipId.setTypeface(typeface);
+        memberShipPassword.setTypeface(typeface);
+        certifyCheck.setTypeface(typeface);
+
+        //휴대폰 넓이 보다 텍스트가 길 경우 마키 처리
+        certifyCheck.setSingleLine(true);
+        certifyCheck.setEllipsize(android.text.TextUtils.TruncateAt.END);
 
         backMain.setOnClickListener(backMainListener);
         memberShipBtn.setOnClickListener(memberShipBtnListener);
     }
+    private void setFont() {
+        if(typeface==null) {
+            typeface = Typeface.createFromAsset(getAssets(), TYPEFACE_NAME);
+        }else{
+            Log.e(TAG,"폰트가 없습니다.");
+        }
+    }
+
+    @Override
+    public void setContentView(int viewId) {
+        View view = LayoutInflater.from(this).inflate(viewId, null);
+        ViewGroup group = (ViewGroup)view;
+        int childCnt = group.getChildCount();
+        for(int i=0; i<childCnt; i++){
+            View v = group.getChildAt(i);
+            if(v instanceof TextView){
+                ((TextView)v).setTypeface(typeface);
+            }else if(v instanceof Button){
+                ((Button)v).setTypeface(typeface);
+            }
+        }
+        super.setContentView(view);
+    }
+
     /*메인화면으로 이동*/
     View.OnClickListener backMainListener = new View.OnClickListener(){
         @Override
@@ -115,19 +164,27 @@ public class MemberShipActivity extends ActionBarActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) { //reqBuilder.setHeader(String name, String value);
                 Log.i(CTAG, "json response Success");
                 System.out.println("회원가입관련 response : " + response.toString());
+                String certifyMSG = null;
                 try {
-                    JSONObject signUpData = null;
-                    signUpData = response.getJSONObject("data");
-                    apiToken = signUpData.getString("apiToken");
-                    System.out.println("$$$" + apiToken);
+                    certifyMSG = response.getString("code");
+                    if (certifyMSG.equals("10001")) {   //회원가입 실패시
+                        certifyCheck.setVisibility(View.VISIBLE);
+                        onStop();
+                    } else { //회원가입 성공했을시
+                        JSONObject signUpData = null;
+                        signUpData = response.getJSONObject("data");
+                        apiToken = signUpData.getString("apiToken");
+                        System.out.println("$$$" + apiToken);
+                        //apiToken을 폰에 저장 ===> CertifyActivity에서 쓰임
+                        sharedPreferencesSetting(apiToken);
+
+                        startCertifyActivity();
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                //apiToken을 폰에 저장 ===> CertifyActivity에서 쓰임
-                sharedPreferencesSetting(apiToken);
-
-                startCertifyActivity();
             }
 
 
@@ -157,6 +214,7 @@ public class MemberShipActivity extends ActionBarActivity {
     /*CertifyActivity으로 이동*/
     private void startCertifyActivity(){
         Log.i(TAG,"CertifyActivity로 이동");
+        certifyCheck.setVisibility(View.GONE);
         Intent intent = new Intent(MemberShipActivity.this, CertifyActivity.class);
         startActivity(intent);
     }

@@ -1,5 +1,6 @@
 package com.nexters.nochat;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,7 +21,7 @@ import org.apache.http.message.BasicHeader;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CertifyActivity extends ActionBarActivity {
+public class CertifyActivity extends Activity {
 
     private static final String TAG = "CertifyActivity";
     private static final String CTAG = "AsyncHttpClient";
@@ -35,6 +37,7 @@ public class CertifyActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_certify);
 
         backMembership = (Button) findViewById(R.id.backMembership);

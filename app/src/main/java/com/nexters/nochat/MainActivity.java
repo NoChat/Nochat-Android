@@ -1,28 +1,97 @@
 package com.nexters.nochat;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import org.w3c.dom.Text;
+
+import java.io.IOException;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity { //android:theme="@android:style/Theme.NoTitleBar" 때문에 ActionBarActivity -> Activity
 
     private static final String TAG = "MainActivity";
-    private Button memberShipBtn; //회원가입
+    private static final String ASYNCTAG = "AsyncTask";
+    private Button joinBtn; //회원가입
+    private TextView nochatMaintext1;
+    private TextView nochatMaintext2;
+    private TextView loginContent;
+    private TextView logintextBtn; //로그인
 
+    private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
+    private static final String TYPEFACE_NAME2 = "NanumPen.otf";
+    private Typeface typeface = null; //font
+
+    GoogleCloudMessaging gcm;
+    private static final String SENDER_ID="467703711556";
+    private String regid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        registerBackground();
+
+        setFont();  //폰트적용
         setContentView(R.layout.activity_main);
-        memberShipBtn = (Button) findViewById(R.id.memberShipBtn);
-        //memberShipListener(memberShipBtn);
-        memberShipBtn.setOnClickListener(memberShipListener);
+        joinBtn = (Button) findViewById(R.id.joinBtn);
+        nochatMaintext1 = (TextView) findViewById(R.id.nochatMaintext1);
+        nochatMaintext2 = (TextView) findViewById(R.id.nochatMaintext2);
+        loginContent = (TextView) findViewById(R.id.loginContent);
+        logintextBtn = (TextView) findViewById(R.id.logintextBtn);
+
+        joinBtn.setTypeface(typeface); //버튼안 text에서도 font 적용
+        nochatMaintext1.setTypeface(typeface);
+        nochatMaintext2.setTypeface(typeface);
+        loginContent.setTypeface(typeface);
+        logintextBtn.setTypeface(typeface);
+
+        logintextBtn.setPaintFlags(logintextBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); //밑줄 긋기
+
+        joinBtn.setOnClickListener(memberShipListener); //회원가입
+        logintextBtn.setOnClickListener(logintextListener); //로그인
+
     }
+    private void setFont() {
+        if(typeface==null) {
+            typeface = Typeface.createFromAsset(getAssets(), TYPEFACE_NAME);
+        }else{
+            Log.e(TAG,"폰트가 없습니다.");
+        }
+    }
+
+    @Override
+    public void setContentView(int viewId) {
+        View view = LayoutInflater.from(this).inflate(viewId, null);
+        ViewGroup group = (ViewGroup)view;
+        int childCnt = group.getChildCount();
+        for(int i=0; i<childCnt; i++){
+            View v = group.getChildAt(i);
+            if(v instanceof TextView){
+                ((TextView)v).setTypeface(typeface);
+            }else if(v instanceof Button){
+                ((Button)v).setTypeface(typeface);
+            }
+        }
+        super.setContentView(view);
+    }
+
+    /*  회원가입 Listener   */
     View.OnClickListener memberShipListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
@@ -34,25 +103,49 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    /*  로그인 Listener    */
+    View.OnClickListener logintextListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            Log.i(TAG, "Click Login");
+            Intent intent = new Intent(MainActivity.this, FriendsListActivity.class);
+            startActivity(intent);
         }
+    };
 
-        return super.onOptionsItemSelected(item);
+    /*  GCM 처리*/
+    private void registerBackground() {
+        new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] params) {
+                Log.i(ASYNCTAG,"in doinBackground");
+                String msg = "";
+                try {
+                    if (gcm == null) {
+                        gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
+                    }
+                    regid = gcm.register(SENDER_ID);
+                    msg = "Device registered, registration id=" + regid;
+                    Log.e(TAG,regid);
+                    //System.out.println("regid###" + regid);
+
+                    // You should send the registration ID to your server over HTTP,
+                    // so it can use GCM/HTTP or CCS to send messages to your app.
+
+                    // For this demo: we don't need to send it because the device
+                    // will send upstream messages to a server that echo back the message
+                    // using the 'from' address in the message.
+
+                    // Save the regid - no need to register again.
+                    //setRegistrationId(context, regid);
+                } catch (IOException ex) {
+                    msg = "Error :" + ex.getMessage();
+                }
+                return msg;
+            }
+
+
+        }.execute(null, null, null);
     }
+
 }

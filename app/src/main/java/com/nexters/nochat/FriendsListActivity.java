@@ -1,5 +1,6 @@
 package com.nexters.nochat;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +34,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class FriendsListActivity extends ActionBarActivity  {
+public class FriendsListActivity extends Activity {
 
     private static final String TAG = "FriendsListActivity";
     public static final String SELECTED_PHONE = "selectedphone";
@@ -233,6 +234,7 @@ public class FriendsListActivity extends ActionBarActivity  {
 
     /* AsyncHttpClient 사용해 서버와 통신*/
     private void AsyncHttpClient(String chatTypeId) {
+        //GCM => http://leminity.tistory.com/27
         RequestParams paramData = new RequestParams();
         paramData.put("userId",getPositionId);
         paramData.put("chatTypeId",chatTypeId); // lol, alcohol, rice, coffee
@@ -243,7 +245,7 @@ public class FriendsListActivity extends ActionBarActivity  {
         Header[] headers = {new BasicHeader("apiToken",apiToken)};
         mClient.post(this, URL, headers, paramData,"application/json", new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) { //reqBuilder.setHeader(String name, String value);
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.i(CTAG, "json response Success");
                 System.out.println("인증요청관련 response : " + response.toString());
             }
@@ -268,7 +270,7 @@ public class FriendsListActivity extends ActionBarActivity  {
         }
     };
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -285,7 +287,7 @@ public class FriendsListActivity extends ActionBarActivity  {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

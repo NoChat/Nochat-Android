@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#000000">
+    android:background="@color/black">
 
     <Button
         android:id="@+id/backMain"
@@ -18,60 +18,82 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/NOCHAT"
+            android:id="@+id/membershipTitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center|top"
             android:layout_marginTop="20dp"
             android:text="친구끼리 무슨말이 필요해? \n 간단한 가입으로 친구와 소통하세요"
-            android:textColor="#ffffff"
+            android:textColor="@color/white"
             android:lines="2"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <EditText
-            android:id="@+id/memberShipId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:inputType="textPersonName"
-            android:hint="                           아이디 입력"
-            android:ems="10"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1" />
-
-        <EditText
-            android:id="@+id/memberShipPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:inputType="textPassword"
-            android:singleLine="true"
-            android:hint="           비밀번호 입력"
-            android:ems="10"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1" />
-
-
-    </LinearLayout>
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-        android:layout_marginTop="20dp"
         android:gravity="center|top"
         android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/memberShipId"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:hint="아이디 입력(영문)"
+            android:singleLine="true"
+            android:gravity="center"
+            android:textColor="@color/gray"
+            android:ems="10"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:id="@+id/memberShipPassword"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:hint="비밀번호 입력"
+            android:gravity="center"
+            android:ems="10"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center|top"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/certifyCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="*중복되는 아이디입니다 다른아이디를 사용해주세요"
+            android:visibility="gone"
+            android:gravity="center"
+            android:textColor="@color/red"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Button
             android:id="@+id/memberShipBtn"
             android:layout_gravity="center_horizontal|center"
-            android:layout_width="300dp"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="20dp"
             android:layout_height="80dp"
             android:background="@drawable/btn_gray"
-            android:text="노챗 시작하기"
-            android:textColor="#ffffff"
-            android:textSize="15dp"/>
+            android:text="노챗 인증받기"
+            android:textColor="@color/white"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     </LinearLayout>
 </LinearLayout>

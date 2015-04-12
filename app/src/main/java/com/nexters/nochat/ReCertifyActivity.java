@@ -1,5 +1,6 @@
 package com.nexters.nochat;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +14,7 @@ import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,7 +37,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ReCertifyActivity extends ActionBarActivity {
+public class ReCertifyActivity extends Activity {
     //메세지로 온 인증번호와 내가 입력한 인증번호가 같은지 체크해줘야함.
     private static final String TAG = "CertifyActivity";
     private static final String CTAG = "AsyncHttpClient";
@@ -59,6 +61,7 @@ public class ReCertifyActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_recertify);
 
          backCertifyBtn = (Button) findViewById(R.id.backCertifyBtn);
