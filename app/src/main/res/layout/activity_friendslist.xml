@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     tools:context=".FriendsListActivity"
     android:orientation="vertical"
+    android:background="@color/black"
     android:layout_weight="1">
 
     <ImageView

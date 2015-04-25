@@ -1,45 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:id="@+id/layout_root"
-    android:orientation="vertical"
-    android:background="@android:color/darker_gray">
+    android:orientation="vertical">
 
-    <!--    <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@android:color/darker_gray">-->
-    <ImageView
-        android:id="@+id/bt1_lol"
-        android:layout_toRightOf="@+id/bt_cancel"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
-        android:src="@drawable/appicon"/>
-    <ImageView
-        android:id="@+id/bt2_alcohol"
-        android:layout_toLeftOf="@+id/bt_cancel"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
-        android:src="@drawable/appicon"/>
-    <ImageView
-        android:id="@+id/bt3_rice"
-        android:layout_above="@+id/bt_cancel"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
-        android:src="@drawable/appicon"/>
-    <ImageView
-        android:id="@+id/bt4_coffee"
-        android:layout_below="@+id/bt_cancel"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
-        android:src="@drawable/appicon"/>
-    <ImageView
-        android:id="@+id/bt_cancel"
-        android:layout_centerInParent="true"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
-        android:src="@drawable/btn_invite"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_weight="1"
+        android:gravity="bottom|center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/bt1_lol"
+            android:layout_weight="1"
+            android:layout_marginLeft="70dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_lol" />
+
+        <ImageView
+            android:id="@+id/bt2_alcohol"
+            android:layout_weight="1"
+            android:layout_marginRight="70dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_drink" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/bt4_coffee"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_coffe" />
+
+        <ImageView
+            android:id="@+id/bt5_smoking"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_smoking" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/bt3_rice"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_meal" />
+
+     </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_marginTop="30dp"
+        android:gravity="center|bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/bt_cancel"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_closepopup" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>
 

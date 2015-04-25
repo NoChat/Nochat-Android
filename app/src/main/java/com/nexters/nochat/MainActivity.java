@@ -2,9 +2,11 @@ package com.nexters.nochat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,12 +42,23 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
 
     GoogleCloudMessaging gcm;
     private static final String SENDER_ID="467703711556";
-    private String regid;
+    private String regId; //뽑아올 regid
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        registerBackground();
+
+        //regId 등록 여부 체크
+        /*GCMRegistrar.checkDevice(this);
+        GCMRegistrar.checkManifest(this);
+        String regId = GCMRegistrar.getRegistrationId(this);
+        if (regId.equals("")) {
+            GCMRegistrar.register(this, SENDER_ID);
+        } else {
+            Log.i("Main", "Already registered - " + regId );
+        }*/
+        registerBackground(); //get regid
 
         setFont();  //폰트적용
         setContentView(R.layout.activity_main);
@@ -124,28 +137,27 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
                     }
-                    regid = gcm.register(SENDER_ID);
-                    msg = "Device registered, registration id=" + regid;
-                    Log.e(TAG,regid);
-                    //System.out.println("regid###" + regid);
+                        regId = gcm.register(SENDER_ID);
+                        msg = "Device registered, registration id=" + regId;
+                        Log.e(TAG, msg);
+                        sharedPreferencesSetting(regId);
 
-                    // You should send the registration ID to your server over HTTP,
-                    // so it can use GCM/HTTP or CCS to send messages to your app.
-
-                    // For this demo: we don't need to send it because the device
-                    // will send upstream messages to a server that echo back the message
-                    // using the 'from' address in the message.
-
-                    // Save the regid - no need to register again.
-                    //setRegistrationId(context, regid);
-                } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
+                } catch (IOException e) {
+                    msg = "Error :" + e.getMessage();
                 }
                 return msg;
             }
 
 
         }.execute(null, null, null);
+    }
+
+    /* 폰에 저장해놓고 지속적으로 써야할 데이터 처리 */
+    private void sharedPreferencesSetting(String paramRegId){//preferencesRegId
+        SharedPreferences preferencesRegId = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //regid값 폰에 저장
+        SharedPreferences.Editor editor = preferencesRegId.edit();
+            editor.putString("regId",paramRegId);
+            editor.commit();
     }
 
 }

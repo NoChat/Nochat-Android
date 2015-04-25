@@ -2,9 +2,12 @@ package com.nexters.nochat;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.renderscript.Sampler;
@@ -16,12 +19,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -56,15 +62,16 @@ public class FriendsListActivity extends Activity {
     private static final String CTAG = "AsyncHttpClient";
     private static final String URL = "http://todaytrend.cafe24.com:9000/chats/new";
 
-    // 롤=1, 술=2, 밥=3, 커피=4 고정
+    // 롤=1, 술=2, 밥=3, 커피=4 담배=5 고정
     private static final String lol = "1";
     private static final String alcohol = "2";
     private static final String rice = "3";
     private static final String coffee = "4";
+    private static final String smoking = "5";
 
     private Handler mHandler;
-    AlertDialog.Builder builder;
-    AlertDialog alertDialog;
+
+    Dialog dialog;
 
     /*
     * layout_nameSpace =>   friendslist_row_item.xml의 Layout 부분 -->다이로그 선택시 3초후 다시 이름 보여주는 부분
@@ -139,30 +146,31 @@ public class FriendsListActivity extends Activity {
                 layout_nameSpace = (LinearLayout)view.findViewById(R.id.layout_nameSpace);
                 layout_dialog = (LinearLayout)view.findViewById(R.id.layout_dialog);
 
-                builder = new AlertDialog.Builder(mContext);
+                dialog = new Dialog(mContext);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 LayoutInflater li = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View layout= li.inflate(R.layout.customdialog, null);
-
-                builder.setView(layout);
-                alertDialog = builder.create();
-                alertDialog.show();
-                //alertDialog.setContentView(layout);
+                View layout= li.inflate(R.layout.customdialog, null);//layout_root
+                dialog.setContentView(layout);
+                dialog.show();
 
                 //클릭시 레이아웃 변경
                 img0 = (ImageView)layout_dialog.findViewById(R.id.img0); //지금은 하나. =>ex) lol 클릭시 "lol보냄!" 이미지 보여주는 곳. 차후에 종류별로 만들어야한다
 
-                //alertDialog
+                //Dialog layout
                 ImageView bt1_lol = (ImageView)layout.findViewById(R.id.bt1_lol);
                 ImageView bt2_alcohol = (ImageView)layout.findViewById(R.id.bt2_alcohol);
                 ImageView bt3_rice = (ImageView)layout.findViewById(R.id.bt3_rice);
                 ImageView bt4_coffee = (ImageView)layout.findViewById(R.id.bt4_coffee);
-                ImageView cancel = (ImageView)layout.findViewById(R.id.bt_cancel);
+                ImageView bt5_smoking = (ImageView)layout.findViewById(R.id.bt5_smoking);
+                ImageView bt_cancel = (ImageView)layout.findViewById(R.id.bt_cancel);
 
                 bt1_lol.setOnClickListener(bt_ItemClickListener);
                 bt2_alcohol.setOnClickListener(bt_ItemClickListener);
                 bt3_rice.setOnClickListener(bt_ItemClickListener);
                 bt4_coffee.setOnClickListener(bt_ItemClickListener);
-                cancel.setOnClickListener(bt_ItemClickListener);
+                bt5_smoking.setOnClickListener(bt_ItemClickListener);
+                bt_cancel.setOnClickListener(bt_ItemClickListener);
 
 
             }
@@ -180,24 +188,39 @@ public class FriendsListActivity extends Activity {
             String chatTypeId = null;
             switch (v.getId()) {
                 case R.id.bt1_lol :
+                    Log.i(OTAG, "In bt1_lol");
                     chatTypeId = lol;
                     dialogItemEvent(R.id.bt1_lol, chatTypeId);
                     break;
 
                 case R.id.bt2_alcohol :
+                    Log.i(OTAG, "In bt2_alcohol");
                     chatTypeId = alcohol;
                     dialogItemEvent(R.id.bt2_alcohol, chatTypeId);
                     break;
 
                 case R.id.bt3_rice :
+                    Log.i(OTAG, "In bt3_rice");
                     chatTypeId = rice;
                     dialogItemEvent(R.id.bt3_rice, chatTypeId);
                     break;
 
                 case R.id.bt4_coffee :
+                    Log.i(OTAG, "In bt4_coffee");
                     chatTypeId = coffee;
                     dialogItemEvent(R.id.bt4_coffee, chatTypeId);
                     break;
+
+                case R.id.bt5_smoking :
+                    Log.i(OTAG, "In bt5_smoking");
+                    chatTypeId = coffee;
+                    dialogItemEvent(R.id.bt5_smoking, chatTypeId);
+                    break;
+
+                case R.id.bt_cancel :
+                    Log.i(OTAG, "In bt_cancel");
+                    break;
+
             }
         }
     };
@@ -228,7 +251,7 @@ public class FriendsListActivity extends Activity {
         };
         mHandler.postDelayed(mMyTask, 1000); // 3초후에 실행 mMyTask를 실행
         //3초 후에 이루어질 일을 등록
-        alertDialog.dismiss();
+        dialog.dismiss();
 
     }
 

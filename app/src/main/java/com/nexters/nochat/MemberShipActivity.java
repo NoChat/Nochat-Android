@@ -47,7 +47,7 @@ public class MemberShipActivity extends Activity {
 
     private String loginId;
     private String password;
-    private String deviceToken;
+    //private String deviceToken;
     private String locale = "ko_KR"; //일단 한국어만
     private String os = "Android";
 
@@ -56,7 +56,7 @@ public class MemberShipActivity extends Activity {
 
     private RequestParams paramData; //회원가입 요청 관련 param data
     String apiToken; //토큰값
-
+    private String regId; // preferences에서 뽑아와서 담을 변수
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +80,10 @@ public class MemberShipActivity extends Activity {
         //휴대폰 넓이 보다 텍스트가 길 경우 마키 처리
         certifyCheck.setSingleLine(true);
         certifyCheck.setEllipsize(android.text.TextUtils.TruncateAt.END);
+
+        //폰에 저장된 regId 가져오기
+        SharedPreferences preferencesRegId = PreferenceManager.getDefaultSharedPreferences(this);
+        regId = preferencesRegId.getString("regId"," ");
 
         backMain.setOnClickListener(backMainListener);
         memberShipBtn.setOnClickListener(memberShipBtnListener);
@@ -128,22 +132,23 @@ public class MemberShipActivity extends Activity {
     };
 
     /* deviceToken 설정*/
-    private String GetDevicesUUID(Context mContext) {
+    /*private String GetDevicesUUID(Context mContext) {
         TelephonyManager tManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
         String deviceId = tManager.getDeviceId();
         Log.i(TAG,"@@@deviceToken값은 :"+deviceId);
         return deviceId;
-    }
+    }*/
 
     /* 서버로 보낼 json data 세팅*/
     private void jsonDateSetting(String loginId, String password){
-        deviceToken = GetDevicesUUID(this.getBaseContext()); //UUID값
+        //deviceToken = GetDevicesUUID(this.getBaseContext()); //UUID값
+
         try{
             Log.i(CTAG,"서버로 보낼 param data 세팅중");
             paramData = new RequestParams();
             paramData.put("loginId",loginId); //한글x,공백x,중복 아이디 체크 ->alert띄우기
             paramData.put("password",password);
-            paramData.put("deviceToken",deviceToken);
+            paramData.put("deviceToken",regId);
             paramData.put("locale",locale);
             paramData.put("os", os);
 
@@ -200,15 +205,14 @@ public class MemberShipActivity extends Activity {
 
     /* 폰에 저장해놓고 지속적으로 써야할 데이터 처리 */
     private void sharedPreferencesSetting(String paramValue){
-        SharedPreferences preferencesphoneNumberValue = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //자기 폰번호값 폰에 저장
-        SharedPreferences.Editor editor = preferencesphoneNumberValue.edit();
+        SharedPreferences preferencesApiTokenValue = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //apiToken값 폰에 저장
+        SharedPreferences.Editor editor = preferencesApiTokenValue.edit();
         if(paramValue.equals(apiToken)){
             editor.putString("apiToken",apiToken);
             editor.commit();
         }else{
             System.out.println("sharedPreferences =====>에러");
         }
-
     }
 
     /*CertifyActivity으로 이동*/
