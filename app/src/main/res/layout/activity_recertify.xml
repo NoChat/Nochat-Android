@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#000000">
+    android:background="@color/black">
 
     <Button
         android:id="@+id/backCertifyBtn"
@@ -21,12 +21,12 @@
             android:id="@+id/RECERTIFY"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center|top"
+            android:gravity="center"
             android:layout_marginTop="20dp"
             android:text="인증번호를 입력해주세요"
             android:textColor="#ffffff"
             android:lines="1"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText

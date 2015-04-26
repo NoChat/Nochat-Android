@@ -37,7 +37,7 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
     private TextView logintextBtn; //로그인
 
     private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
-    private static final String TYPEFACE_NAME2 = "NanumPen.otf";
+    private static final String TYPEFACE_NAME2 = "NanumPen.otf"; //다른폰트(테스트용)
     private Typeface typeface = null; //font
 
     GoogleCloudMessaging gcm;

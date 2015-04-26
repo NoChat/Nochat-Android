@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -28,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -37,6 +39,7 @@ import com.loopj.android.http.RequestParams;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -77,8 +80,14 @@ public class FriendsListActivity extends Activity {
     * layout_nameSpace =>   friendslist_row_item.xml의 Layout 부분 -->다이로그 선택시 3초후 다시 이름 보여주는 부분
     * layout_dialog =>    friendslist_row_item.xml의 Layout 부분 -->다이로그 선택시 3초동안 선택된 다이로그 보여주는 부분
     */
-    LinearLayout layout_nameSpace;
-    LinearLayout layout_dialog;
+    private LinearLayout layout_nameSpace;
+    private LinearLayout layout_dialog;
+    private TextView user_name;
+    private TextView myImageViewText; //문구
+
+    private Typeface typeface = null; //font
+    private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
+
 
     //이미지 변경
     ImageView img0;
@@ -90,7 +99,9 @@ public class FriendsListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setFont(); //폰트적용
         setContentView(R.layout.activity_friendslist);
+
         dm = new DataManager(this);
         dm2 = new DataManager2(this);
 
@@ -145,6 +156,10 @@ public class FriendsListActivity extends Activity {
 
                 layout_nameSpace = (LinearLayout)view.findViewById(R.id.layout_nameSpace);
                 layout_dialog = (LinearLayout)view.findViewById(R.id.layout_dialog);
+                myImageViewText = (TextView)findViewById(R.id.myImageViewText);
+                user_name = (TextView)findViewById(R.id.user_name);
+
+                myImageViewText.setTypeface(typeface);
 
                 dialog = new Dialog(mContext);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -179,6 +194,30 @@ public class FriendsListActivity extends Activity {
         Button inviteBtn = (Button)findViewById(R.id.inviteBtn);
         inviteBtn.setOnClickListener(inviteBtnListener);//초대하기 눌렀을때
 
+    }
+
+    private void setFont() {
+        if(typeface==null) {
+            typeface = Typeface.createFromAsset(getAssets(), TYPEFACE_NAME);
+        }else{
+            Log.e(TAG,"폰트가 없습니다.");
+        }
+    }
+
+    @Override
+    public void setContentView(int viewId) {
+        View view = LayoutInflater.from(this).inflate(viewId, null);
+        ViewGroup group = (ViewGroup)view;
+        int childCnt = group.getChildCount();
+        for(int i=0; i<childCnt; i++){
+            View v = group.getChildAt(i);
+            if(v instanceof TextView){
+                ((TextView)v).setTypeface(typeface);
+            }else if(v instanceof Button){
+                ((Button)v).setTypeface(typeface);
+            }
+        }
+        super.setContentView(view);
     }
 
     View.OnClickListener bt_ItemClickListener = new View.OnClickListener(){

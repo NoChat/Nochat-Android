@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight" >
-    <!-- 처음에 보이는 레이아웃  -->
+    android:layout_width="fill_parent"
+    android:layout_height="100dp"
+    android:background="@drawable/btn_darkgray">
+    <!--?android:attr/listPreferredItemHeight-->
     <LinearLayout
         android:id="@+id/layout_nameSpace"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         android:layout_width="match_parent"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:background="#ffffff">
+        android:orientation="vertical">
         <TextView
             android:id="@+id/user_name"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:layout_gravity="center_horizontal"
-            android:text="                                         우지민"/>
+            android:gravity="center"
+            android:text="우지민"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+<!--        user_id는 서버에서 ("밥 보냄!, 롤 보냄! ")같은 문자를 받아서 뿌려준다. 지금은 layout_dialog에 해당하는 이미지만 출력중-->
         <TextView
             android:id="@+id/user_id"
             android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:layout_gravity="center_horizontal"
-            android:text="                                         id"/>
+            android:gravity="center"
+            android:text="id"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     </LinearLayout>
     <LinearLayout

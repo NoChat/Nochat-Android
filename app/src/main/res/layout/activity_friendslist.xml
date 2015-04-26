@@ -4,13 +4,33 @@
     android:layout_height="match_parent"
     tools:context=".FriendsListActivity"
     android:orientation="vertical"
-    android:background="@color/black"
+    android:background="@drawable/btn_darkgray"
     android:layout_weight="1">
 
-    <ImageView
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="40sp"
+        android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/myImageView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/nav_bar"/>
+
+    <TextView
+        android:id="@+id/myImageViewText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/myImageView"
+        android:layout_alignTop="@id/myImageView"
+        android:layout_alignRight="@id/myImageView"
+        android:layout_alignBottom="@id/myImageView"
+        android:gravity="center"
+        android:text="NO CHAT"
+        android:textSize="20dp"
+        android:textColor="@color/black" />
+
+    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="fill_parent"

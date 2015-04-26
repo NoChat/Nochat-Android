@@ -63,7 +63,7 @@ public class MemberShipActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setFont(); //폰트적용
         setContentView(R.layout.activity_membership);
-        //findViewByIdInit();
+
         backMain = (Button)findViewById(R.id.backMain);
         membershipTitle = (TextView)findViewById(R.id.membershipTitle);
         memberShipId = (EditText)findViewById(R.id.memberShipId);

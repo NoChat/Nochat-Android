@@ -8,15 +8,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -45,9 +49,14 @@ public class ReCertifyActivity extends Activity {
     private static final String getFriendsURL = "http://todaytrend.cafe24.com:9000/users/friend";
 
     private Button backCertifyBtn; //뒤로가기
+    private TextView RECERTIFY; //문구
     private EditText inputCertify; //인증번호 입력
     private Button startNochatBtn; // 노챗 시작하기
     private String certifyValue; // 인증번호 입력값
+
+    private Typeface typeface = null; //font
+    private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
+
     String apiToken; //본인 apiToken값(SharedPreferences에 저장된값)
     String phoneNumberValue; //본인 폰번호값(SharedPreferences에 저장된값)
     private RequestParams paramData; //인증번호 재확인 요청 관련 param data
@@ -62,11 +71,19 @@ public class ReCertifyActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setFont(); //폰트적용
         setContentView(R.layout.activity_recertify);
 
          backCertifyBtn = (Button) findViewById(R.id.backCertifyBtn);
+        RECERTIFY = (TextView) findViewById(R.id.RECERTIFY);
         inputCertify = (EditText) findViewById(R.id.inputCertify);
         startNochatBtn = (Button) findViewById(R.id.startNochatBtn);
+
+        backCertifyBtn.setTypeface(typeface); //버튼안 text에서도 font 적용
+        inputCertify.setTypeface(typeface);
+        startNochatBtn.setTypeface(typeface);
+        RECERTIFY.setTypeface(typeface);
+
         SharedPreferences preferencesApiToken = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 토큰값 가져오기
         apiToken = preferencesApiToken.getString("apiToken", " ");
         SharedPreferences preferencesPhoneNumberValue = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 본인 폰번호 가져오기
@@ -78,6 +95,31 @@ public class ReCertifyActivity extends Activity {
         dataManager = new DataManager(this);
         dataManager2 = new DataManager2(this);
 
+    }
+
+    private void setFont() {
+        if(typeface==null) {
+            typeface = Typeface.createFromAsset(getAssets(), TYPEFACE_NAME);
+        }else{
+            Log.e(TAG,"폰트가 없습니다.");
+        }
+    }
+
+
+    @Override
+    public void setContentView(int viewId) {
+        View view = LayoutInflater.from(this).inflate(viewId, null);
+        ViewGroup group = (ViewGroup)view;
+        int childCnt = group.getChildCount();
+        for(int i=0; i<childCnt; i++){
+            View v = group.getChildAt(i);
+            if(v instanceof TextView){
+                ((TextView)v).setTypeface(typeface);
+            }else if(v instanceof Button){
+                ((Button)v).setTypeface(typeface);
+            }
+        }
+        super.setContentView(view);
     }
 
     View.OnClickListener backCertifyBtnListener = new View.OnClickListener() {

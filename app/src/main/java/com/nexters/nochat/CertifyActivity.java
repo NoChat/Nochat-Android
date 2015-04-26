@@ -3,14 +3,18 @@ package com.nexters.nochat;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -28,8 +32,13 @@ public class CertifyActivity extends Activity {
     private static final String URL = "http://todaytrend.cafe24.com:9000/users/phone/token";
 
     private Button backMembership; //뒤로가기
+    private TextView CERTIFY; //문구
     private EditText inputPhoneNumber; //폰번호 입력
     private Button certifyBtn; // 인증번호 전송
+
+    private Typeface typeface = null; //font
+    private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
+
     String phoneNumberValue; //폰번호 값
     String apiToken; //폰에 저장된(SharedPreferences) 토큰값
     private RequestParams paramData; //인증번호 요청 관련 param data
@@ -38,11 +47,19 @@ public class CertifyActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setFont(); //폰트적용
         setContentView(R.layout.activity_certify);
 
         backMembership = (Button) findViewById(R.id.backMembership);
+        CERTIFY = (TextView) findViewById(R.id.CERTIFY);
         inputPhoneNumber = (EditText) findViewById(R.id.inputPhoneNumber);
         certifyBtn = (Button) findViewById(R.id.certifyBtn);
+
+        backMembership.setTypeface(typeface); //버튼안 text에서도 font 적용
+        CERTIFY.setTypeface(typeface);
+        inputPhoneNumber.setTypeface(typeface);
+        certifyBtn.setTypeface(typeface);
+
         SharedPreferences preferencesApiToken = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 토큰값 가져오기
         apiToken = preferencesApiToken.getString("apiToken"," ");
 
@@ -51,12 +68,37 @@ public class CertifyActivity extends Activity {
 
     }
 
+    private void setFont() {
+        if(typeface==null) {
+            typeface = Typeface.createFromAsset(getAssets(), TYPEFACE_NAME);
+        }else{
+            Log.e(TAG,"폰트가 없습니다.");
+        }
+    }
+    @Override
+    public void setContentView(int viewId) {
+        View view = LayoutInflater.from(this).inflate(viewId, null);
+        ViewGroup group = (ViewGroup)view;
+        int childCnt = group.getChildCount();
+        for(int i=0; i<childCnt; i++){
+            View v = group.getChildAt(i);
+            if(v instanceof TextView){
+                ((TextView)v).setTypeface(typeface);
+            }else if(v instanceof Button){
+                ((Button)v).setTypeface(typeface);
+            }
+        }
+        super.setContentView(view);
+    }
+
+
     View.OnClickListener backMembershipListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
             Log.i(TAG,"뒤로가기 버튼");
             Intent intent = new Intent(CertifyActivity.this,MemberShipActivity.class);
             startActivity(intent);
+            finish();
         }
     };
     View.OnClickListener certifyBtnListener = new View.OnClickListener(){
