@@ -91,7 +91,7 @@
             android:layout_width="fill_parent"
             android:layout_marginTop="20dp"
             android:layout_height="80dp"
-            android:background="@drawable/btn_gray"
+            android:background="@drawable/btn_selector"
             android:text="노챗 인증받기"
             android:textColor="@color/uwhite"
             android:textAppearance="?android:attr/textAppearanceLarge"/>

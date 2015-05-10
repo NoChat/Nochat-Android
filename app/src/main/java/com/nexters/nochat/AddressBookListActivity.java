@@ -174,7 +174,6 @@ public class AddressBookListActivity extends ListActivity
 
 
             }
-            //contactCursor.close();
 
             return contactlist;
 
@@ -210,7 +209,7 @@ public class AddressBookListActivity extends ListActivity
         AddressBookSearchAdapter<AddressBook> searchAdapter = new AddressBookSearchAdapter<AddressBook>(
                 this, R.layout.layout_phonelist, contactlist);
         setListAdapter(searchAdapter);
-        //searchAdapter.notifyDataSetChanged();
+        searchAdapter.notifyDataSetChanged();
     }
 
  }

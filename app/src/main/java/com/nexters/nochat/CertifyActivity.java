@@ -1,12 +1,14 @@
 package com.nexters.nochat;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,10 +41,11 @@ public class CertifyActivity extends Activity {
     private Typeface typeface = null; //font
     private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
 
-    String phoneNumberValue; //폰번호 값
-    String apiToken; //폰에 저장된(SharedPreferences) 토큰값
+    private String phoneNumberValue; //폰번호 값
+    private String apiToken; //폰에 저장된(SharedPreferences) 토큰값
     private RequestParams paramData; //인증번호 요청 관련 param data
 
+    private String myPhoneNumber; //본인 폰번호
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,12 +63,26 @@ public class CertifyActivity extends Activity {
         inputPhoneNumber.setTypeface(typeface);
         certifyBtn.setTypeface(typeface);
 
+        callMyNumber();
+
         SharedPreferences preferencesApiToken = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 토큰값 가져오기
         apiToken = preferencesApiToken.getString("apiToken"," ");
 
         backMembership.setOnClickListener(backMembershipListener);
         certifyBtn.setOnClickListener(certifyBtnListener);
 
+
+    }
+    /*  본인 번호 가져오기    */
+    public void callMyNumber() {
+        TelephonyManager systemService = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        myPhoneNumber = systemService.getLine1Number();
+        myPhoneNumber = myPhoneNumber.substring(myPhoneNumber.length() - 10, myPhoneNumber.length());
+        myPhoneNumber = "0" + myPhoneNumber;
+
+        inputPhoneNumber.setText(myPhoneNumber);
+        Log.i("inputMyNumber값1 : ",myPhoneNumber);
+        inputPhoneNumber.setEnabled(false); //사용자입력막기
     }
 
     private void setFont() {
@@ -104,11 +121,15 @@ public class CertifyActivity extends Activity {
     View.OnClickListener certifyBtnListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
-            phoneNumberValue = inputPhoneNumber.getText().toString();
+            //phoneNumberValue = inputPhoneNumber.getText().toString();
+            Log.i("inputMyNumber값2 : ",myPhoneNumber);
+            phoneNumberValue = myPhoneNumber;
             jsonDateSetting(phoneNumberValue);
 
         }
     };
+
+
 
     /* 서버로 보낼 json data 세팅*/
     private void jsonDateSetting(String phoneNumberValue){

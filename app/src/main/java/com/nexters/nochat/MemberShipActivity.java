@@ -55,7 +55,7 @@ public class MemberShipActivity extends Activity {
     private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
 
     private RequestParams paramData; //회원가입 요청 관련 param data
-    String apiToken; //토큰값
+    private String apiToken; //토큰값
     private String regId; // preferences에서 뽑아와서 담을 변수
     @Override
     protected void onCreate(Bundle savedInstanceState) {
