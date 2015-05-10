@@ -5,17 +5,20 @@
     android:orientation="horizontal" >
 
     <LinearLayout
+        android:id="@+id/tv_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFFFF"
+        android:layout_height="50dp"
         android:gravity="center_vertical"
-        android:weightSum="10" >
+        android:weightSum="10">
 
-        <ImageView
-            android:id="@+id/iv_photo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:scaleType="fitXY" />
+        <!--<CheckedTextView
+            android:id="@+id/tv_Checked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:checkMark="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center_vertical" />-->
 
         <TextView
             android:id="@+id/tv_name"
@@ -23,8 +26,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:singleLine="true"
+            android:gravity="center"
             android:text="우지민"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@color/uolive"/>
 
         <TextView
             android:id="@+id/tv_phonenumber"
@@ -34,7 +39,8 @@
             android:layout_weight="6"
             android:singleLine="true"
             android:text="000-0000-0000"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@color/uolive"/>
     </LinearLayout>
 
 </LinearLayout>

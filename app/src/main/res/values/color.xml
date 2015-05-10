@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="transparent">#00000000</color>
+    <color name="backgroundgray">#3a3a38</color>
+    <color name="uwhite">#FAF9F5</color>
+    <color name="ugray">#ECECEC</color>
+    <color name="usilver">#BDB5A7</color>
+    <color name="upeach">#FFF3DC</color>
+    <color name="uyellow">#FFC513</color>
+    <color name="usyellow">#FA521F</color>
+    <color name="uolive">#7A521F</color>
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FFFF00</color>
     <color name="fuchsia">#FF00FF</color>

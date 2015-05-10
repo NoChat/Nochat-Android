@@ -1,16 +1,15 @@
 package com.nexters.nochat;
 
 public class AddressBook {
-    //long photoid;
-    String phonenum;
-    String name;
+    private  String phonenum;
+    private  String name;
 
-    //	public long getPhotoid() {
-//		return photoid;
-//	}
-//	public void setPhotoid(long photoid) {
-//		this.photoid = photoid;
-//	}
+    public AddressBook(){}
+    public AddressBook(String name, String phonenum) {
+        this.name = name;
+        this.phonenum = phonenum;
+    }
+
     public String getPhonenum() {
         return phonenum;
     }

@@ -27,8 +27,8 @@
         android:layout_alignBottom="@id/myImageView"
         android:gravity="center"
         android:text="NO CHAT"
-        android:textSize="20dp"
-        android:textColor="@color/black" />
+        android:textSize="30dp"
+        android:textColor="@color/uwhite" />
 
     </RelativeLayout>
 

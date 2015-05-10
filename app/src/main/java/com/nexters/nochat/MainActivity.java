@@ -109,10 +109,10 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
         @Override
         public void onClick(View v) {
             Log.i(TAG, "member joining method");
-            Intent intent = new Intent(MainActivity.this, MemberShipActivity.class);
-            startActivity(intent);
-            /*Intent intent = new Intent(MainActivity.this, FriendsListActivity.class);
+            /*Intent intent = new Intent(MainActivity.this, MemberShipActivity.class);
             startActivity(intent);*/
+            Intent intent = new Intent(MainActivity.this, FriendsListActivity.class);
+            startActivity(intent);
         }
     };
 
@@ -121,7 +121,7 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
         @Override
         public void onClick(View v) {
             Log.i(TAG, "Click Login");
-            Intent intent = new Intent(MainActivity.this, FriendsListActivity.class);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }
     };

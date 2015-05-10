@@ -4,20 +4,92 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <Button
-        android:id = "@+id/sendMessage"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="250dp"
-        android:onClick="OnClickSendMessage"
-        android:text="전송" />
+        android:background="@color/upeach">
+
+        <ImageView
+            android:id="@+id/inviteView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_marginTop="0dp"
+            android:paddingTop="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/nav_bar" />
+
+        <TextView
+            android:id="@+id/inviteViewText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/inviteView"
+            android:layout_alignTop="@id/inviteView"
+            android:layout_alignRight="@id/inviteView"
+            android:layout_alignBottom="@id/inviteView"
+            android:gravity="center"
+            android:text="초대하기"
+            android:textSize="30dp"
+            android:textColor="@color/uwhite" />
+
+        <!--<TextView
+            android:id="@+id/sendMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="20dp"
+            android:text="완료"
+            android:textColor="@color/uwhite"
+            android:textSize="20dp"/>-->
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|center_horizontal"
+        android:orientation="vertical"
+        android:background="@color/upeach">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center|center_horizontal">
+
+            <EditText
+                android:id="@+id/inviteSearchText"
+                android:layout_width="350dp"
+                android:layout_height="49dp"
+                android:gravity="center_horizontal"
+                android:hint="연락처로 검색하거나, 직접 입력할 수 있어요"
+                android:textSize="15sp"
+                android:textColor="@color/usilver"
+                android:maxLines="1"
+                android:maxLength="30"
+                android:background="@drawable/search_bg">
+            </EditText>
+
+            <ImageView
+                android:id="@+id/inviteSearchIcon"
+                android:gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/icon_search"/>
+
+        </RelativeLayout>
+     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/uyellowline">
 
     <ListView
-        android:id="@+id/lv_contactlist"
+        android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:listSelector="@drawable/list_selector" >
-
     </ListView>
+
+    </LinearLayout>
 
 </LinearLayout>
