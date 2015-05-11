@@ -14,7 +14,7 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG,"In onReceive");
-        Toast.makeText(context, "GCM테스트입니다.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "GCM테스트입니다ㅁ럼댜ㅐ럼;댜ㅐㅓㄹ;ㅐㅑㅓㅁㄹㄷ;ㅐㅓㅁㄹ대ㅑ;.", Toast.LENGTH_SHORT).show();
         /*AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setPositiveButton("닫기", new DialogInterface.OnClickListener() {
             @Override

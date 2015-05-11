@@ -2,13 +2,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/splash_bg"
+    android:background="@drawable/login_bg"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="5"
+        android:layout_weight="3"
         android:gravity="center"
         android:orientation="vertical" >
     <TextView
@@ -42,9 +42,11 @@
         <Button
             android:id="@+id/joinBtn"
             android:layout_gravity="center_horizontal|center"
-            android:layout_marginTop="20dp"
-            android:layout_width="300dp"
-            android:layout_height="80dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:background="@drawable/btn_blue"
             android:text="노챗 가입하기"
             android:textColor="@color/white"
@@ -53,8 +55,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_weight="2"
-            android:gravity="center"
+            android:layout_weight="1"
+            android:gravity="top|center"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal" >
 
         <TextView

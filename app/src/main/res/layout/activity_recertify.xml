@@ -2,13 +2,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/black">
+    android:background="@color/backgroundgray">
 
     <Button
         android:id="@+id/backCertifyBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/icon_back"/>
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
+        android:background="@drawable/btn_close"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,24 +23,32 @@
             android:id="@+id/RECERTIFY"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
+            android:gravity="center|top"
+            android:layout_marginTop="30dp"
             android:text="인증번호를 입력해주세요"
-            android:textColor="#ffffff"
-            android:lines="1"
-            android:layout_weight="2"
+            android:textColor="@color/uwhite"
+            android:lines="2"
+            android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
             android:id="@+id/inputCertify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
+            android:layout_weight="1"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/uline"
+
             android:inputType="textPersonName"
-            android:hint="                         인증번호 입력"
+            android:hint="인증번호 입력"
+            android:textColorHint="@color/defaultgray"
+            android:textColor="@color/ublack"
+            android:singleLine="true"
+            android:gravity="center"
             android:ems="10"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1" />
+            android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
 
@@ -53,12 +63,14 @@
         <Button
             android:id="@+id/startNochatBtn"
             android:layout_gravity="center_horizontal|center"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_height="60dp"
             android:background="@drawable/btn_blue"
             android:text="노챗 시작하기"
-            android:textColor="#ffffff"
-            android:textSize="15dp"/>
+            android:textColor="@color/uwhite"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     </LinearLayout>
 </LinearLayout>

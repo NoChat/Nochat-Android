@@ -8,6 +8,8 @@
         android:id="@+id/backMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
         android:background="@drawable/icon_back"/>
 
     <LinearLayout
@@ -21,9 +23,9 @@
             android:id="@+id/membershipTitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="친구끼리 무슨말이 필요해? \n 간단한 가입으로 친구와 소통하세요"
+            android:gravity="center|top"
+            android:layout_marginTop="30dp"
+            android:text="친구끼리 말이 필요해? \n 간단한 가입으로 친구와 소통하세요"
             android:textColor="@color/uwhite"
             android:lines="2"
             android:layout_weight="1"
@@ -40,28 +42,35 @@
 
         <EditText
             android:id="@+id/memberShipId"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
             android:layout_weight="1"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
             android:background="@drawable/uline"
             android:hint="아이디 입력(영문)"
+            android:textColorHint="@color/defaultgray"
+            android:textColor="@color/ublack"
             android:singleLine="true"
             android:gravity="center"
-            android:textColor="@color/gray"
             android:ems="10"
-
             android:layout_gravity="center_horizontal" />
 
         <EditText
             android:id="@+id/memberShipPassword"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
             android:layout_weight="1"
-            android:background="@drawable/uline"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@color/uwhite"
             android:inputType="textPassword"
             android:singleLine="true"
             android:hint="비밀번호 입력"
+            android:textColorHint="@color/defaultgray"
+            android:textColor="@color/ublack"
             android:gravity="center"
+
             android:ems="10"
             android:layout_gravity="center_horizontal"/>
 
@@ -70,7 +79,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:gravity="center|top"
         android:orientation="vertical" >
 
@@ -88,10 +97,12 @@
         <Button
             android:id="@+id/memberShipBtn"
             android:layout_gravity="center_horizontal|center"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_marginTop="20dp"
-            android:layout_height="80dp"
-            android:background="@drawable/btn_selector"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_height="60dp"
+            android:background="@drawable/btn_blue"
             android:text="노챗 인증받기"
             android:textColor="@color/uwhite"
             android:textAppearance="?android:attr/textAppearanceLarge"/>

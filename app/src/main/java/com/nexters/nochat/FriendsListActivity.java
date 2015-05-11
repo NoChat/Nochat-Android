@@ -258,6 +258,7 @@ public class FriendsListActivity extends Activity {
 
                 case R.id.bt_cancel :
                     Log.i(OTAG, "In bt_cancel");
+                    dialog.cancel();
                     break;
 
             }
@@ -298,8 +299,8 @@ public class FriendsListActivity extends Activity {
     private void AsyncHttpClient(String chatTypeId) {
         //GCM => http://leminity.tistory.com/27
         RequestParams paramData = new RequestParams();
-        paramData.put("userId",getPositionId);
-        paramData.put("chatTypeId",chatTypeId); // lol, alcohol, rice, coffee
+        paramData.put("userId",getPositionId);//userId = 번호값으로 변경
+        paramData.put("chatTypeId",chatTypeId); // lol, alcohol, rice, coffee , smoking
         paramData.put("apiToken",apiToken);
 
         Log.i(CTAG, "#서버와 통신 준비중#" + "PARAMDATA:" + paramData);
