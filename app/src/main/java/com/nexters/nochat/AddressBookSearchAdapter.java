@@ -32,7 +32,7 @@ class AddressBookSearchAdapter<T extends AddressBook> extends ArrayAdapter<T> {
             //주소록 이름
             TextView viewName = (TextView) view.findViewById(R.id.tv_name);
             if (viewName != null) {
-                viewName.setText(contacts.getName() + " "+position);
+                viewName.setText(contacts.getName());
             }
             //주소록 번호
             TextView viewPoneNumber = (TextView) view.findViewById(R.id.tv_phonenumber);

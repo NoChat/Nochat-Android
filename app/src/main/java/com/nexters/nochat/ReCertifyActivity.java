@@ -287,7 +287,7 @@ public class ReCertifyActivity extends Activity {
                     phoneJsonArray = response.getJSONArray("data");
                     ArrayList<Map<String,String>> sfL = new ArrayList<Map<String,String>>();
 
-                    //기존에 DB내용 Clean ------->>                                                  //_id는 계속 추가됨(해결해야함)
+                    //기존 디비내용 삭제
                     dataManager.deleteAll();
                     dataManager2.deleteAll2();
 
@@ -297,7 +297,8 @@ public class ReCertifyActivity extends Activity {
                         serverFriend = (String)phoneJsonObject.get("phoneNumber");
 
                         userIdJsonObject = (JSONObject) phoneJsonArray.get(i);
-                        serverUserId = (String)userIdJsonObject.get("loginId");
+                        //serverUserId = (String)userIdJsonObject.get("id");
+                        serverUserId = String.valueOf(userIdJsonObject.get("id"));
 
                         System.out.println("ServerFriendsList : "+serverFriend+" UserId:"+serverUserId);
                         //서버에서 얻은 친구리스트에 해당하는 hashMap 객체 생성
@@ -307,13 +308,14 @@ public class ReCertifyActivity extends Activity {
                         // 서버에 저장되어 있는 key값에 해당하는 친구리스트를 주소록에서 찾는다.
                         if(set.contains(serverFriend)){
 
-                            //hashPhoneMap의 serverFriend 대한 value 호출
+                            //hashPhoneMap은 serverFriend(번호) 대한 value(내주소록 친구이름) 호출
                             String hashValue = hashPhoneMap.get(serverFriend);
+                            Log.i(CTAG,"hashValue값은 :"+hashValue);
 
-                            /*(임시용)UserId를 쓰기위해 serverMap에 담는다
+                            /*UserId를 쓰기위해 serverMap에 담는다
                                 확인후 디비에 추가해야함 */
                             serverMap.put(serverFriend,serverUserId);
-                            sfL.add(serverMap);                                                     //임시용.
+                            sfL.add(serverMap);                                                     //임시용.(콘솔확인용)
 
                             //DB 저장
                             dataManager.insertUsrFriends(serverFriend,hashValue);

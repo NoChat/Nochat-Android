@@ -38,6 +38,7 @@ import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
@@ -82,15 +83,15 @@ public class FriendsListActivity extends Activity {
     */
     private LinearLayout layout_nameSpace;
     private LinearLayout layout_dialog;
-    private TextView user_name;
     private TextView myImageViewText; //문구
+    private TextView dialogTextView; // "밥보냄! , 술보냄! 등등"
 
     private Typeface typeface = null; //font
     private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
 
 
     //이미지 변경
-    ImageView img0;
+    //ImageView img0;
 
     //list에 부여된 친구 user_id값
     String getPositionId;
@@ -157,9 +158,10 @@ public class FriendsListActivity extends Activity {
                 layout_nameSpace = (LinearLayout)view.findViewById(R.id.layout_nameSpace);
                 layout_dialog = (LinearLayout)view.findViewById(R.id.layout_dialog);
                 myImageViewText = (TextView)findViewById(R.id.myImageViewText);
-                user_name = (TextView)findViewById(R.id.user_name);
+                dialogTextView = (TextView)findViewById(R.id.dialogTextView);
 
                 myImageViewText.setTypeface(typeface);
+                dialogTextView.setTypeface(typeface);
 
                 dialog = new Dialog(mContext);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -170,7 +172,7 @@ public class FriendsListActivity extends Activity {
                 dialog.show();
 
                 //클릭시 레이아웃 변경
-                img0 = (ImageView)layout_dialog.findViewById(R.id.img0); //지금은 하나. =>ex) lol 클릭시 "lol보냄!" 이미지 보여주는 곳. 차후에 종류별로 만들어야한다
+                //img0 = (ImageView)layout_dialog.findViewById(R.id.img0); //지금은 하나. =>ex) lol 클릭시 "lol보냄!" 이미지 보여주는 곳. 차후에 종류별로 만들어야한다
 
                 //Dialog layout
                 ImageView bt1_lol = (ImageView)layout.findViewById(R.id.bt1_lol);
@@ -252,7 +254,7 @@ public class FriendsListActivity extends Activity {
 
                 case R.id.bt5_smoking :
                     Log.i(OTAG, "In bt5_smoking");
-                    chatTypeId = coffee;
+                    chatTypeId = smoking;
                     dialogItemEvent(R.id.bt5_smoking, chatTypeId);
                     break;
 
@@ -267,31 +269,14 @@ public class FriendsListActivity extends Activity {
 
     /*  Item클릭시 다이로그 이벤트 처리 */
     public void dialogItemEvent(int bt_id, String chatTypeId){
-        Log.i(TAG, "case R.id.");
-
-        AsyncHttpClient(chatTypeId);                                                             //이거 위치가 중요한대.. 조금 더 생각해봐야함
-
+        Log.i(TAG, "case R.id."+bt_id);
+        Log.d("test","다이로그 들어옴1");
         mHandler = new Handler();
         //이름 보이는 화면 ->안보이게
-        img0.setImageResource(R.drawable.ic_launcher);
-        layout_nameSpace.setVisibility(View.GONE);
-        layout_dialog.setVisibility(View.VISIBLE);
+        //img0.setImageResource(R.drawable.ic_launcher);
 
-        /*3초 동안 보여질 화면
-         -> 이미지가 3초동안 밥으로 바뀜 */
-        Runnable mMyTask = new Runnable() {
-            @Override
-            public void run() {
-
-                Log.d("test","timer");
-                //3초후에 실행되는 일들 ->이름이 보여야지
-                layout_nameSpace.setVisibility(View.VISIBLE);
-                layout_dialog.setVisibility(View.GONE);
-            }
-        };
-        mHandler.postDelayed(mMyTask, 1000); // 3초후에 실행 mMyTask를 실행
-        //3초 후에 이루어질 일을 등록
-        dialog.dismiss();
+        //다이로그 눌렀을때 친구이름은 감추고, chatTypeId보여줌
+        AsyncHttpClient(chatTypeId);                                                             //이거 위치가 중요한대.. 조금 더 생각해봐야함
 
     }
 
@@ -311,6 +296,26 @@ public class FriendsListActivity extends Activity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.i(CTAG, "json response Success");
                 System.out.println("인증요청관련 response : " + response.toString());
+
+                JSONObject resData = null;
+                JSONObject chatType = null;
+                String jsonTypeName = null;
+                try {
+                    resData = response.getJSONObject("data");
+                    chatType = resData.getJSONObject("chatType");
+                    jsonTypeName = chatType.getString("name");
+                    Log.i(CTAG,"jsonTypeName값 :"+jsonTypeName);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                //다이로그 클릭시 일어나는 일
+                dialogTextView.setText(jsonTypeName+" "+"보냄!");
+                layout_nameSpace.setVisibility(View.GONE);
+                layout_dialog.setVisibility(View.VISIBLE);
+                Log.d("test","보냄!눌림, 보냄메세지보여야함 2");
+                runnableTask();
+
             }
 
 
@@ -322,6 +327,24 @@ public class FriendsListActivity extends Activity {
 
             }
         });
+    }
+
+    /*  3초후 */
+    protected void runnableTask(){
+        //3초후에 실행되는 일 ->(원래대로)친구이름이 보여줌
+        Runnable mMyTask = new Runnable() {
+            @Override
+            public void run() {
+
+                Log.d("test","timer");
+                layout_dialog.setVisibility(View.GONE);
+                layout_nameSpace.setVisibility(View.VISIBLE);
+                Log.d("test","원래대로 친구이름을 보여줘야함 3");
+            }
+        };
+        mHandler.postDelayed(mMyTask, 1000); // 3초후에 실행 mMyTask를 실행
+        dialog.dismiss();
+        Log.d("test","모든 다이로그 작업이 끈남 4");
     }
 
     /*  초대하기 관련 Listener */

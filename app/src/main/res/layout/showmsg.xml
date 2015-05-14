@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_weight="2"
+            android:gravity="center|center_horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:background="@drawable/btn_close"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/circle_pink"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:src="@drawable/circle_large_pink" />
+
+                <TextView
+                    android:id="@+id/msgFromText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:text="From."
+                    android:textColor="@color/uwhite"
+                    android:textSize="25sp">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/msgUserName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_horizontal"
+                    android:layout_marginTop="40dp"
+                    android:text="김노챗"
+                    android:textColor="@color/uwhite"
+                    android:textSize="25sp">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/msgChatType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_horizontal"
+                    android:layout_marginTop="80dp"
+                    android:text="밥"
+                    android:textColor="@color/uwhite"
+                    android:textSize="80sp">
+                </TextView>
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:gravity="center|top"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_msgLike"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_height="60dp"
+                android:background="@drawable/btn_pink"
+                android:text="좋아요"
+                android:textColor="@color/uwhite"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+            <Button
+                android:id="@+id/btn_msgHate"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_height="60dp"
+                android:background="@drawable/btn_darkgray"
+                android:text="싫어요"
+                android:textColor="@color/uwhite"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+
+
+    </LinearLayout>
+</LinearLayout>
+

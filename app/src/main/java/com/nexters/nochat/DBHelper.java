@@ -22,9 +22,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 "usr_phoneNumber text," +
                 "usr_name text);" ;
         db.execSQL(sql);
-     /* ----------------------------------------------------------------------- */
-
-        //db.execSQL("create table phoneId(_id integer primary key autoincrement, phoneNumberI text, userI text)");
     }
 
     @Override
@@ -32,7 +29,6 @@ public class DBHelper extends SQLiteOpenHelper {
         //지금은 기존의 데이터를 모두 지우고 다시 만든다
         Log.i(TAG, "In onUpgrade");
         db.execSQL("DROP TABLE IF EXISTS usrFriends");
-        //db.execSQL("DROP TABLE IF EXISTS phoneId");
         onCreate(db);
     }
 }

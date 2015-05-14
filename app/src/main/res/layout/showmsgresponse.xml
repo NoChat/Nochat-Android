@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_weight="4"
+        android:gravity="center|center_horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_resCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:background="@drawable/btn_close"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/circle_resPink"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:src="@drawable/circle_large_pink" />
+
+            <TextView
+                android:id="@+id/msgResUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|center_horizontal"
+                android:layout_marginTop="40dp"
+                android:text="유지민 님이"
+                android:textColor="@color/uwhite"
+                android:textSize="25sp">
+            </TextView>
+
+            <TextView
+                android:id="@+id/msgResChatType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|center_horizontal"
+                android:layout_marginTop="80dp"
+                android:text="밥"
+                android:textColor="@color/uwhite"
+                android:textSize="80sp">
+            </TextView>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="3"
+        android:gravity="center|top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/msgResponse"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top|center_horizontal"
+            android:text="좋대요"
+            android:textColor="@color/uwhite"
+            android:textSize="60sp">
+        </TextView>
+
+
+
+
+    </LinearLayout>
+</LinearLayout>
+
