@@ -81,8 +81,8 @@ public class FriendsListActivity extends Activity {
     * layout_nameSpace =>   friendslist_row_item.xml의 Layout 부분 -->다이로그 선택시 3초후 다시 이름 보여주는 부분
     * layout_dialog =>    friendslist_row_item.xml의 Layout 부분 -->다이로그 선택시 3초동안 선택된 다이로그 보여주는 부분
     */
-    private LinearLayout layout_nameSpace;
-    private LinearLayout layout_dialog;
+    private RelativeLayout layout_nameSpace;
+    private RelativeLayout layout_dialog;
     private TextView myImageViewText; //문구
     private TextView dialogTextView; // "밥보냄! , 술보냄! 등등"
 
@@ -151,12 +151,12 @@ public class FriendsListActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //item별 id를 가져온다.
                 getPositionId = (String)friendsListAdapter.getItem2(position);
-                Toast.makeText(getApplicationContext(), "선택된아이템은  " + getPositionId, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "선택된아이템은  " + getPositionId, Toast.LENGTH_LONG).show();
 
                 Context mContext = parent.getContext(); //FriendsListAdapter의 view 정보
 
-                layout_nameSpace = (LinearLayout)view.findViewById(R.id.layout_nameSpace);
-                layout_dialog = (LinearLayout)view.findViewById(R.id.layout_dialog);
+                layout_nameSpace = (RelativeLayout)view.findViewById(R.id.layout_nameSpace);
+                layout_dialog = (RelativeLayout)view.findViewById(R.id.layout_dialog);
                 myImageViewText = (TextView)findViewById(R.id.myImageViewText);
                 dialogTextView = (TextView)findViewById(R.id.dialogTextView);
 
@@ -272,17 +272,15 @@ public class FriendsListActivity extends Activity {
         Log.i(TAG, "case R.id."+bt_id);
         Log.d("test","다이로그 들어옴1");
         mHandler = new Handler();
-        //이름 보이는 화면 ->안보이게
-        //img0.setImageResource(R.drawable.ic_launcher);
 
         //다이로그 눌렀을때 친구이름은 감추고, chatTypeId보여줌
-        AsyncHttpClient(chatTypeId);                                                             //이거 위치가 중요한대.. 조금 더 생각해봐야함
+        AsyncHttpClient(chatTypeId);
 
     }
 
     /* AsyncHttpClient 사용해 서버와 통신*/
     private void AsyncHttpClient(String chatTypeId) {
-        //GCM => http://leminity.tistory.com/27
+
         RequestParams paramData = new RequestParams();
         paramData.put("userId",getPositionId);//userId = 번호값으로 변경
         paramData.put("chatTypeId",chatTypeId); // lol, alcohol, rice, coffee , smoking
@@ -344,7 +342,6 @@ public class FriendsListActivity extends Activity {
         };
         mHandler.postDelayed(mMyTask, 1000); // 3초후에 실행 mMyTask를 실행
         dialog.dismiss();
-        Log.d("test","모든 다이로그 작업이 끈남 4");
     }
 
     /*  초대하기 관련 Listener */

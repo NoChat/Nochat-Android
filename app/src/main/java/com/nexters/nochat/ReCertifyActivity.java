@@ -64,8 +64,9 @@ public class ReCertifyActivity extends Activity {
     private HashMap<String,String> hashPhoneMap; //주소록(name,phoneNumber)
     private HashMap<String,String> serverMap; // 서버에서 얻어온 번호에 해당하는 HashMap
 
-    DataManager dataManager;
-    DataManager2 dataManager2;
+    private DataManager dataManager;
+    private DataManager2 dataManager2;
+    private DataManager3 dataManager3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,7 @@ public class ReCertifyActivity extends Activity {
 
         dataManager = new DataManager(this);
         dataManager2 = new DataManager2(this);
+        dataManager3 = new DataManager3(this);
 
     }
 
@@ -290,6 +292,7 @@ public class ReCertifyActivity extends Activity {
                     //기존 디비내용 삭제
                     dataManager.deleteAll();
                     dataManager2.deleteAll2();
+                    dataManager3.deleteAll3();
 
                     // for문을 돌면서 phoneNumber 값들을 가져온다
                     for(int i = 0; i<phoneJsonArray.length(); i ++) {
@@ -320,6 +323,7 @@ public class ReCertifyActivity extends Activity {
                             //DB 저장
                             dataManager.insertUsrFriends(serverFriend,hashValue);
                             dataManager2.insertUsrId(serverFriend, serverUserId);
+                            dataManager3.insertUserInfo(serverUserId,hashValue);
 
                         }else{
                             Log.i("set.contains(serverFriend)","if에 대한 set처리 실패");

@@ -17,9 +17,9 @@ public class DataManager {
     private final String TAG = "DataManager";
     private Context context = null;
 
-    DBHelper helper;
-    UsrFriendsVO usrFriendsVO;
-    UsrIdVO usrIdVO;
+    private DBHelper helper;
+    private UsrFriendsVO usrFriendsVO;
+    private UsrIdVO usrIdVO;
 
     public DataManager(Context context)
     {

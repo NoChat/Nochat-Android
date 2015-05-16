@@ -11,8 +11,8 @@ public class DataManager2 {
     private final String TAG = "DataManager2";
     private Context context = null;
 
-    DBHelper2 helper2;
-    UsrIdVO usrIdVO;
+    private DBHelper2 helper2;
+    private UsrIdVO usrIdVO;
 
     public DataManager2(Context context)
     {
@@ -62,7 +62,7 @@ public class DataManager2 {
     public ArrayList<UsrIdVO> getUsrIdInfo()
     {
         Log.i(TAG, "in getUsrIdInfo");
-        ArrayList<UsrIdVO> usr_List = new ArrayList<UsrIdVO>(); //친구의 name 값만 담을 수 있는 List 생성.
+        ArrayList<UsrIdVO> usr_List = new ArrayList<UsrIdVO>(); //친구의 id 값만 담을 수 있는 List 생성.
         SQLiteDatabase db = helper2.getReadableDatabase();
         String sql = "select * from phoneId";
 

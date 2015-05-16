@@ -49,7 +49,7 @@
                 android:layout_marginTop="80dp"
                 android:text="밥"
                 android:textColor="@color/uwhite"
-                android:textSize="80sp">
+                android:textSize="50sp">
             </TextView>
 
 
@@ -70,7 +70,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="top|center_horizontal"
-            android:text="좋대요"
             android:textColor="@color/uwhite"
             android:textSize="60sp">
         </TextView>

@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
     android:layout_width="fill_parent"
     android:layout_height="100dp"
-    android:background="@drawable/btn_darkgray">
+    android:background="@drawable/btn_darkgray"
+    android:orientation="vertical">
     <!--?android:attr/listPreferredItemHeight-->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/layout_nameSpace"
         android:layout_height="100dp"
         android:layout_width="match_parent"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
         <TextView
             android:id="@+id/user_name"
             android:layout_height="wrap_content"
@@ -20,26 +22,16 @@
             android:gravity="center"
             android:text="우지민"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
-<!--        user_id는 서버에서 ("밥 보냄!, 롤 보냄! ")같은 문자를 받아서 뿌려준다. 지금은 layout_dialog에 해당하는 이미지만 출력중-->
-        <TextView
-            android:id="@+id/user_id"
-            android:visibility="gone"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:text="id"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
-    </LinearLayout>
-    <LinearLayout
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/layout_dialog"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         android:layout_width="match_parent"
         android:layout_centerVertical="true"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="invisible">
+        android:visibility="gone">
         <!--<ImageView
             android:id="@+id/img0"
             android:layout_width="fill_parent"
@@ -52,7 +44,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:text="보냄 !"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="@drawable/btn_pink"/>
 
-    </LinearLayout>
-</RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

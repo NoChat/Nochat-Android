@@ -179,6 +179,7 @@ public class AddressBookListActivity extends ListActivity
 
         }
 
+    /*  초성검색을 하기위해 세팅    */
     private void addContact(List<AddressBook> contactlist, String name,
                             String phonenumber) throws Exception {
         Log.i(STAG,"In addContact");

@@ -5,11 +5,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -32,8 +35,8 @@ public class showMsg extends Activity {
 
     private static final String TAG = "showMsg";
     private static final String CTAG = "AsyncHttpClient";
-    private static final String LIKEURL = "http://todaytrend.cafe24.com:9000/chats/14/ok";
-    private static final String HITEURL = "http://todaytrend.cafe24.com:9000/chats/14/no";
+    private String LIKEURL = null;
+    private String HITEURL = null;
 
     private Button btn_cancel; //닫기버튼
     private TextView msgFromText; //FROM 문구
@@ -44,12 +47,16 @@ public class showMsg extends Activity {
 
     private RequestParams paramData; //인증번호 요청 관련 param data
     private String apiToken; //토큰값
-    private String userName, msg;
+    private String userName, msg,chatId;
+
+    private Typeface typeface = null; //font
+    private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setFont(); //폰트적용
         setContentView(R.layout.showmsg);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         Log.e(TAG,"in showMsg");
@@ -60,10 +67,24 @@ public class showMsg extends Activity {
         btn_msgLike = (Button)findViewById(R.id.btn_msgLike);
         btn_msgHate = (Button)findViewById(R.id.btn_msgHate);
 
+        msgUserName.setTypeface(typeface);
+        msgChatType.setTypeface(typeface);
+        btn_msgLike.setTypeface(typeface);
+        btn_msgHate.setTypeface(typeface);
+
+
         //GcmBroadcastReceiver에서 받은 데이터들
         Bundle bun = getIntent().getExtras();
-        userName = bun.getString("title");
+        userName = bun.getString("userName");
         msg = bun.getString("msg");
+        chatId = bun.getString("chatId");
+        Log.e(TAG,userName+msg+chatId);
+
+        msgUserName.setText(userName);
+        msgChatType.setText(msg);
+
+        LIKEURL = "http://todaytrend.cafe24.com:9000/chats/"+chatId+"/ok";
+        HITEURL = "http://todaytrend.cafe24.com:9000/chats/"+chatId+"/no";
 
         SharedPreferences preferencesApiToken = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 토큰값 가져오기
         apiToken = preferencesApiToken.getString("apiToken"," ");
@@ -72,6 +93,31 @@ public class showMsg extends Activity {
         btn_msgLike.setOnClickListener(btn_msgLikeListener);
         btn_msgHate.setOnClickListener(btn_msgHateListener);
 
+    }
+
+    private void setFont() {
+        if(typeface==null) {
+            typeface = Typeface.createFromAsset(getAssets(), TYPEFACE_NAME);
+        }else{
+            Log.e(TAG, "폰트가 없습니다.");
+        }
+    }
+
+
+    @Override
+    public void setContentView(int viewId) {
+        View view = LayoutInflater.from(this).inflate(viewId, null);
+        ViewGroup group = (ViewGroup)view;
+        int childCnt = group.getChildCount();
+        for(int i=0; i<childCnt; i++){
+            View v = group.getChildAt(i);
+            if(v instanceof TextView){
+                ((TextView)v).setTypeface(typeface);
+            }else if(v instanceof Button){
+                ((Button)v).setTypeface(typeface);
+            }
+        }
+        super.setContentView(view);
     }
 
     /*닫기 버튼*/
@@ -89,6 +135,8 @@ public class showMsg extends Activity {
         public void onClick(View v) {
             Log.i(TAG,"btn_msgLikeListener");
             AsyncHttpClient(LIKEURL);
+            PushWakeLock.releaseCpuLock();
+            showMsg.this.finish();
 
         }
     };
@@ -98,6 +146,8 @@ public class showMsg extends Activity {
         public void onClick(View v) {
             Log.i(TAG,"btn_msgHateListener");
             AsyncHttpClient(HITEURL);
+            PushWakeLock.releaseCpuLock();
+            showMsg.this.finish();
         }
     };
 
@@ -116,8 +166,8 @@ public class showMsg extends Activity {
         Header[] headers = {new BasicHeader("apiToken",apiToken)};
         mClient.post(this, url, headers,paramData,"application/json", new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) { //reqBuilder.setHeader(String name, String value);
-                Log.i(CTAG, "json response Success");
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i(CTAG, "showMsg json response Success");
                 System.out.println(" response : " + response.toString());
             }
 

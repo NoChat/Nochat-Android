@@ -154,7 +154,11 @@ public class LoginActivity extends Activity {
                     if (certifyMSG.equals("12000")) {   //로그인 실패시
                         certifyCheck2.setVisibility(View.VISIBLE);
                         onStop();
-                    } else { //로그인 성공했을시
+                    }else if (certifyMSG.equals("12001")) {
+                        certifyCheck2.setVisibility(View.VISIBLE);
+                        onStop();
+                    }else
+                     { //로그인 성공했을시
                         startLoginActivity();
                     }
 
