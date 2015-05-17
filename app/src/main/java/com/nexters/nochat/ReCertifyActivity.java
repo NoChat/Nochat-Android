@@ -57,8 +57,8 @@ public class ReCertifyActivity extends Activity {
     private Typeface typeface = null; //font
     private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
 
-    String apiToken; //본인 apiToken값(SharedPreferences에 저장된값)
-    String phoneNumberValue; //본인 폰번호값(SharedPreferences에 저장된값)
+    private String apiToken; //본인 apiToken값(SharedPreferences에 저장된값)
+    private String phoneNumberValue; //본인 폰번호값(SharedPreferences에 저장된값)
     private RequestParams paramData; //인증번호 재확인 요청 관련 param data
     private RequestParams AddressBookparamData; // 주소록 정보 보내기 관련 param data
     private HashMap<String,String> hashPhoneMap; //주소록(name,phoneNumber)
@@ -75,7 +75,7 @@ public class ReCertifyActivity extends Activity {
         setFont(); //폰트적용
         setContentView(R.layout.activity_recertify);
 
-         backCertifyBtn = (Button) findViewById(R.id.backCertifyBtn);
+        backCertifyBtn = (Button) findViewById(R.id.backCertifyBtn);
         RECERTIFY = (TextView) findViewById(R.id.RECERTIFY);
         inputCertify = (EditText) findViewById(R.id.inputCertify);
         startNochatBtn = (Button) findViewById(R.id.startNochatBtn);

@@ -35,11 +35,11 @@ public class DataManager2 {
     }
 
     //업데이트
-    public void updateUsrId(int id, String usrPn, String usrID)
+    public void updateUsrId(String usrPn, String usrID)
     {
         Log.i(TAG, "in Update phoneId2");
         SQLiteDatabase db = helper2.getWritableDatabase();
-        String sql = "UPDATE phoneId SET id = '" + id + "', phoneNumberI = '"
+        String sql = "UPDATE phoneId SET phoneNumberI = '"
                 + usrPn + "', userI = '" + usrID + "';";
         Log.i("DataManager", sql);
         db.execSQL(sql);

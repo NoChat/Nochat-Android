@@ -23,7 +23,6 @@ public class DBHelper2 extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //지금은 기존의 데이터를 모두 지우고 다시 만든다
         Log.i(TAG, "In onUpgrade2");
         db.execSQL("DROP TABLE IF EXISTS phoneId");
         onCreate(db);

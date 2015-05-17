@@ -40,11 +40,11 @@ public class DataManager {
     }
 
     //업데이트
-    public void updateUsrFriends(int id, String usr_PN, String usr_N)
+    public void updateUsrFriends(String usr_PN, String usr_N)
     {
         Log.i(TAG, "in Update Usr_Friends");
         SQLiteDatabase db = helper.getWritableDatabase();
-        String sql = "UPDATE usrFriends SET id = '" + id + "', usr_PhoneNumber = '"
+        String sql = "UPDATE usrFriends SET usr_PhoneNumber = '"
                 + usr_PN + "', usr_Name = '" + usr_N + "';";
         Log.i("DataManager", sql);
         db.execSQL(sql);

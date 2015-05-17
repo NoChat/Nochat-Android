@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/uyellowline">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/contactUsView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/nav_bar"/>
+
+        <TextView
+            android:id="@+id/contactUsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/contactUsView"
+            android:layout_alignTop="@id/contactUsView"
+            android:layout_alignRight="@id/contactUsView"
+            android:layout_alignBottom="@id/contactUsView"
+            android:gravity="center"
+            android:text="CONTACT"
+            android:textSize="30dp"
+            android:textColor="@color/uwhite" />
+
+        <Button
+            android:id="@+id/contactUsBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="25dp"
+            android:background="@drawable/icon_back"/>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/uyellowline">
+        <ListView
+            android:id="@+id/contactUsListView"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+        </ListView>
+
+        <TextView
+            android:id="@+id/nexters"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            android:gravity="bottom|center_horizontal"
+            android:text="TEAMNEXTERS@GMAIL.COM"
+            android:textSize="20sp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/uolive"/>
+    </FrameLayout>
+
+</LinearLayout>

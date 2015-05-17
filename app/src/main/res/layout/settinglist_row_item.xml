@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/sl_layout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center|center_horizontal"
+        >
+
+        <TextView
+            android:id="@+id/sl_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            android:gravity="center|center_horizontal"
+            android:text="내 프로필"
+            android:textSize="30sp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/uolive"/>
+
+    </LinearLayout>
+
+</LinearLayout>

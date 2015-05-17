@@ -68,10 +68,16 @@
             android:name=".LoginActivity">
         </activity>
         <activity
-            android:name=".showMsg">
+            android:name=".SettingActivity">
         </activity>
         <activity
-            android:name=".showMsgResponse">
+            android:name=".ShowMsg">
+        </activity>
+        <activity
+            android:name=".ShowMsgResponse">
+        </activity>
+        <activity
+            android:name=".ContactUsActivity">
         </activity>
     </application>
 </manifest>

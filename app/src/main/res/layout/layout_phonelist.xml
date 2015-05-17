@@ -8,8 +8,7 @@
         android:id="@+id/tv_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="center_vertical"
-        android:weightSum="10">
+        android:gravity="center_vertical">
 
         <!--<CheckedTextView
             android:id="@+id/tv_Checked"
@@ -23,7 +22,7 @@
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="4"
             android:singleLine="true"
             android:gravity="center"
@@ -35,8 +34,9 @@
             android:id="@+id/tv_phonenumber"
             android:textIsSelectable="false"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="6"
+            android:layout_gravity="bottom"
             android:singleLine="true"
             android:text="000-0000-0000"
             android:textSize="20sp"

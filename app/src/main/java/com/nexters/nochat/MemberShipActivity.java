@@ -209,6 +209,7 @@ public class MemberShipActivity extends Activity {
         SharedPreferences.Editor editor = preferencesApiTokenValue.edit();
         if(paramValue.equals(apiToken)){
             editor.putString("apiToken",apiToken);
+            editor.putString("loginId",loginId);
             editor.commit();
         }else{
             System.out.println("sharedPreferences =====>에러");

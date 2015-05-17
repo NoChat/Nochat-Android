@@ -1,14 +1,10 @@
 package com.nexters.nochat;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +12,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -25,13 +20,9 @@ import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-public class showMsg extends Activity {
+public class ShowMsg extends Activity {
 
     private static final String TAG = "showMsg";
     private static final String CTAG = "AsyncHttpClient";
@@ -126,7 +117,7 @@ public class showMsg extends Activity {
         public void onClick(View v) {
             Log.i(TAG,"btn_cancelListener");
             PushWakeLock.releaseCpuLock();
-            showMsg.this.finish();
+            ShowMsg.this.finish();
         }
     };
 
@@ -136,7 +127,7 @@ public class showMsg extends Activity {
             Log.i(TAG,"btn_msgLikeListener");
             AsyncHttpClient(LIKEURL);
             PushWakeLock.releaseCpuLock();
-            showMsg.this.finish();
+            ShowMsg.this.finish();
 
         }
     };
@@ -147,7 +138,7 @@ public class showMsg extends Activity {
             Log.i(TAG,"btn_msgHateListener");
             AsyncHttpClient(HITEURL);
             PushWakeLock.releaseCpuLock();
-            showMsg.this.finish();
+            ShowMsg.this.finish();
         }
     };
 

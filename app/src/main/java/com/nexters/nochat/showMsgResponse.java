@@ -1,10 +1,8 @@
 package com.nexters.nochat;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-public class showMsgResponse extends Activity {
+public class ShowMsgResponse extends Activity {
 
     private static final String TAG = "showMsgResponse";
 
@@ -104,7 +102,7 @@ public class showMsgResponse extends Activity {
         public void onClick(View v) {
             Log.i(TAG,"btn_cancelListener");
             PushWakeLock.releaseCpuLock();
-            showMsgResponse.this.finish();
+            ShowMsgResponse.this.finish();
         }
     };
 

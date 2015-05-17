@@ -5,6 +5,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,20 +43,24 @@ public class AddressBookListActivity extends ListActivity
     private ArrayList<AddressBook> contactlist; //onListItem 에서 사용하기 위해 선언
 
     private ListView lv_contactlist;
-    private TextView sendMessage;
-    private ArrayList bookList;
-    private int getvPositionId;
     private EditText inviteSearchText;
+    private Button addressBookBackBtn;
+    private TextView inviteViewText;
 
-// http://www.androidside.com/bbs/board.php?bo_table=B46&wr_id=11861
+    private Typeface typeface = null; //font
+    private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addressbooklist);
+        setFont(); //폰트적용
         inviteSearchText = (EditText) findViewById(R.id.inviteSearchText);
         lv_contactlist = (ListView) findViewById(android.R.id.list);
+        addressBookBackBtn = (Button) findViewById(R.id.addressBookBackBtn);
+        inviteViewText = (TextView) findViewById(R.id.inviteViewText);
+        inviteViewText.setTypeface(typeface);
         lv_contactlist.setSelector(R.drawable.list_selector);
-        //sendMessage = (TextView) findViewById(R.id.sendMessage);
 
         try{
             inviteSearchText.addTextChangedListener(new TextWatcher() {
@@ -106,7 +111,7 @@ public class AddressBookListActivity extends ListActivity
                             //데이터값중에 "-" 제거.
                             sendIntent.putExtra(FriendsListActivity.SELECTED_PHONE, phonenumber.getPhonenum().replaceAll("-", ""));
 
-                            String smsBody = "노챗입니다1";
+                            String smsBody = "친한 친구끼리만 쓴다는 메신저<노챗>";
                             sendIntent.putExtra("address", phonenumber.getPhonenum()); // 받는사람 번호
                             sendIntent.putExtra("sms_body", smsBody); // 보낼 문자
                             sendIntent.setType("vnd.android-dir/mms-sms");
@@ -116,14 +121,14 @@ public class AddressBookListActivity extends ListActivity
                             //안드로이드버전 4.4이상일때 예외처리해야함.
                             Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
                             sendIntent.setData(Uri.parse("smsto:" + Uri.encode(phonenumber.getPhonenum())));
-                            String smsBody = "노챗입니다2";
+                            String smsBody = "친한 친구끼리만 쓴다는 메신저<노챗>";
                             sendIntent.putExtra("address", phonenumber.getPhonenum()); // 받는사람 번호
                             sendIntent.putExtra("sms_body", smsBody); // 보낼 문자
                             startActivity(sendIntent);
                         }
                     }
                 });
-
+        addressBookBackBtn.setOnClickListener(addressBookBackBtnListener); //backBtn
     }
 
         /**
@@ -213,4 +218,37 @@ public class AddressBookListActivity extends ListActivity
         searchAdapter.notifyDataSetChanged();
     }
 
+    private void setFont() {
+        if(typeface==null) {
+            typeface = Typeface.createFromAsset(getAssets(), TYPEFACE_NAME);
+        }else{
+            Log.e(TAG,"폰트가 없습니다.");
+        }
+    }
+    @Override
+    public void setContentView(int viewId) {
+        View view = LayoutInflater.from(this).inflate(viewId, null);
+        ViewGroup group = (ViewGroup)view;
+        int childCnt = group.getChildCount();
+        for(int i=0; i<childCnt; i++){
+            View v = group.getChildAt(i);
+            if(v instanceof TextView){
+                ((TextView)v).setTypeface(typeface);
+            }else if(v instanceof Button){
+                ((Button)v).setTypeface(typeface);
+            }
+        }
+        super.setContentView(view);
+    }
+
+
+    /*  뒤로가기 Listener */
+    View.OnClickListener addressBookBackBtnListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            Log.i(TAG, "in addressBookBackBtnListener");
+            Intent intent = new Intent(AddressBookListActivity.this, SettingActivity.class);
+            startActivity(intent);
+        }
+    };
  }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/cu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center|center_horizontal"
+        android:weightSum="10">
+
+        <TextView
+            android:id="@+id/cu_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            android:gravity="center|center_horizontal"
+            android:text="서버개발은 김재영"
+            android:textSize="30sp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/uolive"/>
+
+    </LinearLayout>
+
+</LinearLayout>

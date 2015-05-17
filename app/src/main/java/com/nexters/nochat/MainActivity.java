@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -43,22 +44,20 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
     GoogleCloudMessaging gcm;
     private static final String SENDER_ID="467703711556";
     private String regId; //뽑아올 regid
+    private String apiToken; //토큰값
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        //regId 등록 여부 체크
-        /*GCMRegistrar.checkDevice(this);
-        GCMRegistrar.checkManifest(this);
-        String regId = GCMRegistrar.getRegistrationId(this);
-        if (regId.equals("")) {
-            GCMRegistrar.register(this, SENDER_ID);
-        } else {
-            Log.i("Main", "Already registered - " + regId );
-        }*/
-        registerBackground(); //get regid
+        //폰에 저장된 regId 가져오기
+        SharedPreferences preferencesapiToken = PreferenceManager.getDefaultSharedPreferences(this);
+        apiToken = preferencesapiToken.getString("regId"," ");
+        if(!(apiToken.isEmpty())){
+            Intent Fintent = new Intent(MainActivity.this, FriendsListActivity.class);
+            startActivity(Fintent);
+        }
+        registerBackground();
 
         setFont();  //폰트적용
         setContentView(R.layout.activity_main);

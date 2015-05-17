@@ -34,6 +34,18 @@ public class DataManager3 {
         helper3.close();
     }
 
+    //업데이트
+    public void updateUsrName(String userId, String userName)
+    {
+        Log.i(TAG, "in Update userInfo");
+        SQLiteDatabase db = helper3.getWritableDatabase();
+        String sql = "UPDATE userInfo SET userId = '"
+                + userId + "', userName = '" + userName + "';";
+        Log.i("DataManager", sql);
+        db.execSQL(sql);
+        helper3.close();
+    }
+
     //삭제
     public void deleteAll3()
     {
