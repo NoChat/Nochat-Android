@@ -52,7 +52,7 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         //폰에 저장된 regId 가져오기
         SharedPreferences preferencesapiToken = PreferenceManager.getDefaultSharedPreferences(this);
-        apiToken = preferencesapiToken.getString("regId"," ");
+        apiToken = preferencesapiToken.getString("apiToken"," ");
         if(!(apiToken.isEmpty())){
             Intent Fintent = new Intent(MainActivity.this, FriendsListActivity.class);
             startActivity(Fintent);
