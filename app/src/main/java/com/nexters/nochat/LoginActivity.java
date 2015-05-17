@@ -1,7 +1,9 @@
 package com.nexters.nochat;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -295,58 +297,58 @@ public class LoginActivity extends Activity {
                 Log.i(CTAG, "json response Success");
                 System.out.println("인증요청관련 response : " + response.toString());
                 try{
-                    JSONArray phoneJsonArray = null;
-                    JSONObject phoneJsonObject = null;
-                    String serverFriend = null; //서버에 등록되어있는 친구번호
+                        JSONArray phoneJsonArray = null;
+                        JSONObject phoneJsonObject = null;
+                        String serverFriend = null; //서버에 등록되어있는 친구번호
 
-                    JSONObject userIdJsonObject = null;
-                    String serverUserId = null; //서버에 등록되어있는 친구ID
+                        JSONObject userIdJsonObject = null;
+                        String serverUserId = null; //서버에 등록되어있는 친구ID
 
-                    phoneJsonArray = response.getJSONArray("data");
-                    ArrayList<Map<String,String>> sfL = new ArrayList<Map<String,String>>();
+                        phoneJsonArray = response.getJSONArray("data");
+                        ArrayList<Map<String, String>> sfL = new ArrayList<Map<String, String>>();
 
-                    //기존 디비내용 삭제
-                    dataManager.deleteAll();
-                    dataManager2.deleteAll2();
-                    dataManager3.deleteAll3();
+                        //기존 디비내용 삭제
+                        dataManager.deleteAll();
+                        dataManager2.deleteAll2();
+                        dataManager3.deleteAll3();
 
-                    // for문을 돌면서 phoneNumber 값들을 가져온다
-                    for(int i = 0; i<phoneJsonArray.length(); i ++) {
-                        phoneJsonObject = (JSONObject) phoneJsonArray.get(i);
-                        serverFriend = (String)phoneJsonObject.get("phoneNumber");
+                        // for문을 돌면서 phoneNumber 값들을 가져온다
+                        for (int i = 0; i < phoneJsonArray.length(); i++) {
+                            phoneJsonObject = (JSONObject) phoneJsonArray.get(i);
+                            serverFriend = (String) phoneJsonObject.get("phoneNumber");
 
-                        userIdJsonObject = (JSONObject) phoneJsonArray.get(i);
-                        //serverUserId = (String)userIdJsonObject.get("id");
-                        serverUserId = String.valueOf(userIdJsonObject.get("id"));
+                            userIdJsonObject = (JSONObject) phoneJsonArray.get(i);
+                            //serverUserId = (String)userIdJsonObject.get("id");
+                            serverUserId = String.valueOf(userIdJsonObject.get("id"));
 
-                        System.out.println("ServerFriendsList : "+serverFriend+" UserId:"+serverUserId);
-                        //서버에서 얻은 친구리스트에 해당하는 hashMap 객체 생성
-                        serverMap = new HashMap<String,String>();
-                        // Map에서 저장된 Key들을 가져올 Set을 만든다.
-                        Set<String> set = hashPhoneMap.keySet();
-                        // 서버에 저장되어 있는 key값에 해당하는 친구리스트를 주소록에서 찾는다.
-                        if(set.contains(serverFriend)){
+                            System.out.println("ServerFriendsList : " + serverFriend + " UserId:" + serverUserId);
+                            //서버에서 얻은 친구리스트에 해당하는 hashMap 객체 생성
+                            serverMap = new HashMap<String, String>();
+                            // Map에서 저장된 Key들을 가져올 Set을 만든다.
+                            Set<String> set = hashPhoneMap.keySet();
+                            // 서버에 저장되어 있는 key값에 해당하는 친구리스트를 주소록에서 찾는다.
+                            if (set.contains(serverFriend)) {
 
-                            //hashPhoneMap은 serverFriend(번호) 대한 value(내주소록 친구이름) 호출
-                            String hashValue = hashPhoneMap.get(serverFriend);
-                            Log.i(CTAG,"hashValue값은 :"+hashValue);
+                                //hashPhoneMap은 serverFriend(번호) 대한 value(내주소록 친구이름) 호출
+                                String hashValue = hashPhoneMap.get(serverFriend);
+                                Log.i(CTAG, "hashValue값은 :" + hashValue);
 
                             /*UserId를 쓰기위해 serverMap에 담는다
                                 확인후 디비에 추가해야함 */
-                            serverMap.put(serverFriend,serverUserId);
-                            sfL.add(serverMap);                                                     //임시용.(콘솔확인용)
+                                serverMap.put(serverFriend, serverUserId);
+                                sfL.add(serverMap);                                                     //임시용.(콘솔확인용)
 
-                            //DB 저장
-                            dataManager.insertUsrFriends(serverFriend,hashValue);
-                            dataManager2.insertUsrId(serverFriend, serverUserId);
-                            dataManager3.insertUserInfo(serverUserId,hashValue);
+                                //DB 저장
+                                dataManager.insertUsrFriends(serverFriend, hashValue);
+                                dataManager2.insertUsrId(serverFriend, serverUserId);
+                                dataManager3.insertUserInfo(serverUserId, hashValue);
 
-                        }else{
-                            Log.i("set.contains(serverFriend)","if에 대한 set처리 실패");
+                            } else {
+                                Log.i("set.contains(serverFriend)", "if에 대한 set처리 실패");
+                            }
+
                         }
-
-                    }
-                    System.out.println("서버에서 얻어온 친구리스트에 해당하는 이름 호출:"+ sfL.toString()); //(형식) 01087389278=rangken
+                        System.out.println("서버에서 얻어온 친구리스트에 해당하는 이름 호출:" + sfL.toString()); //(형식) 01087389278=rangken
 
                 }catch (JSONException e){
                     e.printStackTrace();

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -18,6 +19,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -121,10 +123,44 @@ public class FriendsListActivity extends Activity {
     private DataManager3 dataManager3;
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
+        {
+            moveTaskToBack(true); // 본Activity finish후 다른 Activity가 뜨는 걸 방지.
+            finish();
+            // 팝업을 띄움
+            /*AlertDialog dialog;
+            dialog = new AlertDialog.Builder(this).setTitle("노챗종료 확인")
+                    // .setIcon(R.drawable.warning)
+                    .setMessage("종료하시겠습니까?")
+                    .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            //dialog.dismiss();
+                            moveTaskToBack(true); // 본Activity finish후 다른 Activity가 뜨는 걸 방지.
+                            finish();
+                            // android.os.Process.killProcess(android.os.Process.myPid());
+                            // -> 해당 어플의 프로세스를 강제 Kill시킨다.
+                        }
+                    })
+                    .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .show();
+            return true;*/
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setFont(); //폰트적용
         setContentView(R.layout.activity_friendslist);
+
 
         FImageViewText = (TextView)findViewById(R.id.FImageViewText);
         refreshBtn = (Button)findViewById(R.id.refreshBtn);
@@ -482,59 +518,74 @@ public class FriendsListActivity extends Activity {
                 Log.i(CTAG, "json response Success");
                 System.out.println("인증요청관련 response : " + response.toString());
                 try{
-                    JSONArray phoneJsonArray = null;
-                    JSONObject phoneJsonObject = null;
-                    String serverFriend = null; //서버에 등록되어있는 친구번호
+                    String certifyMSG = null;
+                    certifyMSG = response.getString("code");
 
-                    JSONObject userIdJsonObject = null;
-                    String serverUserId = null; //서버에 등록되어있는 친구ID
+                    if (certifyMSG.equals("10000")) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(FriendsListActivity.this);
+                        alert.setPositiveButton("닫기", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();     //닫기
+                            }
+                        });
+                        alert.setMessage("에러 : 가입을 다시 해주세요");
+                        alert.show();
+                        finish();
+                    }else {
+                        JSONArray phoneJsonArray = null;
+                        JSONObject phoneJsonObject = null;
+                        String serverFriend = null; //서버에 등록되어있는 친구번호
 
-                    phoneJsonArray = response.getJSONArray("data");
-                    ArrayList<Map<String,String>> sfL = new ArrayList<Map<String,String>>();
+                        JSONObject userIdJsonObject = null;
+                        String serverUserId = null; //서버에 등록되어있는 친구ID
 
-                    //기존 디비내용 삭제
-                    dataManager.deleteAll();
-                    dataManager2.deleteAll2();
-                    dataManager3.deleteAll3();
+                        phoneJsonArray = response.getJSONArray("data");
+                        ArrayList<Map<String, String>> sfL = new ArrayList<Map<String, String>>();
 
-                    // for문을 돌면서 phoneNumber 값들을 가져온다
-                    for(int i = 0; i<phoneJsonArray.length(); i ++) {
-                        phoneJsonObject = (JSONObject) phoneJsonArray.get(i);
-                        serverFriend = (String)phoneJsonObject.get("phoneNumber");
+                        //기존 디비내용 삭제
+                        dataManager.deleteAll();
+                        dataManager2.deleteAll2();
+                        dataManager3.deleteAll3();
 
-                        userIdJsonObject = (JSONObject) phoneJsonArray.get(i);
-                        //serverUserId = (String)userIdJsonObject.get("id");
-                        serverUserId = String.valueOf(userIdJsonObject.get("id"));
+                        // for문을 돌면서 phoneNumber 값들을 가져온다
+                        for (int i = 0; i < phoneJsonArray.length(); i++) {
+                            phoneJsonObject = (JSONObject) phoneJsonArray.get(i);
+                            serverFriend = (String) phoneJsonObject.get("phoneNumber");
 
-                        System.out.println("ServerFriendsList : "+serverFriend+" UserId:"+serverUserId);
-                        //서버에서 얻은 친구리스트에 해당하는 hashMap 객체 생성
-                        serverMap = new HashMap<String,String>();
-                        // Map에서 저장된 Key들을 가져올 Set을 만든다.
-                        Set<String> set = hashPhoneMap.keySet();
-                        // 서버에 저장되어 있는 key값에 해당하는 친구리스트를 주소록에서 찾는다.
-                        if(set.contains(serverFriend)){
+                            userIdJsonObject = (JSONObject) phoneJsonArray.get(i);
+                            //serverUserId = (String)userIdJsonObject.get("id");
+                            serverUserId = String.valueOf(userIdJsonObject.get("id"));
 
-                            //hashPhoneMap은 serverFriend(번호) 대한 value(내주소록 친구이름) 호출
-                            String hashValue = hashPhoneMap.get(serverFriend);
-                            Log.i(CTAG,"hashValue값은 :"+hashValue);
+                            System.out.println("ServerFriendsList : " + serverFriend + " UserId:" + serverUserId);
+                            //서버에서 얻은 친구리스트에 해당하는 hashMap 객체 생성
+                            serverMap = new HashMap<String, String>();
+                            // Map에서 저장된 Key들을 가져올 Set을 만든다.
+                            Set<String> set = hashPhoneMap.keySet();
+                            // 서버에 저장되어 있는 key값에 해당하는 친구리스트를 주소록에서 찾는다.
+                            if (set.contains(serverFriend)) {
+
+                                //hashPhoneMap은 serverFriend(번호) 대한 value(내주소록 친구이름) 호출
+                                String hashValue = hashPhoneMap.get(serverFriend);
+                                Log.i(CTAG, "hashValue값은 :" + hashValue);
 
                             /*UserId를 쓰기위해 serverMap에 담는다
                                 확인후 디비에 추가해야함 */
-                            serverMap.put(serverFriend,serverUserId);
-                            sfL.add(serverMap);                                                     //임시용.(콘솔확인용)
+                                serverMap.put(serverFriend, serverUserId);
+                                sfL.add(serverMap);                                                     //임시용.(콘솔확인용)
 
-                            //DB 저장
-                            dataManager.insertUsrFriends(serverFriend, hashValue);
-                            dataManager2.insertUsrId(serverFriend, serverUserId);
-                            dataManager3.insertUserInfo(serverUserId, hashValue);
+                                //DB 저장
+                                dataManager.insertUsrFriends(serverFriend, hashValue);
+                                dataManager2.insertUsrId(serverFriend, serverUserId);
+                                dataManager3.insertUserInfo(serverUserId, hashValue);
 
-                        }else{
-                            Log.i("set.contains(serverFriend)","if에 대한 set처리 실패");
+                            } else {
+                                Log.i("set.contains(serverFriend)", "if에 대한 set처리 실패");
+                            }
+
                         }
-
+                        System.out.println("서버에서 얻어온 친구리스트에 해당하는 이름 호출:" + sfL.toString()); //(형식) 01087389278=rangken
                     }
-                    System.out.println("서버에서 얻어온 친구리스트에 해당하는 이름 호출:"+ sfL.toString()); //(형식) 01087389278=rangken
-
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
