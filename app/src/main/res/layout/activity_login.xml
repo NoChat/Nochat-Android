@@ -103,7 +103,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_height="60dp"
-            android:background="@drawable/btn_blue"
+            android:background="@drawable/btn_blue_selector"
             android:text="노챗 시작하기"
             android:textColor="@color/uwhite"
             android:textAppearance="?android:attr/textAppearanceLarge"/>

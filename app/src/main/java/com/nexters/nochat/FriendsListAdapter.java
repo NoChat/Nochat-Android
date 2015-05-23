@@ -67,8 +67,11 @@ public class FriendsListAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.friendslist_row_item, null);
             holder.container = (LinearLayout) convertView.findViewById(R.id.container);
             holder.user_name = (TextView) convertView.findViewById(R.id.user_name);
+            holder.dialogTextView = (TextView) convertView.findViewById(R.id.dialogTextView);
+
             holder.user_name.setTypeface(typeface);
             holder.user_name.setText(mUsr_FNL.get(position));
+            holder.dialogTextView.setTypeface(typeface);
             convertView.setTag(holder);
         }
 
@@ -86,6 +89,7 @@ public class FriendsListAdapter extends BaseAdapter {
     {
         public LinearLayout container;
         public TextView user_name;
+        public TextView dialogTextView;
     }
 
 }

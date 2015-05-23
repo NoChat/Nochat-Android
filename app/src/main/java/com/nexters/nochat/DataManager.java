@@ -99,4 +99,26 @@ public class DataManager {
 
     }
 
+    //화면에 뿌릴 폰번호 조회
+    public String getUserPhoneInfo(String usr_N)
+    {
+        String dbUserPhone = null;
+        Log.i(TAG, "in getUserInfo");
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String sql = "select * from usrFriends where usr_Name ='"+ usr_N + "'";
+
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            dbUserPhone = cursor.getString(1);
+        }
+
+        Log.i(TAG, "output ===>"+ usr_N +" "+ dbUserPhone);
+
+        helper.close();
+        cursor.close();
+
+        return dbUserPhone;
+
+    }
+
 }

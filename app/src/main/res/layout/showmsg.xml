@@ -81,7 +81,7 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:layout_height="60dp"
-                android:background="@drawable/btn_pink"
+                android:background="@drawable/btn_pink_selector"
                 android:text="좋아요"
                 android:textColor="@color/uwhite"
                 android:textAppearance="?android:attr/textAppearanceLarge"/>
@@ -94,7 +94,7 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:layout_height="60dp"
-                android:background="@drawable/btn_darkgray"
+                android:background="@drawable/btn_darkgray_selector"
                 android:text="싫어요"
                 android:textColor="@color/uwhite"
                 android:textAppearance="?android:attr/textAppearanceLarge"/>

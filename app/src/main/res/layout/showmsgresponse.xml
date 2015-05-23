@@ -59,7 +59,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:gravity="center|top"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -68,15 +68,29 @@
         <TextView
             android:id="@+id/msgResponse"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="top|center_horizontal"
             android:textColor="@color/uwhite"
-            android:textSize="60sp">
+            android:text="좋대요ㅎ"
+            android:textSize="50sp">
         </TextView>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_weight="1"
+        android:gravity="center|top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-
+    <Button
+        android:id="@+id/btnCall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center|center_horizontal"
+        android:background="@drawable/btn_call_selector"/>
 
     </LinearLayout>
+
 </LinearLayout>
 

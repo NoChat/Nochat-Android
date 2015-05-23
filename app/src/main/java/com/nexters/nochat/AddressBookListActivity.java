@@ -50,6 +50,7 @@ public class AddressBookListActivity extends ListActivity
     private Typeface typeface = null; //font
     private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,13 +106,13 @@ public class AddressBookListActivity extends ListActivity
                         if (phonenumber == null) {
                             return;
                         }
-                        Toast.makeText(getApplicationContext(), "전화번호:" + phonenumber.getPhonenum(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "전화번호:" + phonenumber.getPhonenum(), Toast.LENGTH_LONG).show();
                         if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
                             Intent sendIntent = new Intent(Intent.ACTION_VIEW);
                             //데이터값중에 "-" 제거.
                             sendIntent.putExtra(FriendsListActivity.SELECTED_PHONE, phonenumber.getPhonenum().replaceAll("-", ""));
-
-                            String smsBody = "친한 친구끼리만 쓴다는 메신저<노챗>";
+                            String smsLink = "http://bit.ly/1dqqLcl";
+                            String smsBody = "친한 친구끼리만 쓴다는 메신저<노챗>"+" "+smsLink;
                             sendIntent.putExtra("address", phonenumber.getPhonenum()); // 받는사람 번호
                             sendIntent.putExtra("sms_body", smsBody); // 보낼 문자
                             sendIntent.setType("vnd.android-dir/mms-sms");
@@ -121,7 +122,8 @@ public class AddressBookListActivity extends ListActivity
                             //안드로이드버전 4.4이상일때 예외처리해야함.
                             Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
                             sendIntent.setData(Uri.parse("smsto:" + Uri.encode(phonenumber.getPhonenum())));
-                            String smsBody = "친한 친구끼리만 쓴다는 메신저<노챗>";
+                            String smsLink = "http://bit.ly/1dqqLcl";
+                            String smsBody = "친한 친구끼리만 쓴다는 메신저<노챗>"+" "+smsLink;
                             sendIntent.putExtra("address", phonenumber.getPhonenum()); // 받는사람 번호
                             sendIntent.putExtra("sms_body", smsBody); // 보낼 문자
                             startActivity(sendIntent);

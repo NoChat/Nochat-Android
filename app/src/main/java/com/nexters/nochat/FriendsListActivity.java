@@ -97,7 +97,7 @@ public class FriendsListActivity extends Activity {
     private RelativeLayout layout_nameSpace;
     private RelativeLayout layout_dialog;
     private TextView FImageViewText; //문구
-    private TextView dialogTextView; // "밥보냄! , 술보냄! 등등"
+    //private TextView dialogTextView; // "밥보냄! , 술보냄! 등등"
     private Button refreshBtn;
     private Button settingGoBtn;
 
@@ -128,6 +128,7 @@ public class FriendsListActivity extends Activity {
         {
             moveTaskToBack(true); // 본Activity finish후 다른 Activity가 뜨는 걸 방지.
             finish();
+            android.os.Process.killProcess(android.os.Process.myPid()); // -> 해당 어플의 프로세스를 강제 Kill시킨다.
             // 팝업을 띄움
             /*AlertDialog dialog;
             dialog = new AlertDialog.Builder(this).setTitle("노챗종료 확인")
@@ -226,8 +227,8 @@ public class FriendsListActivity extends Activity {
 
                 layout_nameSpace = (RelativeLayout)view.findViewById(R.id.layout_nameSpace);
                 layout_dialog = (RelativeLayout)view.findViewById(R.id.layout_dialog);
-                dialogTextView = (TextView)findViewById(R.id.dialogTextView);
-                dialogTextView.setTypeface(typeface);
+                //dialogTextView = (TextView)findViewById(R.id.dialogTextView);
+                //dialogTextView.setTypeface(typeface);
 
                 dialog = new Dialog(mContext);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -375,7 +376,7 @@ public class FriendsListActivity extends Activity {
                 }
 
                 //다이로그 클릭시 일어나는 일
-                dialogTextView.setText(jsonTypeName+" "+"보냄!");
+                //dialogTextView.setText(jsonTypeName+" "+"보냄!");
                 layout_nameSpace.setVisibility(View.GONE);
                 layout_dialog.setVisibility(View.VISIBLE);
                 Log.d("test","보냄!눌림, 보냄메세지보여야함 2");

@@ -48,7 +48,7 @@
             android:layout_marginRight="25dp"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@drawable/btn_blue"
+            android:background="@drawable/btn_blue_selector"
             android:text="노챗 가입하기"
             android:textColor="@color/white"
             android:textAppearance="?android:attr/textAppearanceLarge" />

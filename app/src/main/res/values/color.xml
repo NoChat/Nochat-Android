@@ -2,6 +2,7 @@
 <resources>
     <color name="transparent">#00000000</color>
     <color name="backgroundgray">#3a3a38</color>
+    <color name="backgroundgraycheck">#2c2c2c</color>
     <color name="ublack">#444444</color>
     <color name="uwhite">#FAF9F5</color>
     <color name="ugray">#ECECEC</color>
@@ -13,19 +14,9 @@
     <color name="uolive">#7A521F</color>
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FFFF00</color>
-    <color name="fuchsia">#FF00FF</color>
     <color name="red">#FF0000</color>
     <color name="silver">#C0C0C0</color>
     <color name="gray">#808080</color>
     <color name="olive">#808000</color>
-    <color name="purple">#800080</color>
-    <color name="maroon">#800000</color>
-    <color name="aqua">#00FFFF</color>
-    <color name="lime">#00FF00</color>
-    <color name="teal">#008080</color>
-    <color name="green">#008000</color>
-    <color name="blue">#0000FF</color>
-    <color name="navy">#000080</color>
     <color name="black">#000000</color>
-    <color name="oddity">#10f9b7</color>
 </resources>

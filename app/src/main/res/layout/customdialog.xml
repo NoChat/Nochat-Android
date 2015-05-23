@@ -22,7 +22,7 @@
             android:layout_marginLeft="70dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/btn_lol" />
+            android:src="@drawable/btn_lol_selector" />
 
         <ImageView
             android:id="@+id/bt2_alcohol"
@@ -30,7 +30,7 @@
             android:layout_marginRight="70dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/btn_drink" />
+            android:src="@drawable/btn_drink_selector" />
     </LinearLayout>
 
     <LinearLayout
@@ -45,14 +45,14 @@
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/btn_coffe" />
+            android:src="@drawable/btn_coffe_selector" />
 
         <ImageView
             android:id="@+id/bt5_smoking"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/btn_smoking" />
+            android:src="@drawable/btn_smoking_selector" />
 
     </LinearLayout>
 
@@ -68,7 +68,7 @@
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/btn_meal" />
+            android:src="@drawable/btn_meal_selector" />
 
      </LinearLayout>
 

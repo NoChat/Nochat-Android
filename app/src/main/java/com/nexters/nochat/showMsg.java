@@ -1,6 +1,8 @@
 package com.nexters.nochat;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -70,7 +72,18 @@ public class ShowMsg extends Activity {
         msg = bun.getString("msg");
         chatId = bun.getString("chatId");
         Log.e(TAG,userName+msg+chatId);
-
+        if(userName == null){
+            String noUserName = "동기화ㄴㄴ새로고침ㄱㄱ";
+            AlertDialog.Builder alert = new AlertDialog.Builder(ShowMsg.this);
+            alert.setPositiveButton("닫기", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();     //닫기
+                }
+            });
+            alert.setMessage(noUserName);
+            alert.show();
+        }
         msgUserName.setText(userName);
         msgChatType.setText(msg);
 

@@ -13,6 +13,7 @@
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
         android:orientation="vertical"
+        android:background="@drawable/btn_frline_selector"
         android:visibility="visible">
         <TextView
             android:id="@+id/user_name"

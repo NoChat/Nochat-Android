@@ -36,9 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/myImageView"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="25dp"
-            android:background="@drawable/icon_refresh"/>
+            android:background="@drawable/btn_refresh_selector"/>
 
 
     </RelativeLayout>
@@ -63,7 +61,7 @@
             android:layout_gravity="bottom|right"
             android:layout_width="80sp"
             android:layout_height="80sp"
-            android:background="@drawable/btn_menu"/>
+            android:background="@drawable/btn_menu_selector"/>
 
     </FrameLayout>
 </LinearLayout>

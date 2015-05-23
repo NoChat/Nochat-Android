@@ -38,29 +38,20 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
     private TextView logintextBtn; //로그인
 
     private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
-    private static final String TYPEFACE_NAME2 = "NanumPen.otf"; //다른폰트(테스트용)
     private Typeface typeface = null; //font
 
     GoogleCloudMessaging gcm;
     private static final String SENDER_ID="467703711556";
     private String regId; //뽑아올 regid
-    private String apiToken; //토큰값
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //폰에 저장된 regId 가져오기
-        SharedPreferences preferencesapiToken = PreferenceManager.getDefaultSharedPreferences(this);
-        apiToken = preferencesapiToken.getString("apiToken"," ");
-        if(!(apiToken.isEmpty())){
-            Intent Fintent = new Intent(MainActivity.this, FriendsListActivity.class);
-            startActivity(Fintent);
-        }
-        registerBackground();
-
+        registerBackground();   //get regId
         setFont();  //폰트적용
         setContentView(R.layout.activity_main);
+
         joinBtn = (Button) findViewById(R.id.joinBtn);
         nochatMaintext1 = (TextView) findViewById(R.id.nochatMaintext1);
         nochatMaintext2 = (TextView) findViewById(R.id.nochatMaintext2);
