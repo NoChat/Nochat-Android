@@ -32,6 +32,7 @@ public class SettingActivity extends Activity{
     private TextView settingTextView;
 
     private String loginId;
+    private String settingId;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -82,8 +83,11 @@ public class SettingActivity extends Activity{
 
                     case 2 :
                         Log.i(TAG, "In list 2");
-                        Intent MIntent = new Intent(SettingActivity.this, MainActivity.class);
-                        startActivity(MIntent);
+                        settingId = "1";
+                        Intent Mintent = new Intent(SettingActivity.this, MainActivity.class);
+                        Mintent.putExtra("settingId",settingId);
+                        Mintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(Mintent);
                         break;
 
                     case 3 :

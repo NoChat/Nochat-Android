@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,10 +44,33 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
     GoogleCloudMessaging gcm;
     private static final String SENDER_ID="467703711556";
     private String regId; //뽑아올 regid
+    private String apiToken; //토큰값
+    private SharedPreferences preferencesapiToken;
+    private Intent Fintent;
+    private Intent Mintent = null;
+    private String loginIdName = null;
+    private boolean loginBoolean =true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Mintent = getIntent();
+        loginIdName = Mintent.getStringExtra("settingId"); // 로그아웃시 가져오는 Intent값
+        //시작점 구별하기 위해서
+        if(loginIdName == null){
+            loginBoolean = false;
+        }
+        //폰에 저장된 regId 가져오기
+        preferencesapiToken = PreferenceManager.getDefaultSharedPreferences(this);
+        apiToken = preferencesapiToken.getString("apiToken"," ");
+        Log.e("시작점구별","loginId값, apiToken값"+loginIdName+apiToken);
+        if(!(apiToken.isEmpty()) && loginBoolean == false) { //apiToken 값이 있으면 앱실행시 FriendsListActivity 화면으로 이동
+            Log.e("시작점구별","FriendsListActivity 실행");
+            Fintent = new Intent(MainActivity.this, FriendsListActivity.class);
+            startActivity(Fintent);
+        }
+        Log.e("시작점구별","MainActivity 실행");
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         registerBackground();   //get regId
         setFont();  //폰트적용

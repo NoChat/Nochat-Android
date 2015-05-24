@@ -124,37 +124,14 @@ public class FriendsListActivity extends Activity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
-        {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
             moveTaskToBack(true); // 본Activity finish후 다른 Activity가 뜨는 걸 방지.
             finish();
             android.os.Process.killProcess(android.os.Process.myPid()); // -> 해당 어플의 프로세스를 강제 Kill시킨다.
-            // 팝업을 띄움
-            /*AlertDialog dialog;
-            dialog = new AlertDialog.Builder(this).setTitle("노챗종료 확인")
-                    // .setIcon(R.drawable.warning)
-                    .setMessage("종료하시겠습니까?")
-                    .setPositiveButton("예", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //dialog.dismiss();
-                            moveTaskToBack(true); // 본Activity finish후 다른 Activity가 뜨는 걸 방지.
-                            finish();
-                            // android.os.Process.killProcess(android.os.Process.myPid());
-                            // -> 해당 어플의 프로세스를 강제 Kill시킨다.
-                        }
-                    })
-                    .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
 
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    })
-                    .show();
-            return true;*/
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
