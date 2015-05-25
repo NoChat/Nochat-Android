@@ -250,6 +250,7 @@ public class AddressBookListActivity extends ListActivity
         public void onClick(View v) {
             Log.i(TAG, "in addressBookBackBtnListener");
             Intent intent = new Intent(AddressBookListActivity.this, SettingActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     };

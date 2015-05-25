@@ -87,6 +87,7 @@ public class ContactUsActivity extends Activity {
         public void onClick(View v) {
             Log.i(TAG, "in contactUsBackBtnListener");
             Intent intent = new Intent(ContactUsActivity.this, SettingActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     };

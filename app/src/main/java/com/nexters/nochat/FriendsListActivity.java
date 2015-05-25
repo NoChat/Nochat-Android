@@ -395,6 +395,7 @@ public class FriendsListActivity extends Activity {
         public void onClick(View v) {
             Log.i(TAG, "in settingGoBtnListener");
             Intent intent = new Intent(FriendsListActivity.this, SettingActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     };

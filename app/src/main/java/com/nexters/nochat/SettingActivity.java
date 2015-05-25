@@ -93,6 +93,7 @@ public class SettingActivity extends Activity{
                     case 3 :
                         Log.i(TAG, "In list 3");
                         Intent CIntent = new Intent(SettingActivity.this, ContactUsActivity.class);
+                        CIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(CIntent);
                         break;
 
@@ -133,6 +134,7 @@ public class SettingActivity extends Activity{
         public void onClick(View v) {
             Log.i(TAG, "in settingBackBtnListener");
             Intent intent = new Intent(SettingActivity.this, FriendsListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     };

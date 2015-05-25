@@ -117,6 +117,7 @@ public class MemberShipActivity extends Activity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(MemberShipActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     };
@@ -221,6 +222,8 @@ public class MemberShipActivity extends Activity {
         Log.i(TAG,"CertifyActivity로 이동");
         certifyCheck.setVisibility(View.GONE);
         Intent intent = new Intent(MemberShipActivity.this, CertifyActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 }

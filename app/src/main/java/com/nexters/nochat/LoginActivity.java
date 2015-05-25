@@ -144,6 +144,7 @@ public class LoginActivity extends Activity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     };
@@ -219,6 +220,7 @@ public class LoginActivity extends Activity {
         Log.i(TAG,"CertifyActivity로 이동");
         certifyCheck2.setVisibility(View.GONE);
         Intent intent = new Intent(LoginActivity.this, FriendsListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }

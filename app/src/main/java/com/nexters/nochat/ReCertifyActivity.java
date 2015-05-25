@@ -129,6 +129,7 @@ public class ReCertifyActivity extends Activity {
         public void onClick(View v) {
             Log.i(TAG, "뒤로가기 버튼");
             Intent intent = new Intent(ReCertifyActivity.this, CertifyActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     };
@@ -366,7 +367,9 @@ public class ReCertifyActivity extends Activity {
     private void startFriendsListActivity(){
         Log.i(TAG,"FriendsListActivity 이동");
         Intent intent = new Intent(ReCertifyActivity.this, FriendsListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
 }

@@ -114,6 +114,7 @@ public class CertifyActivity extends Activity {
         public void onClick(View v) {
             Log.i(TAG,"뒤로가기 버튼");
             Intent intent = new Intent(CertifyActivity.this,MemberShipActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
         }
@@ -191,7 +192,9 @@ public class CertifyActivity extends Activity {
     private void startReCertifyActivity(){
         Log.i(TAG,"ReCertifyActivity로 이동");
         Intent intent = new Intent(CertifyActivity.this, ReCertifyActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
 
