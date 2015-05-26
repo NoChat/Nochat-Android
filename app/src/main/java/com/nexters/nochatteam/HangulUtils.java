@@ -1,4 +1,4 @@
-package com.nexters.nochat;
+package com.nexters.nochatteam;
 
 /* 주소록 초성 검사시 사용할 Util*/
 public class HangulUtils {

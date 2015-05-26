@@ -1,4 +1,4 @@
-package com.nexters.nochat;
+package com.nexters.nochatteam;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -46,28 +46,36 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
     private String regId; //뽑아올 regid
     private String apiToken; //토큰값
     private SharedPreferences preferencesapiToken;
-    private Intent Fintent;
     private Intent Mintent = null;
+    private Intent Nintent = null;
     private String loginIdName = null;
+    private String loginNofriends = null;
     private boolean loginBoolean =true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Nintent = getIntent();
+        loginNofriends = Nintent.getStringExtra("noFriends"); // 친구리스트없을때 가져오는 Intent값
         Mintent = getIntent();
         loginIdName = Mintent.getStringExtra("settingId"); // 로그아웃시 가져오는 Intent값
         //시작점 구별하기 위해서
         if(loginIdName == null){
             loginBoolean = false;
         }
-        //폰에 저장된 regId 가져오기
+        if(loginNofriends == null){
+            loginBoolean = false;
+        }
+        //폰에 저장된 apiToken 가져오기
         preferencesapiToken = PreferenceManager.getDefaultSharedPreferences(this);
         apiToken = preferencesapiToken.getString("apiToken"," ");
-        Log.e("시작점구별","loginId값, apiToken값"+loginIdName+apiToken);
+        Log.e("시작점구별","loginId값,"+loginIdName);
+        Log.e("시작점구별","loginNofriends값,"+loginNofriends);
         if(!(apiToken.isEmpty()) && loginBoolean == false) { //apiToken 값이 있으면 앱실행시 FriendsListActivity 화면으로 이동
             Log.e("시작점구별","FriendsListActivity 실행");
-            Fintent = new Intent(MainActivity.this, FriendsListActivity.class);
+            Intent Fintent = new Intent(MainActivity.this, FriendsListActivity.class);
+            Fintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(Fintent);
         }
         Log.e("시작점구별","MainActivity 실행");
@@ -119,7 +127,7 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
     }
 
     /*  회원가입 Listener   */
-    View.OnClickListener memberShipListener = new View.OnClickListener(){
+    View.OnClickListener memberShipListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Log.i(TAG, "member joining method");
@@ -127,19 +135,21 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
+            finish();
             /*Intent intent = new Intent(MainActivity.this, FriendsListActivity.class);
             startActivity(intent);*/
         }
     };
 
     /*  로그인 Listener    */
-    View.OnClickListener logintextListener = new View.OnClickListener(){
+    View.OnClickListener logintextListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Log.i(TAG, "Click Login");
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
         }
     };
 
@@ -154,10 +164,10 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
                     }
-                        regId = gcm.register(SENDER_ID);
-                        msg = "Device registered, registration id=" + regId;
-                        Log.e(TAG, msg);
-                        sharedPreferencesSetting(regId);
+                    regId = gcm.register(SENDER_ID);
+                    msg = "Device registered, registration id=" + regId;
+                    Log.e(TAG, msg);
+                    sharedPreferencesSetting(regId);
 
                 } catch (IOException e) {
                     msg = "Error :" + e.getMessage();
@@ -173,8 +183,8 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
     private void sharedPreferencesSetting(String paramRegId){//preferencesRegId
         SharedPreferences preferencesRegId = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //regid값 폰에 저장
         SharedPreferences.Editor editor = preferencesRegId.edit();
-            editor.putString("regId",paramRegId);
-            editor.commit();
+        editor.putString("regId",paramRegId);
+        editor.commit();
     }
 
 }

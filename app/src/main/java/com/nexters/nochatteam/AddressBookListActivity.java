@@ -1,15 +1,12 @@
-package com.nexters.nochat;
+package com.nexters.nochatteam;
 
-import android.app.Activity;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,19 +14,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CheckedTextView;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +100,7 @@ public class AddressBookListActivity extends ListActivity
                             Intent sendIntent = new Intent(Intent.ACTION_VIEW);
                             //데이터값중에 "-" 제거.
                             sendIntent.putExtra(FriendsListActivity.SELECTED_PHONE, phonenumber.getPhonenum().replaceAll("-", ""));
-                            String smsLink = "http://bit.ly/1dqqLcl";
+                            String smsLink = "http://bit.ly/1EtTJNr";
                             String smsBody = "친한 친구끼리만 쓴다는 메신저<노챗>"+" "+smsLink;
                             sendIntent.putExtra("address", phonenumber.getPhonenum()); // 받는사람 번호
                             sendIntent.putExtra("sms_body", smsBody); // 보낼 문자
@@ -122,7 +111,7 @@ public class AddressBookListActivity extends ListActivity
                             //안드로이드버전 4.4이상일때 예외처리해야함.
                             Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
                             sendIntent.setData(Uri.parse("smsto:" + Uri.encode(phonenumber.getPhonenum())));
-                            String smsLink = "http://bit.ly/1dqqLcl";
+                            String smsLink = "http://bit.ly/1EtTJNr";
                             String smsBody = "친한 친구끼리만 쓴다는 메신저<노챗>"+" "+smsLink;
                             sendIntent.putExtra("address", phonenumber.getPhonenum()); // 받는사람 번호
                             sendIntent.putExtra("sms_body", smsBody); // 보낼 문자

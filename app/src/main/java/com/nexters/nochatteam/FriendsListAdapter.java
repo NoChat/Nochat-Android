@@ -1,4 +1,4 @@
-package com.nexters.nochat;
+package com.nexters.nochatteam;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -7,14 +7,10 @@ import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Objects;
 
 //리스트를 위한 어댑터
 public class FriendsListAdapter extends BaseAdapter {
@@ -60,28 +56,22 @@ public class FriendsListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         typeface = Typeface.createFromAsset(mContext.getAssets(), TYPEFACE_NAME);
         PersonViewHolder holder = new PersonViewHolder();
+        View view = convertView;
+        if(view == null) {
+                LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = vi.inflate(R.layout.friendslist_row_item, null);
+        }
 
-        // 캐시된 뷰가 없을 경우 새로 생성하고 뷰홀더를 생성한다
-        if(convertView == null) {
-            Log.i(TAG, "캐시된 뷰가 없음 -> 뷰홀더 생성");
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.friendslist_row_item, null);
-            holder.container = (LinearLayout) convertView.findViewById(R.id.container);
-            holder.user_name = (TextView) convertView.findViewById(R.id.user_name);
-            holder.dialogTextView = (TextView) convertView.findViewById(R.id.dialogTextView);
+            holder.container = (LinearLayout) view.findViewById(R.id.container);
+            holder.user_name = (TextView) view.findViewById(R.id.user_name);
+            holder.dialogTextView = (TextView) view.findViewById(R.id.dialogTextView);
 
             holder.user_name.setTypeface(typeface);
             holder.user_name.setText(mUsr_FNL.get(position));
             holder.dialogTextView.setTypeface(typeface);
-            convertView.setTag(holder);
-        }
+            view.setTag(holder);
 
-        // 캐시된 뷰가 있을 경우 저장된 뷰홀더를 사용한다
-        else{
-            Log.i(TAG, "캐시된 뷰가 있음 -> 저장된 뷰홀더 사용");
-            holder = (PersonViewHolder) convertView.getTag();
-        }
-
-        return convertView;
+        return view;
     }
 
     /*  ViewHolder를 사용함으로 실행에 드는 비용 줄임    */

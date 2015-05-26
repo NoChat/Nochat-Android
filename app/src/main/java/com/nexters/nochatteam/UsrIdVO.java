@@ -1,4 +1,4 @@
-package com.nexters.nochat;
+package com.nexters.nochatteam;
 
 public class UsrIdVO {
     private String usr_phoneNumber;

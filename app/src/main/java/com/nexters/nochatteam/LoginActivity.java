@@ -1,18 +1,14 @@
-package com.nexters.nochat;
+package com.nexters.nochatteam;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,25 +37,35 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ReCertifyActivity extends Activity {
-    //메세지로 온 인증번호와 내가 입력한 인증번호가 같은지 체크해줘야함.
-    private static final String TAG = "CertifyActivity";
+
+public class LoginActivity extends Activity {
+
+    private static final String TAG = "LoginActivity";
     private static final String CTAG = "AsyncHttpClient";
-    private static final String URL = "http://todaytrend.cafe24.com:9000/users/phone/auth";
+    private static final String URL = "http://todaytrend.cafe24.com:9000/users/signin";
     private static final String getFriendsURL = "http://todaytrend.cafe24.com:9000/users/friend";
 
-    private Button backCertifyBtn; //뒤로가기
-    private TextView RECERTIFY; //문구
-    private EditText inputCertify; //인증번호 입력
-    private Button startNochatBtn; // 노챗 시작하기
-    private String certifyValue; // 인증번호 입력값
+    private Button backMain2; //메인화면으로 이동
+    private TextView membershipTitle2; //타이틀 문구
+    private EditText memberShipId2; //ID입력
+    private EditText memberShipPassword2; //password입력
+    private TextView certifyCheck2; //중복된 아이디가 있는지 검사
+    private Button memberShipBtn2; //노챗시작하기
+
+    private String loginId;
+    private String password;
+    //private String deviceToken;
+    private String locale = "ko_KR"; //일단 한국어만
+    private String os = "Android";
 
     private Typeface typeface = null; //font
     private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
 
+    private RequestParams paramData; //회원가입 요청 관련 param data
+    private String regId; // preferences에서 뽑아와서 담을 변수
+
     private String apiToken; //본인 apiToken값(SharedPreferences에 저장된값)
     private String phoneNumberValue; //본인 폰번호값(SharedPreferences에 저장된값)
-    private RequestParams paramData; //인증번호 재확인 요청 관련 param data
     private RequestParams AddressBookparamData; // 주소록 정보 보내기 관련 param data
     private HashMap<String,String> hashPhoneMap; //주소록(name,phoneNumber)
     private HashMap<String,String> serverMap; // 서버에서 얻어온 번호에 해당하는 HashMap
@@ -73,40 +79,47 @@ public class ReCertifyActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setFont(); //폰트적용
-        setContentView(R.layout.activity_recertify);
+        setContentView(R.layout.activity_login);
 
-        backCertifyBtn = (Button) findViewById(R.id.backCertifyBtn);
-        RECERTIFY = (TextView) findViewById(R.id.RECERTIFY);
-        inputCertify = (EditText) findViewById(R.id.inputCertify);
-        startNochatBtn = (Button) findViewById(R.id.startNochatBtn);
+        backMain2 = (Button)findViewById(R.id.backMain2);
+        membershipTitle2 = (TextView)findViewById(R.id.membershipTitle2);
+        memberShipId2 = (EditText)findViewById(R.id.memberShipId2);
+        memberShipPassword2 = (EditText)findViewById(R.id.memberShipPassword2);
+        certifyCheck2 = (TextView)findViewById(R.id.certifyCheck2);
+        memberShipBtn2 = (Button)findViewById(R.id.memberShipBtn2);
 
-        backCertifyBtn.setTypeface(typeface); //버튼안 text에서도 font 적용
-        inputCertify.setTypeface(typeface);
-        startNochatBtn.setTypeface(typeface);
-        RECERTIFY.setTypeface(typeface);
+        memberShipBtn2.setTypeface(typeface); //버튼안 text에서도 font 적용
+        membershipTitle2.setTypeface(typeface);
+        memberShipId2.setTypeface(typeface);
+        memberShipPassword2.setTypeface(typeface);
+        certifyCheck2.setTypeface(typeface);
 
+        //휴대폰 넓이 보다 텍스트가 길 경우 마키 처리
+        certifyCheck2.setSingleLine(true);
+        certifyCheck2.setEllipsize(android.text.TextUtils.TruncateAt.END);
+
+        //폰에 저장된 regId 가져오기
+        SharedPreferences preferencesRegId = PreferenceManager.getDefaultSharedPreferences(this);
+        regId = preferencesRegId.getString("regId"," ");
         SharedPreferences preferencesApiToken = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 토큰값 가져오기
         apiToken = preferencesApiToken.getString("apiToken", " ");
         SharedPreferences preferencesPhoneNumberValue = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 본인 폰번호 가져오기
         phoneNumberValue = preferencesPhoneNumberValue.getString("phoneNumberValue", " ");
 
-        backCertifyBtn.setOnClickListener(backCertifyBtnListener);
-        startNochatBtn.setOnClickListener(startNochatBtnListener);
-
         dataManager = new DataManager(this);
         dataManager2 = new DataManager2(this);
         dataManager3 = new DataManager3(this);
 
+        backMain2.setOnClickListener(backMainListener);
+        memberShipBtn2.setOnClickListener(memberShipBtnListener);
     }
-
     private void setFont() {
         if(typeface==null) {
             typeface = Typeface.createFromAsset(getAssets(), TYPEFACE_NAME);
         }else{
-            Log.e(TAG,"폰트가 없습니다.");
+            Log.e(TAG, "폰트가 없습니다.");
         }
     }
-
 
     @Override
     public void setContentView(int viewId) {
@@ -124,71 +137,65 @@ public class ReCertifyActivity extends Activity {
         super.setContentView(view);
     }
 
-    View.OnClickListener backCertifyBtnListener = new View.OnClickListener() {
+    /*메인화면으로 이동*/
+    View.OnClickListener backMainListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
-            Log.i(TAG, "뒤로가기 버튼");
-            Intent intent = new Intent(ReCertifyActivity.this, CertifyActivity.class);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     };
-
-    View.OnClickListener startNochatBtnListener = new View.OnClickListener() {
+    /* 노챗 가입하기*/
+    View.OnClickListener memberShipBtnListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
-            Log.i(TAG, "노챗 시작하기 버튼");
-            certifyValue = inputCertify.getText().toString();
-
-            jsonDateSetting(phoneNumberValue, certifyValue, apiToken);
-
+            Log.i(TAG,"노챗 가입하기 버튼눌림");
+            loginId = memberShipId2.getText().toString();
+            password = memberShipPassword2.getText().toString();
+            jsonDateSetting(loginId,password);
         }
     };
 
-    /* 재인증 관련 서버로 보낼 json data 세팅*/
-    private void jsonDateSetting(String phoneNumberValue, String certifyValue, String apiToken) {
-        try {
-            Log.i(CTAG, "서버로 보낼 param data 세팅중");
+    /* 서버로 보낼 json data 세팅*/
+    private void jsonDateSetting(String loginId, String password){
+        try{
+            Log.i(CTAG,"서버로 보낼 param data 세팅중");
             paramData = new RequestParams();
-            paramData.put("phoneNumber", phoneNumberValue); //한글x,공백x,중복 아이디 체크 ->alert띄우기
-            paramData.put("phoneNumberToken", certifyValue);
-            paramData.put("apiToken", apiToken);
+            paramData.put("loginId",loginId); //한글x,공백x,중복 아이디 체크 ->alert띄우기
+            paramData.put("password",password);
 
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
         AsyncHttpClient(paramData);
     }
 
-    /* 재인증 관련 AsyncHttpClient 사용해 서버와 통신*/
+    /* AsyncHttpClient 사용해 서버와 통신*/
     private void AsyncHttpClient(RequestParams paramData) {
         String param = paramData.toString();
         Log.i(CTAG, "#서버와 통신 준비중#" + "PARAMDATA:" + param);
         AsyncHttpClient mClient = new AsyncHttpClient();
-        Header[] headers = {new BasicHeader("apiToken", apiToken)};
-        mClient.post(this, URL, headers, paramData, "application/json", new JsonHttpResponseHandler() {
+        Header[] headers = {new BasicHeader("apiToken","")};
+        mClient.post(this, URL, headers, paramData,"application/json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) { //reqBuilder.setHeader(String name, String value);
                 Log.i(CTAG, "json response Success");
-                System.out.println("인증요청관련 response : " + response.toString());
+                System.out.println("로그인관련 response : " + response.toString());
+                String certifyMSG = null;
                 try {
-                    String certifyMSG = null;
-                    certifyMSG = response.getString("msg");
-
-                    if (certifyMSG.equals("전화번호 인증에 실패했습니다!")) {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(ReCertifyActivity.this);
-                        alert.setPositiveButton("닫기", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();     //닫기
-                            }
-                        });
-                        alert.setMessage("전화번호 인증에 실패했습니다!");
-                        alert.show();
-
-                    } else { //전화번호 인증이 성공했을시, 친구목록 가져오고, FriendsListActivity로 이동.
+                    certifyMSG = response.getString("code");
+                    if (certifyMSG.equals("12000")) {   //로그인 실패시
+                        certifyCheck2.setVisibility(View.VISIBLE);
+                        onStop();
+                    }else if (certifyMSG.equals("12001")) {
+                        certifyCheck2.setVisibility(View.VISIBLE);
+                        onStop();
+                    }else
+                    { //로그인 성공했을시 친구리스트가져온다
                         getAddressBook(getApplicationContext());
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -204,6 +211,16 @@ public class ReCertifyActivity extends Activity {
 
             }
         });
+    }
+
+    /*FriendsListActivity으로 이동*/
+    private void startLoginActivity(){
+        Log.i(TAG,"CertifyActivity로 이동");
+        certifyCheck2.setVisibility(View.GONE);
+        Intent intent = new Intent(LoginActivity.this, FriendsListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     /* 주소록정보 가져오기*/
@@ -280,64 +297,64 @@ public class ReCertifyActivity extends Activity {
                 Log.i(CTAG, "json response Success");
                 System.out.println("인증요청관련 response : " + response.toString());
                 try{
-                    JSONArray phoneJsonArray = null;
-                    JSONObject phoneJsonObject = null;
-                    String serverFriend = null; //서버에 등록되어있는 친구번호
+                        JSONArray phoneJsonArray = null;
+                        JSONObject phoneJsonObject = null;
+                        String serverFriend = null; //서버에 등록되어있는 친구번호
 
-                    JSONObject userIdJsonObject = null;
-                    String serverUserId = null; //서버에 등록되어있는 친구ID
+                        JSONObject userIdJsonObject = null;
+                        String serverUserId = null; //서버에 등록되어있는 친구ID
 
-                    phoneJsonArray = response.getJSONArray("data");
-                    ArrayList<Map<String,String>> sfL = new ArrayList<Map<String,String>>();
+                        phoneJsonArray = response.getJSONArray("data");
+                        ArrayList<Map<String, String>> sfL = new ArrayList<Map<String, String>>();
 
-                    //기존 디비내용 삭제
-                    dataManager.deleteAll();
-                    dataManager2.deleteAll2();
-                    dataManager3.deleteAll3();
+                        //기존 디비내용 삭제
+                        dataManager.deleteAll();
+                        dataManager2.deleteAll2();
+                        dataManager3.deleteAll3();
 
-                    // for문을 돌면서 phoneNumber 값들을 가져온다
-                    for(int i = 0; i<phoneJsonArray.length(); i ++) {
-                        phoneJsonObject = (JSONObject) phoneJsonArray.get(i);
-                        serverFriend = (String)phoneJsonObject.get("phoneNumber");
+                        // for문을 돌면서 phoneNumber 값들을 가져온다
+                        for (int i = 0; i < phoneJsonArray.length(); i++) {
+                            phoneJsonObject = (JSONObject) phoneJsonArray.get(i);
+                            serverFriend = (String) phoneJsonObject.get("phoneNumber");
 
-                        userIdJsonObject = (JSONObject) phoneJsonArray.get(i);
-                        //serverUserId = (String)userIdJsonObject.get("id");
-                        serverUserId = String.valueOf(userIdJsonObject.get("id"));
+                            userIdJsonObject = (JSONObject) phoneJsonArray.get(i);
+                            //serverUserId = (String)userIdJsonObject.get("id");
+                            serverUserId = String.valueOf(userIdJsonObject.get("id"));
 
-                        System.out.println("ServerFriendsList : "+serverFriend+" UserId:"+serverUserId);
-                        //서버에서 얻은 친구리스트에 해당하는 hashMap 객체 생성
-                        serverMap = new HashMap<String,String>();
-                        // Map에서 저장된 Key들을 가져올 Set을 만든다.
-                        Set<String> set = hashPhoneMap.keySet();
-                        // 서버에 저장되어 있는 key값에 해당하는 친구리스트를 주소록에서 찾는다.
-                        if(set.contains(serverFriend)){
+                            System.out.println("ServerFriendsList : " + serverFriend + " UserId:" + serverUserId);
+                            //서버에서 얻은 친구리스트에 해당하는 hashMap 객체 생성
+                            serverMap = new HashMap<String, String>();
+                            // Map에서 저장된 Key들을 가져올 Set을 만든다.
+                            Set<String> set = hashPhoneMap.keySet();
+                            // 서버에 저장되어 있는 key값에 해당하는 친구리스트를 주소록에서 찾는다.
+                            if (set.contains(serverFriend)) {
 
-                            //hashPhoneMap은 serverFriend(번호) 대한 value(내주소록 친구이름) 호출
-                            String hashValue = hashPhoneMap.get(serverFriend);
-                            Log.i(CTAG,"hashValue값은 :"+hashValue);
+                                //hashPhoneMap은 serverFriend(번호) 대한 value(내주소록 친구이름) 호출
+                                String hashValue = hashPhoneMap.get(serverFriend);
+                                Log.i(CTAG, "hashValue값은 :" + hashValue);
 
                             /*UserId를 쓰기위해 serverMap에 담는다
                                 확인후 디비에 추가해야함 */
-                            serverMap.put(serverFriend,serverUserId);
-                            sfL.add(serverMap);                                                     //임시용.(콘솔확인용)
+                                serverMap.put(serverFriend, serverUserId);
+                                sfL.add(serverMap);                                                     //임시용.(콘솔확인용)
 
-                            //DB 저장
-                            dataManager.insertUsrFriends(serverFriend,hashValue);
-                            dataManager2.insertUsrId(serverFriend, serverUserId);
-                            dataManager3.insertUserInfo(serverUserId,hashValue);
+                                //DB 저장
+                                dataManager.insertUsrFriends(serverFriend, hashValue);
+                                dataManager2.insertUsrId(serverFriend, serverUserId);
+                                dataManager3.insertUserInfo(serverUserId, hashValue);
 
-                        }else{
-                            Log.i("set.contains(serverFriend)","if에 대한 set처리 실패");
+                            } else {
+                                Log.i("set.contains(serverFriend)", "if에 대한 set처리 실패");
+                            }
+
                         }
-
-                    }
-                    System.out.println("서버에서 얻어온 친구리스트에 해당하는 이름 호출:"+ sfL.toString()); //(형식) 01087389278=rangken
+                        System.out.println("서버에서 얻어온 친구리스트에 해당하는 이름 호출:" + sfL.toString()); //(형식) 01087389278=rangken
 
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
 
-                startFriendsListActivity();
+                startLoginActivity();
             }
 
 
@@ -363,13 +380,5 @@ public class ReCertifyActivity extends Activity {
         return String.valueOf(sb);
     }
 
-    /*ReCertifyActivity으로 이동*/
-    private void startFriendsListActivity(){
-        Log.i(TAG,"FriendsListActivity 이동");
-        Intent intent = new Intent(ReCertifyActivity.this, FriendsListActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
-    }
-
 }
+

@@ -41,13 +41,13 @@ uses-permission#android.permission.GET_TASKS
 ADDED from AndroidManifest.xml:12:5
 	android:name
 		ADDED from AndroidManifest.xml:12:22
-permission#com.nexters.nochat.permission.C2D_MESSAGE
+permission#com.nexters.nochatteam.permission.C2D_MESSAGE
 ADDED from AndroidManifest.xml:13:5
 	android:protectionLevel
 		ADDED from AndroidManifest.xml:14:9
 	android:name
 		ADDED from AndroidManifest.xml:13:17
-uses-permission#com.nexters.nochat.permission.C2D_MESSAGE
+uses-permission#com.nexters.nochatteam.permission.C2D_MESSAGE
 ADDED from AndroidManifest.xml:15:5
 	android:name
 		ADDED from AndroidManifest.xml:15:22
@@ -76,23 +76,23 @@ MERGED from com.android.support:support-v4:21.0.3:16:5
 		ADDED from AndroidManifest.xml:31:9
 	android:theme
 		ADDED from AndroidManifest.xml:33:9
-receiver#com.nexters.nochat.GcmBroadcastReceiver
+receiver#com.nexters.nochatteam.GcmBroadcastReceiver
 ADDED from AndroidManifest.xml:35:9
 	android:permission
 		ADDED from AndroidManifest.xml:37:13
 	android:name
 		ADDED from AndroidManifest.xml:36:13
-intent-filter#com.google.android.c2dm.intent.RECEIVE+com.nexters.nochat
+intent-filter#com.google.android.c2dm.intent.RECEIVE+com.nexters.nochatteam
 ADDED from AndroidManifest.xml:38:13
 action#com.google.android.c2dm.intent.RECEIVE
 ADDED from AndroidManifest.xml:39:17
 	android:name
 		ADDED from AndroidManifest.xml:39:25
-category#com.nexters.nochat
+category#com.nexters.nochatteam
 ADDED from AndroidManifest.xml:40:17
 	android:name
 		ADDED from AndroidManifest.xml:40:27
-activity#com.nexters.nochat.MainActivity
+activity#com.nexters.nochatteam.MainActivity
 ADDED from AndroidManifest.xml:44:9
 	android:label
 		ADDED from AndroidManifest.xml:46:13
@@ -110,45 +110,45 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:51:17
 	android:name
 		ADDED from AndroidManifest.xml:51:27
-activity#com.nexters.nochat.AddressBookListActivity
+activity#com.nexters.nochatteam.AddressBookListActivity
 ADDED from AndroidManifest.xml:54:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:56:13
 	android:name
 		ADDED from AndroidManifest.xml:55:13
-activity#com.nexters.nochat.FriendsListActivity
+activity#com.nexters.nochatteam.FriendsListActivity
 ADDED from AndroidManifest.xml:58:9
 	android:name
 		ADDED from AndroidManifest.xml:59:13
-activity#com.nexters.nochat.MemberShipActivity
+activity#com.nexters.nochatteam.MemberShipActivity
 ADDED from AndroidManifest.xml:61:9
 	android:name
 		ADDED from AndroidManifest.xml:62:13
-activity#com.nexters.nochat.CertifyActivity
+activity#com.nexters.nochatteam.CertifyActivity
 ADDED from AndroidManifest.xml:64:9
 	android:name
 		ADDED from AndroidManifest.xml:65:13
-activity#com.nexters.nochat.ReCertifyActivity
+activity#com.nexters.nochatteam.ReCertifyActivity
 ADDED from AndroidManifest.xml:67:9
 	android:name
 		ADDED from AndroidManifest.xml:68:13
-activity#com.nexters.nochat.LoginActivity
+activity#com.nexters.nochatteam.LoginActivity
 ADDED from AndroidManifest.xml:70:9
 	android:name
 		ADDED from AndroidManifest.xml:71:13
-activity#com.nexters.nochat.SettingActivity
+activity#com.nexters.nochatteam.SettingActivity
 ADDED from AndroidManifest.xml:73:9
 	android:name
 		ADDED from AndroidManifest.xml:74:13
-activity#com.nexters.nochat.ShowMsg
+activity#com.nexters.nochatteam.ShowMsg
 ADDED from AndroidManifest.xml:76:9
 	android:name
 		ADDED from AndroidManifest.xml:77:13
-activity#com.nexters.nochat.ShowMsgResponse
+activity#com.nexters.nochatteam.ShowMsgResponse
 ADDED from AndroidManifest.xml:79:9
 	android:name
 		ADDED from AndroidManifest.xml:80:13
-activity#com.nexters.nochat.ContactUsActivity
+activity#com.nexters.nochatteam.ContactUsActivity
 ADDED from AndroidManifest.xml:82:9
 	android:name
 		ADDED from AndroidManifest.xml:83:13

@@ -1,4 +1,4 @@
-package com.nexters.nochat;
+package com.nexters.nochatteam;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -71,7 +71,7 @@ public class ShowMsgResponse extends Activity {
             Log.i(TAG, "******!" + msgText+msgResponseText);
         }
         if(userName == null){
-                String noUserName = "동기화ㄴㄴ새로고침ㄱㄱ";
+                String noUserName = "동기화ㄴㄴㅠㅠ, 새로고침ㄱㄱ";
                 AlertDialog.Builder alert = new AlertDialog.Builder(ShowMsgResponse.this);
                 alert.setPositiveButton("닫기", new DialogInterface.OnClickListener() {
                     @Override

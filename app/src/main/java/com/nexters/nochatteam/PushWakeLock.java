@@ -1,4 +1,4 @@
-package com.nexters.nochat;
+package com.nexters.nochatteam;
 
 import android.app.KeyguardManager;
 import android.content.Context;

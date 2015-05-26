@@ -1,4 +1,4 @@
-package com.nexters.nochat;
+package com.nexters.nochatteam;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,24 +14,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.renderscript.Sampler;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -46,7 +38,6 @@ import org.apache.http.message.BasicHeader;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,6 +63,8 @@ public class FriendsListActivity extends Activity {
 
     ArrayList<String> usr_FNL = null;
     ArrayList<String> usr_FNL2 = null;
+
+    private String noFriends = null;
 
     /*----------------------------------------------------------------------------------------------*/
     //OnItemClickDialog 관련 변수들.
@@ -139,11 +132,19 @@ public class FriendsListActivity extends Activity {
         setFont(); //폰트적용
         setContentView(R.layout.activity_friendslist);
 
+        SharedPreferences preferencesApiToken = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 토큰값 가져오기
+        apiToken = preferencesApiToken.getString("apiToken"," ");
+        SharedPreferences preferencesPhoneNumberValue = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 본인 폰번호 가져오기
+        phoneNumberValue = preferencesPhoneNumberValue.getString("phoneNumberValue", " ");
 
         FImageViewText = (TextView)findViewById(R.id.FImageViewText);
         refreshBtn = (Button)findViewById(R.id.refreshBtn);
         FImageViewText.setTypeface(typeface);
 
+        getFriendsListActivity();
+    }
+
+    private void getFriendsListActivity(){
         dm = new DataManager(this);
         dm2 = new DataManager2(this);
 
@@ -156,10 +157,7 @@ public class FriendsListActivity extends Activity {
         usr_FNL = new ArrayList<String>(); //폰번호에 해당하는 =>유저이름
         usr_FNL2 = new ArrayList<String>();//폰번호에 해당하는 =>유저id
 
-        SharedPreferences preferencesApiToken = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 토큰값 가져오기
-        apiToken = preferencesApiToken.getString("apiToken"," ");
-        SharedPreferences preferencesPhoneNumberValue = PreferenceManager.getDefaultSharedPreferences(this); //폰에 저장된 본인 폰번호 가져오기
-        phoneNumberValue = preferencesPhoneNumberValue.getString("phoneNumberValue", " ");
+
 
         dataManager = new DataManager(this);
         dataManager2 = new DataManager2(this);
@@ -173,6 +171,11 @@ public class FriendsListActivity extends Activity {
             }
         }else{
             Log.i(TAG,"에러: 친구리스트가 없습니다.");
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("noFriends",noFriends);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
         }
 
         if (usr_IdList.size() != 0) {
@@ -236,11 +239,9 @@ public class FriendsListActivity extends Activity {
 
             }
         });
-
         settingGoBtn = (Button)findViewById(R.id.settingGoBtn);
         settingGoBtn.setOnClickListener(settingGoBtnListener);//초대하기 눌렀을때
         refreshBtn.setOnClickListener(refreshBtnListener);
-
     }
 
     private void setFont() {
@@ -397,6 +398,7 @@ public class FriendsListActivity extends Activity {
             Intent intent = new Intent(FriendsListActivity.this, SettingActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
         }
     };
     /*  refreshBtn Listener */
@@ -564,6 +566,7 @@ public class FriendsListActivity extends Activity {
 
                         }
                         System.out.println("서버에서 얻어온 친구리스트에 해당하는 이름 호출:" + sfL.toString()); //(형식) 01087389278=rangken
+
                     }
                 }catch (JSONException e){
                     e.printStackTrace();

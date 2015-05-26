@@ -1,4 +1,4 @@
-package com.nexters.nochat;
+package com.nexters.nochatteam;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -12,31 +12,30 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class SettingAdapter extends BaseAdapter {
-
-    private static final String TAG = "SettingAdapter";
+public class ContactUsAdapter extends BaseAdapter {
+    private static final String TAG = "ContactUsAdapter";
     private Typeface typeface = null; //font
     private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
     private Context mContext;
     LayoutInflater mImflater;
 
-    private ArrayList<String> settingList;     //설정창 목록
+    private ArrayList<String> contactUsList;     //설정창 목록
 
-    public SettingAdapter(Context context, ArrayList<String> settingList) {
+    public ContactUsAdapter(Context context, ArrayList<String> contactUsList) {
         Log.i(TAG, "FriendsListAdapter2 생성");
         this.mContext = context;
-        this.settingList = settingList;
+        this.contactUsList = contactUsList;
         this.mImflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return settingList.size();
+        return contactUsList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return settingList.get(position);
+        return contactUsList.get(position);
     }
     @Override
     public long getItemId(int position) {
@@ -52,11 +51,11 @@ public class SettingAdapter extends BaseAdapter {
         // 캐시된 뷰가 없을 경우 새로 생성하고 뷰홀더를 생성한다
         if(convertView == null) {
             Log.i(TAG, "캐시된 뷰가 없음 -> 뷰홀더 생성");
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.settinglist_row_item, null);
-            holder.sl_layout = (LinearLayout) convertView.findViewById(R.id.sl_layout);
-            holder.sl_name = (TextView) convertView.findViewById(R.id.sl_name);
-            holder.sl_name.setTypeface(typeface);
-            holder.sl_name.setText(settingList.get(position));
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.contactuslist_row_item, null);
+            holder.cu_layout = (LinearLayout) convertView.findViewById(R.id.cu_layout);
+            holder.cu_name = (TextView) convertView.findViewById(R.id.cu_name);
+            holder.cu_name.setTypeface(typeface);
+            holder.cu_name.setText(contactUsList.get(position));
             convertView.setTag(holder);
         }
 
@@ -72,8 +71,8 @@ public class SettingAdapter extends BaseAdapter {
     /*  ViewHolder를 사용함으로 실행에 드는 비용 줄임    */
     public class PersonViewHolder
     {
-        public LinearLayout sl_layout;
-        public TextView sl_name;
+        public LinearLayout cu_layout;
+        public TextView cu_name;
     }
 
 }

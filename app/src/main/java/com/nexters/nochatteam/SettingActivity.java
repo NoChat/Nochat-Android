@@ -1,4 +1,4 @@
-package com.nexters.nochat;
+package com.nexters.nochatteam;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,9 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -38,9 +36,12 @@ public class SettingActivity extends Activity{
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
         {
-            moveTaskToBack(true); // 본Activity finish후 다른 Activity가 뜨는 걸 방지.
+            Intent intent = new Intent(SettingActivity.this, FriendsListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            //moveTaskToBack(true); // 본Activity finish후 다른 Activity가 뜨는 걸 방지.
             finish();
-            android.os.Process.killProcess(android.os.Process.myPid()); // -> 해당 어플의 프로세스를 강제 Kill시킨다.
+            //android.os.Process.killProcess(android.os.Process.myPid()); // -> 해당 어플의 프로세스를 강제 Kill시킨다.
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -88,6 +89,7 @@ public class SettingActivity extends Activity{
                         Mintent.putExtra("settingId",settingId);
                         Mintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(Mintent);
+                        finish();
                         break;
 
                     case 3 :
@@ -136,6 +138,7 @@ public class SettingActivity extends Activity{
             Intent intent = new Intent(SettingActivity.this, FriendsListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
         }
     };
 

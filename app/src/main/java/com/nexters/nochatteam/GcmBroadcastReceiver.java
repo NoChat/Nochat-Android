@@ -1,4 +1,4 @@
-package com.nexters.nochat;
+package com.nexters.nochatteam;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -12,11 +12,11 @@ import android.util.Log;
 //푸시가 왔을때
 public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
     private static String TAG = "OnReceive";
-    private String pushType; //푸시를 보낸건지(0), 푸시에 대한 응답을 한건지(1)
-    private String msg;
-    private String userId;
-    private String userName;
-    private String chatId;
+    private String pushType = null; //푸시를 보낸건지(0), 푸시에 대한 응답을 한건지(1)
+    private String msg = null;
+    private String userId = null;
+    private String userName =null;
+    private String chatId = null;
 
     private DataManager3 dm3;
 
@@ -25,20 +25,29 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
         Log.i(TAG, "In onReceive");
         dm3 = new DataManager3(context);
 
-        if(intent.getAction().equals("com.google.android.c2dm.intent.RECEIVE")) {
-            PushWakeLock.acquireCpuWakeLock(context);   // 화면 깨우기
-            pushType = intent.getStringExtra("pushType");
-            userId = intent.getStringExtra("userId");
-            userName = dm3.getUserInfo(userId);
-            msg = intent.getStringExtra("msg");
+        if(intent != null && intent.getAction().equals("com.google.android.c2dm.intent.RECEIVE")) {
+            try {
+                PushWakeLock.acquireCpuWakeLock(context);   // 화면 깨우기
+                pushType = intent.getStringExtra("pushType");
+                userId = intent.getStringExtra("userId");
+                userName = dm3.getUserInfo(userId);
+                msg = intent.getStringExtra("msg");
 
-            Bundle bundle = intent.getExtras();
-            Object value = bundle.get("chatId");
-            chatId = value.toString();
+                Bundle bundle = intent.getExtras();
+                Object value = bundle.get("chatId");
+                chatId = value.toString();
 
-            Log.e("&&&&&&id랑name값",userId+userName);
-            generateNotification(context, pushType, msg, userName, chatId);
+                Log.e("&&&&&&id랑name값", userId + userName);
+                generateNotification(context, pushType, msg, userName, chatId);
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
 
+        }else if(intent == null){
+            Log.e(TAG,"에러!!!");
+        }
+        else {
+            Log.e(TAG,"!!!");
         }
     }
 
