@@ -1,6 +1,8 @@
 package com.nexters.nochatteam;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
@@ -44,35 +46,47 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
     GoogleCloudMessaging gcm;
     private static final String SENDER_ID="467703711556";
     private String regId; //뽑아올 regid
-    private String apiToken; //토큰값
-    private SharedPreferences preferencesapiToken;
     private Intent Mintent = null;
-    private Intent Nintent = null;
     private String loginIdName = null;
-    private String loginNofriends = null;
     private boolean loginBoolean =true;
+    private boolean start = true;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
+            moveTaskToBack(true); // 본Activity finish후 다른 Activity가 뜨는 걸 방지.
+            finish();
+            android.os.Process.killProcess(android.os.Process.myPid()); // -> 해당 어플의 프로세스를 강제 Kill시킨다.
+
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Nintent = getIntent();
-        loginNofriends = Nintent.getStringExtra("noFriends"); // 친구리스트없을때 가져오는 Intent값
+        SharedPreferences pref;
+        pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+        if(!pref.getBoolean("isFirst", false)){
+            SharedPreferences.Editor edit = pref.edit();
+            edit.putBoolean("workCheckBox", true);
+            edit.putBoolean("isFirst", true);
+            edit.commit();
+            start = false;
+        }
+
         Mintent = getIntent();
         loginIdName = Mintent.getStringExtra("settingId"); // 로그아웃시 가져오는 Intent값
+
         //시작점 구별하기 위해서
-        if(loginIdName == null){
+        if(loginIdName == null){    //로그아웃이 아닐때
             loginBoolean = false;
         }
-        if(loginNofriends == null){
-            loginBoolean = false;
-        }
-        //폰에 저장된 apiToken 가져오기
-        preferencesapiToken = PreferenceManager.getDefaultSharedPreferences(this);
-        apiToken = preferencesapiToken.getString("apiToken"," ");
+
         Log.e("시작점구별","loginId값,"+loginIdName);
-        Log.e("시작점구별","loginNofriends값,"+loginNofriends);
-        if(!(apiToken.isEmpty()) && loginBoolean == false) { //apiToken 값이 있으면 앱실행시 FriendsListActivity 화면으로 이동
+        if(start == true && loginBoolean == false) { //apiToken 값이 있으면 앱실행시 FriendsListActivity 화면으로 이동
             Log.e("시작점구별","FriendsListActivity 실행");
             Intent Fintent = new Intent(MainActivity.this, FriendsListActivity.class);
             Fintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

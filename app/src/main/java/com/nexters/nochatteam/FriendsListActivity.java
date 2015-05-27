@@ -171,11 +171,11 @@ public class FriendsListActivity extends Activity {
             }
         }else{
             Log.i(TAG,"에러: 친구리스트가 없습니다.");
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("noFriends",noFriends);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
+            //Intent intent = new Intent(this, MainActivity.class);
+            //intent.putExtra("noFriends",noFriends);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //startActivity(intent);
+            //finish();
         }
 
         if (usr_IdList.size() != 0) {
@@ -507,12 +507,15 @@ public class FriendsListActivity extends Activity {
                         alert.setPositiveButton("닫기", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(FriendsListActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                finish();
                                 dialog.dismiss();     //닫기
                             }
                         });
                         alert.setMessage("에러 : 가입을 다시 해주세요");
                         alert.show();
-                        finish();
                     }else {
                         JSONArray phoneJsonArray = null;
                         JSONObject phoneJsonObject = null;
