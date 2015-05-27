@@ -69,7 +69,7 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
 
         SharedPreferences pref;
         pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
-        if(!pref.getBoolean("isFirst", false)){
+        if(!pref.getBoolean("isFirst", false)){ //앱이 첫 실행인지 검사
             SharedPreferences.Editor edit = pref.edit();
             edit.putBoolean("workCheckBox", true);
             edit.putBoolean("isFirst", true);
@@ -86,7 +86,7 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
         }
 
         Log.e("시작점구별","loginId값,"+loginIdName);
-        if(start == true && loginBoolean == false) { //apiToken 값이 있으면 앱실행시 FriendsListActivity 화면으로 이동
+        if(start == true && loginBoolean == false) { //FriendsListActivity 화면으로 이동 가능한지 검사
             Log.e("시작점구별","FriendsListActivity 실행");
             Intent Fintent = new Intent(MainActivity.this, FriendsListActivity.class);
             Fintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -147,11 +147,8 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
             Log.i(TAG, "member joining method");
             Intent intent = new Intent(MainActivity.this, MemberShipActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
             finish();
-            /*Intent intent = new Intent(MainActivity.this, FriendsListActivity.class);
-            startActivity(intent);*/
         }
     };
 

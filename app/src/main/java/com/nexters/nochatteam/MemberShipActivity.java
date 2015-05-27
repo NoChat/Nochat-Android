@@ -1,6 +1,8 @@
 package com.nexters.nochatteam;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -23,6 +25,9 @@ import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MemberShipActivity extends Activity {
 
@@ -118,28 +123,18 @@ public class MemberShipActivity extends Activity {
         @Override
         public void onClick(View v) {
             Log.i(TAG,"노챗 가입하기 버튼눌림");
-            loginId = memberShipId.getText().toString();
-            password = memberShipPassword.getText().toString();
-            jsonDateSetting(loginId,password);
+            //한글 검사
+            KorToEngParser(memberShipId.getText().toString());
         }
     };
 
-    /* deviceToken 설정*/
-    /*private String GetDevicesUUID(Context mContext) {
-        TelephonyManager tManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-        String deviceId = tManager.getDeviceId();
-        Log.i(TAG,"@@@deviceToken값은 :"+deviceId);
-        return deviceId;
-    }*/
-
     /* 서버로 보낼 json data 세팅*/
     private void jsonDateSetting(String loginId, String password){
-        //deviceToken = GetDevicesUUID(this.getBaseContext()); //UUID값
 
         try{
             Log.i(CTAG,"서버로 보낼 param data 세팅중");
             paramData = new RequestParams();
-            paramData.put("loginId",loginId); //한글x,공백x,중복 아이디 체크 ->alert띄우기
+            paramData.put("loginId",loginId);
             paramData.put("password",password);
             paramData.put("deviceToken",regId);
             paramData.put("locale",locale);
@@ -159,7 +154,7 @@ public class MemberShipActivity extends Activity {
         Header[] headers = {new BasicHeader("apiToken","")};
         mClient.post(this, URL, headers, paramData,"application/json", new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) { //reqBuilder.setHeader(String name, String value);
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.i(CTAG, "json response Success");
                 System.out.println("회원가입관련 response : " + response.toString());
                 String certifyMSG = null;
@@ -217,5 +212,31 @@ public class MemberShipActivity extends Activity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+
+    /*  한글에러처리 */
+    private void KorToEngParser(String kor){
+        Log.i(TAG, "in KorToEngParser");
+        System.out.println("korMatcher ##"+kor);
+        String patternKorRegex = "^[ㄱ-ㅎ가-힣]*$";
+        Pattern p = Pattern.compile(patternKorRegex);
+        Matcher m = p.matcher(kor);
+        if(m.find()){
+            AlertDialog.Builder alert = new AlertDialog.Builder(MemberShipActivity.this);
+            alert.setPositiveButton("닫기", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();     //닫기
+                }
+            });
+            alert.setMessage("에러 : 영문으로 회원가입 해주세요");
+            alert.show();
+        }else{
+            loginId = memberShipId.getText().toString();
+            password = memberShipPassword.getText().toString();
+            jsonDateSetting(loginId,password);
+        }
+
+
     }
 }

@@ -56,13 +56,13 @@ public class FriendsListActivity extends Activity {
     public static final int FAIL = -1;
 
     FriendsListAdapter friendsListAdapter;
-    DataManager dm;
-    DataManager2 dm2;
-    ArrayList<UsrFriendsVO> usr_NameList = null;
-    ArrayList<UsrIdVO> usr_IdList = null;
+    private DataManager dm;
+    private DataManager2 dm2;
+    private ArrayList<UsrFriendsVO> usr_NameList = null;
+    private ArrayList<UsrIdVO> usr_IdList = null;
 
-    ArrayList<String> usr_FNL = null;
-    ArrayList<String> usr_FNL2 = null;
+    private ArrayList<String> usr_FNL = null;
+    private ArrayList<String> usr_FNL2 = null;
 
     private String noFriends = null;
 
@@ -90,19 +90,13 @@ public class FriendsListActivity extends Activity {
     private RelativeLayout layout_nameSpace;
     private RelativeLayout layout_dialog;
     private TextView FImageViewText; //문구
-    //private TextView dialogTextView; // "밥보냄! , 술보냄! 등등"
     private Button refreshBtn;
     private Button settingGoBtn;
 
     private Typeface typeface = null; //font
     private static final String TYPEFACE_NAME = "NOCHAT-HANNA.ttf";
 
-
-    //이미지 변경
-    //ImageView img0;
-
-    //list에 부여된 친구 user_id값
-    private String getPositionId;
+    private String getPositionId;   //list에 부여된 친구 user_id값
     private String apiToken; //폰에 저장된(SharedPreferences) 토큰값
     /*----------------------------------------------------------------------------------------------*/
         /*주소록관련 변수들*/
@@ -121,7 +115,6 @@ public class FriendsListActivity extends Activity {
             moveTaskToBack(true); // 본Activity finish후 다른 Activity가 뜨는 걸 방지.
             finish();
             android.os.Process.killProcess(android.os.Process.myPid()); // -> 해당 어플의 프로세스를 강제 Kill시킨다.
-
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -171,11 +164,6 @@ public class FriendsListActivity extends Activity {
             }
         }else{
             Log.i(TAG,"에러: 친구리스트가 없습니다.");
-            //Intent intent = new Intent(this, MainActivity.class);
-            //intent.putExtra("noFriends",noFriends);
-            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            //startActivity(intent);
-            //finish();
         }
 
         if (usr_IdList.size() != 0) {
@@ -195,7 +183,6 @@ public class FriendsListActivity extends Activity {
         ListView listView = (ListView) findViewById(R.id.listView1);//activity_friendslist.xml - listView1
         listView.setAdapter(friendsListAdapter);
 
-        //listView.setOnItemClickListener(new OnItemClickDialog());//list item 눌렀을때(기존- Dialog부분 클래스화)
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -207,8 +194,6 @@ public class FriendsListActivity extends Activity {
 
                 layout_nameSpace = (RelativeLayout)view.findViewById(R.id.layout_nameSpace);
                 layout_dialog = (RelativeLayout)view.findViewById(R.id.layout_dialog);
-                //dialogTextView = (TextView)findViewById(R.id.dialogTextView);
-                //dialogTextView.setTypeface(typeface);
 
                 dialog = new Dialog(mContext);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -217,9 +202,6 @@ public class FriendsListActivity extends Activity {
                 View layout= li.inflate(R.layout.customdialog, null);//layout_root
                 dialog.setContentView(layout);
                 dialog.show();
-
-                //클릭시 레이아웃 변경
-                //img0 = (ImageView)layout_dialog.findViewById(R.id.img0); //지금은 하나. =>ex) lol 클릭시 "lol보냄!" 이미지 보여주는 곳. 차후에 종류별로 만들어야한다
 
                 //Dialog layout
                 ImageView bt1_lol = (ImageView)layout.findViewById(R.id.bt1_lol);
@@ -235,7 +217,6 @@ public class FriendsListActivity extends Activity {
                 bt4_coffee.setOnClickListener(bt_ItemClickListener);
                 bt5_smoking.setOnClickListener(bt_ItemClickListener);
                 bt_cancel.setOnClickListener(bt_ItemClickListener);
-
 
             }
         });
@@ -362,13 +343,10 @@ public class FriendsListActivity extends Activity {
 
             }
 
-
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 Log.i(CTAG, "json response Failure");
-
-
             }
         });
     }
@@ -538,7 +516,6 @@ public class FriendsListActivity extends Activity {
                             serverFriend = (String) phoneJsonObject.get("phoneNumber");
 
                             userIdJsonObject = (JSONObject) phoneJsonArray.get(i);
-                            //serverUserId = (String)userIdJsonObject.get("id");
                             serverUserId = String.valueOf(userIdJsonObject.get("id"));
 
                             System.out.println("ServerFriendsList : " + serverFriend + " UserId:" + serverUserId);
