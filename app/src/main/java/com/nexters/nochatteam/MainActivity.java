@@ -51,6 +51,8 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
     private boolean loginBoolean =true;
     private boolean start = true;
 
+    public int gitTestdata = 1123;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
@@ -62,11 +64,15 @@ public class MainActivity extends Activity { //android:theme="@android:style/The
         return super.onKeyDown(keyCode, event);
     }
 
+    public void gitTest(int gitTestdata){
+        println("gitTest"+gitTestdata);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        gitTest(gitTestdata);
         SharedPreferences pref;
         pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
         if(!pref.getBoolean("isFirst", false)){ //앱이 첫 실행인지 검사
